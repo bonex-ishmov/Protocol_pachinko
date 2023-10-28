@@ -2,78 +2,151 @@ package co.edu.unbosque.model;
 
 import java.io.Serializable;
 
+/**
+ * Clase que representa a un apostador.
+ */
 public class ApostadoresDTO implements Serializable {
 
-	private static final long serialVersionUID = -6733443461609975906L;
-	private String completeName;
-	private double identification;
-	private SedeCasaDeApuestasDTO bookmakerHeadquarters;
-	private String addressOfThePerson;
-	private double phoneNumber;
+    private static final long serialVersionUID = -6733443461609975906L;
+    private String completeName;
+    private double identification;
+    private SedeCasaDeApuestasDTO bookmakerHeadquarters;
+    private String addressOfThePerson;
+    private double phoneNumber;
 
-	public ApostadoresDTO() {
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * Constructor por defecto de ApostadoresDTO.
+     */
+    public ApostadoresDTO() {
+    }
 
-	public ApostadoresDTO(String completeName, double identification, SedeCasaDeApuestasDTO bookmakerHeadquarters,
-			String addressOfThePerson, double phoneNumber) {
-		super();
-		this.completeName = completeName;
-		this.identification = identification;
-		this.bookmakerHeadquarters = bookmakerHeadquarters;
-		this.addressOfThePerson = addressOfThePerson;
-		this.phoneNumber = phoneNumber;
-	}
+    /**
+     * Constructor de ApostadoresDTO con parámetros.
+     *
+     * @param completeName           El nombre completo del apostador.
+     * @param identification         La identificación del apostador.
+     * @param bookmakerHeadquarters  La sede de la casa de apuestas a la que pertenece el apostador.
+     * @param addressOfThePerson     La dirección del apostador.
+     * @param phoneNumber            El número de teléfono del apostador.
+     */
+    public ApostadoresDTO(String completeName, double identification, SedeCasaDeApuestasDTO bookmakerHeadquarters,
+                          String addressOfThePerson, double phoneNumber) {
+        super();
+        this.completeName = completeName;
+        this.identification = identification;
+        this.bookmakerHeadquarters = bookmakerHeadquarters;
+        this.addressOfThePerson = addressOfThePerson;
+        this.phoneNumber = phoneNumber;
+    }
 
-	public String getCompleteName() {
-		return completeName;
-	}
+    /**
+     * Obtiene el nombre completo del apostador.
+     *
+     * @return El nombre completo del apostador.
+     */
+    public String getCompleteName() {
+        return completeName;
+    }
 
-	public void setCompleteName(String completeName) {
-		this.completeName = completeName;
-	}
+    /**
+     * Establece el nombre completo del apostador.
+     *
+     * @param completeName El nombre completo del apostador.
+     */
+    public void setCompleteName(String completeName) {
+        this.completeName = completeName;
+    }
 
-	public double getIdentification() {
-		return identification;
-	}
+    /**
+     * Obtiene la identificación del apostador.
+     *
+     * @return La identificación del apostador.
+     */
+    public double getIdentification() {
+        return identification;
+    }
 
-	public void setIdentification(double identification) {
-		this.identification = identification;
-	}
+    /**
+     * Establece la identificación del apostador.
+     *
+     * @param identification La identificación del apostador.
+     */
+    public void setIdentification(double identification) {
+        this.identification = identification;
+    }
 
-	public SedeCasaDeApuestasDTO getBookmakerHeadquarters() {
-		return bookmakerHeadquarters;
-	}
+    /**
+     * Obtiene la sede de la casa de apuestas a la que pertenece el apostador.
+     *
+     * @return La sede de la casa de apuestas.
+     */
+    public SedeCasaDeApuestasDTO getBookmakerHeadquarters() {
+        return bookmakerHeadquarters;
+    }
 
-	public void setBookmakerHeadquarters(SedeCasaDeApuestasDTO bookmakerHeadquarters) {
-		this.bookmakerHeadquarters = bookmakerHeadquarters;
-	}
+    /**
+     * Establece la sede de la casa de apuestas a la que pertenece el apostador.
+     *
+     * @param bookmakerHeadquarters La sede de la casa de apuestas.
+     */
+    public void setBookmakerHeadquarters(SedeCasaDeApuestasDTO bookmakerHeadquarters) {
+        this.bookmakerHeadquarters = bookmakerHeadquarters;
+    }
 
-	public String getAddressOfThePerson() {
-		return addressOfThePerson;
-	}
+    /**
+     * Obtiene la dirección del apostador.
+     *
+     * @return La dirección del apostador.
+     */
+    public String getAddressOfThePerson() {
+        return addressOfThePerson;
+    }
 
-	public void setAddressOfThePerson(String addressOfThePerson) {
-		this.addressOfThePerson = addressOfThePerson;
-	}
+    /**
+     * Establece la dirección del apostador.
+     *
+     * @param addressOfThePerson La dirección del apostador.
+     */
+    public void setAddressOfThePerson(String addressOfThePerson) {
+        this.addressOfThePerson = addressOfThePerson;
+    }
 
-	public double getPhoneNumber() {
-		return phoneNumber;
-	}
+    /**
+     * Obtiene el número de teléfono del apostador.
+     *
+     * @return El número de teléfono del apostador.
+     */
+    public double getPhoneNumber() {
+        return phoneNumber;
+    }
 
-	public void setPhoneNumber(double phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
+    /**
+     * Establece el número de teléfono del apostador.
+     *
+     * @param phoneNumber El número de teléfono del apostador.
+     */
+    public void setPhoneNumber(double phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+    /**
+     * Obtiene el valor de serialVersionUID para la serialización.
+     *
+     * @return El valor de serialVersionUID.
+     */
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
 
-	@Override
-	public String toString() {
-		return "ApostadoresDTO [completeName=" + completeName + ", identification=" + identification
-				+ ", bookmakerHeadquarters=" + bookmakerHeadquarters + ", addressOfThePerson=" + addressOfThePerson
-				+ ", phoneNumber=" + phoneNumber + "]";
-	}
-	
+    /**
+     * Devuelve una representación en cadena de este objeto.
+     *
+     * @return Una representación en cadena de ApostadoresDTO.
+     */
+    @Override
+    public String toString() {
+        return "ApostadoresDTO [completeName=" + completeName + ", identification=" + identification
+                + ", bookmakerHeadquarters=" + bookmakerHeadquarters + ", addressOfThePerson=" + addressOfThePerson
+                + ", phoneNumber=" + phoneNumber + "]";
+    }
 }
