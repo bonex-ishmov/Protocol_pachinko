@@ -2,7 +2,7 @@ package co.edu.unbosque.model;
 
 import java.io.Serializable;
 
-public class JuegoCasaDeApuestasDTO implements Serializable{
+public class JuegoCasaDeApuestasDTO extends SedeCasaDeApuestasDTO implements Serializable{
 
 	private static final long serialVersionUID = 5268145531642102201L;
 	private String gameName;
@@ -15,6 +15,46 @@ public class JuegoCasaDeApuestasDTO implements Serializable{
 
 	public JuegoCasaDeApuestasDTO(String gameName, String typeOfGame, double budgetAllocated) {
 		super();
+		this.gameName = gameName;
+		this.typeOfGame = typeOfGame;
+		BudgetAllocated = budgetAllocated;
+	}
+
+	public JuegoCasaDeApuestasDTO(String bookMarkerName, int numberOfLocations, double totalBudgetAvailable,
+			String address, int numberOfEmployees) {
+		super(bookMarkerName, numberOfLocations, totalBudgetAvailable, address, numberOfEmployees);
+		// TODO Auto-generated constructor stub
+	}
+
+	public JuegoCasaDeApuestasDTO(String bookMarkerName, int numberOfLocations, double totalBudgetAvailable) {
+		super(bookMarkerName, numberOfLocations, totalBudgetAvailable);
+		// TODO Auto-generated constructor stub
+	}
+
+	public JuegoCasaDeApuestasDTO(String address, int numberOfEmployees) {
+		super(address, numberOfEmployees);
+		// TODO Auto-generated constructor stub
+	}
+
+	public JuegoCasaDeApuestasDTO(String address, int numberOfEmployees, String gameName, String typeOfGame,
+			double budgetAllocated) {
+		super(address, numberOfEmployees);
+		this.gameName = gameName;
+		this.typeOfGame = typeOfGame;
+		BudgetAllocated = budgetAllocated;
+	}
+
+	public JuegoCasaDeApuestasDTO(String bookMarkerName, int numberOfLocations, double totalBudgetAvailable,
+			String gameName, String typeOfGame, double budgetAllocated) {
+		super(bookMarkerName, numberOfLocations, totalBudgetAvailable);
+		this.gameName = gameName;
+		this.typeOfGame = typeOfGame;
+		BudgetAllocated = budgetAllocated;
+	}
+
+	public JuegoCasaDeApuestasDTO(String bookMarkerName, int numberOfLocations, double totalBudgetAvailable,
+			String address, int numberOfEmployees, String gameName, String typeOfGame, double budgetAllocated) {
+		super(bookMarkerName, numberOfLocations, totalBudgetAvailable, address, numberOfEmployees);
 		this.gameName = gameName;
 		this.typeOfGame = typeOfGame;
 		BudgetAllocated = budgetAllocated;
@@ -53,5 +93,6 @@ public class JuegoCasaDeApuestasDTO implements Serializable{
 		return "JuegoCasaDeApuestasDTO [gameName=" + gameName + ", typeOfGame=" + typeOfGame + ", BudgetAllocated="
 				+ BudgetAllocated + "]";
 	}
-
+	
+	
 }

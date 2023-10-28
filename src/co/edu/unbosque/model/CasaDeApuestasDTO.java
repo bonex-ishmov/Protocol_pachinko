@@ -4,25 +4,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CasaDeApuestasDTO implements Serializable{
+public class CasaDeApuestasDTO implements Serializable {
 
 	private static final long serialVersionUID = 4698655269197423988L;
 	private String bookMarkerName;
 	private int NumberOfLocations;
 	private double totalBudgetAvailable;
-	private List<JuegoCasaDeApuestasDTO> juegosDisponibles;
-	
+
 	public CasaDeApuestasDTO() {
-		juegosDisponibles = new ArrayList<JuegoCasaDeApuestasDTO>();
+		// TODO Auto-generated constructor stub
 	}
 
-	public CasaDeApuestasDTO(String bookMarkerName, int numberOfLocations, double totalBudgetAvailable,
-			List<JuegoCasaDeApuestasDTO> juegosDisponibles) {
+	public CasaDeApuestasDTO(String bookMarkerName, int numberOfLocations, double totalBudgetAvailable) {
 		super();
 		this.bookMarkerName = bookMarkerName;
 		NumberOfLocations = numberOfLocations;
 		this.totalBudgetAvailable = totalBudgetAvailable;
-		this.juegosDisponibles = juegosDisponibles;
 	}
 
 	public String getBookMarkerName() {
@@ -49,14 +46,6 @@ public class CasaDeApuestasDTO implements Serializable{
 		this.totalBudgetAvailable = totalBudgetAvailable;
 	}
 
-	public List<JuegoCasaDeApuestasDTO> getJuegosDisponibles() {
-		return juegosDisponibles;
-	}
-
-	public void setJuegosDisponibles(List<JuegoCasaDeApuestasDTO> juegosDisponibles) {
-		this.juegosDisponibles = juegosDisponibles;
-	}
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -64,7 +53,7 @@ public class CasaDeApuestasDTO implements Serializable{
 	@Override
 	public String toString() {
 		return "CasaDeApuestasDTO [bookMarkerName=" + bookMarkerName + ", NumberOfLocations=" + NumberOfLocations
-				+ ", totalBudgetAvailable=" + totalBudgetAvailable + ", juegosDisponibles=" + juegosDisponibles + "]";
+				+ ", totalBudgetAvailable=" + totalBudgetAvailable + "]";
 	}
 
 }
