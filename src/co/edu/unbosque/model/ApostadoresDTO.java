@@ -3,33 +3,37 @@ package co.edu.unbosque.model;
 import java.io.Serializable;
 
 /**
- * Clase que representa a un apostador.
+ * La clase `ApostadoresDTO` representa a los apostadores en la aplicación. Contiene información
+ * sobre los apostadores, como su nombre completo, identificación, sede de la casa de apuestas,
+ * dirección y número de teléfono.
+ *
+ * Esta clase implementa la interfaz `Serializable`, lo que permite su serialización.
  */
 public class ApostadoresDTO implements Serializable {
 
     private static final long serialVersionUID = -6733443461609975906L;
     private String completeName;
     private double identification;
-    private SedeCasaDeApuestasDTO bookmakerHeadquarters;
+    private String bookmakerHeadquarters;
     private String addressOfThePerson;
     private double phoneNumber;
 
     /**
-     * Constructor por defecto de ApostadoresDTO.
+     * Constructor predeterminado de `ApostadoresDTO`.
      */
     public ApostadoresDTO() {
     }
 
     /**
-     * Constructor de ApostadoresDTO con parámetros.
+     * Constructor de `ApostadoresDTO` que recibe información detallada sobre el apostador.
      *
      * @param completeName           El nombre completo del apostador.
-     * @param identification         La identificación del apostador.
-     * @param bookmakerHeadquarters  La sede de la casa de apuestas a la que pertenece el apostador.
+     * @param identification          El número de identificación del apostador.
+     * @param bookmakerHeadquarters   La sede de la casa de apuestas a la que está asociado el apostador.
      * @param addressOfThePerson     La dirección del apostador.
      * @param phoneNumber            El número de teléfono del apostador.
      */
-    public ApostadoresDTO(String completeName, double identification, SedeCasaDeApuestasDTO bookmakerHeadquarters,
+    public ApostadoresDTO(String completeName, double identification, String bookmakerHeadquarters,
                           String addressOfThePerson, double phoneNumber) {
         super();
         this.completeName = completeName;
@@ -58,38 +62,38 @@ public class ApostadoresDTO implements Serializable {
     }
 
     /**
-     * Obtiene la identificación del apostador.
+     * Obtiene el número de identificación del apostador.
      *
-     * @return La identificación del apostador.
+     * @return El número de identificación del apostador.
      */
     public double getIdentification() {
         return identification;
     }
 
     /**
-     * Establece la identificación del apostador.
+     * Establece el número de identificación del apostador.
      *
-     * @param identification La identificación del apostador.
+     * @param identification El número de identificación del apostador.
      */
     public void setIdentification(double identification) {
         this.identification = identification;
     }
 
     /**
-     * Obtiene la sede de la casa de apuestas a la que pertenece el apostador.
+     * Obtiene la sede de la casa de apuestas a la que está asociado el apostador.
      *
      * @return La sede de la casa de apuestas.
      */
-    public SedeCasaDeApuestasDTO getBookmakerHeadquarters() {
+    public String getBookmakerHeadquarters() {
         return bookmakerHeadquarters;
     }
 
     /**
-     * Establece la sede de la casa de apuestas a la que pertenece el apostador.
+     * Establece la sede de la casa de apuestas a la que está asociado el apostador.
      *
      * @param bookmakerHeadquarters La sede de la casa de apuestas.
      */
-    public void setBookmakerHeadquarters(SedeCasaDeApuestasDTO bookmakerHeadquarters) {
+    public void setBookmakerHeadquarters(String bookmakerHeadquarters) {
         this.bookmakerHeadquarters = bookmakerHeadquarters;
     }
 
@@ -130,19 +134,14 @@ public class ApostadoresDTO implements Serializable {
     }
 
     /**
-     * Obtiene el valor de serialVersionUID para la serialización.
+     * Obtiene el valor de la versión serializable de la clase.
      *
-     * @return El valor de serialVersionUID.
+     * @return El valor de la versión serializable.
      */
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
 
-    /**
-     * Devuelve una representación en cadena de este objeto.
-     *
-     * @return Una representación en cadena de ApostadoresDTO.
-     */
     @Override
     public String toString() {
         return "ApostadoresDTO [completeName=" + completeName + ", identification=" + identification
