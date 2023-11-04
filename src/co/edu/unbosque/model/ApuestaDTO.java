@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * La clase `ApuestasDTO` representa las apuestas realizadas por los apostadores
+ * La clase `ApuestaDTO` representa las apuestas realizadas por los apostadores
  * en la aplicación. Contiene información sobre la sede de la casa de apuestas,
  * la identificación del apostador, el día de la semana en que se realizó la
  * apuesta y el valor de la apuesta.
@@ -15,7 +15,7 @@ import java.util.Date;
  * Esta clase implementa la interfaz `Serializable`, lo que permite su
  * serialización.
  */
-public class ApuestasDTO implements Serializable {
+public class ApuestaDTO implements Serializable {
 
 	private static final long serialVersionUID = -2781358446157806900L;
 	private String bookmakerHeadquarters;
@@ -24,13 +24,13 @@ public class ApuestasDTO implements Serializable {
 	private double valueOfTheBet;
 
 	/**
-	 * Constructor predeterminado de `ApuestasDTO`.
+	 * Constructor predeterminado de `ApuestaDTO`.
 	 */
-	public ApuestasDTO() {
+	public ApuestaDTO() {
 	}
 
 	/**
-	 * Constructor de `ApuestasDTO` que recibe información detallada sobre la
+	 * Constructor de `ApuestaDTO` que recibe información detallada sobre la
 	 * apuesta.
 	 *
 	 * @param bookmakerHeadquarters La sede de la casa de apuestas en la que se
@@ -41,7 +41,7 @@ public class ApuestasDTO implements Serializable {
 	 *                              apuesta.
 	 * @param valueOfTheBet         El valor de la apuesta.
 	 */
-	public ApuestasDTO(String bookmakerHeadquarters, double identification, String dayOfTheWeek, double valueOfTheBet) {
+	public ApuestaDTO(String bookmakerHeadquarters, double identification, String dayOfTheWeek, double valueOfTheBet) {
 		super();
 		this.bookmakerHeadquarters = bookmakerHeadquarters;
 		this.identification = identification;
