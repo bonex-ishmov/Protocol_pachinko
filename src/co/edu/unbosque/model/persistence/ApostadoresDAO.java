@@ -2,45 +2,51 @@ package co.edu.unbosque.model.persistence;
 
 import java.util.ArrayList;
 
-import co.edu.unbosque.model.*;
+import co.edu.unbosque.model.ApostadorDTO;
 
+/**
+ * Clase que representa un DAO (Data Access Object) para gestionar la
+ * persistencia de datos de apostadores. Implementa la interfaz CRUDOperation
+ * para realizar operaciones de creación, lectura, actualización y eliminación
+ * de datos de apostadores.
+ */
 public class ApostadoresDAO implements CRUDOperation {
-	ArrayList<ApostadoresDTO> listOfGamblers;
+	ArrayList<ApostadorDTO> listOfGamblers;
 
-	final String FILEURL = "src/co/edu/unbosque/model/persistence/archivocasadeapuestas.csv";
 	final String SERIAL_FILENAME = "apostadores.dat";
 	int index = 0;
 
+	/**
+	 * Constructor de ApostadoresDAO que inicializa la lista de apostadores. También
+	 * intenta cargar datos previos desde un archivo serializado si existe.
+	 */
 	public ApostadoresDAO() {
-
-		listOfGamblers = new ArrayList<ApostadoresDTO>();
+		listOfGamblers = new ArrayList<ApostadorDTO>();
 		if (FileHandler.serializableOpenAndReadFile(SERIAL_FILENAME) != null) {
 			Object temp = FileHandler.serializableOpenAndReadFile(SERIAL_FILENAME);
-			ArrayList<ApostadoresDTO> temp2 = (ArrayList<ApostadoresDTO>) temp;
+			ArrayList<ApostadorDTO> temp2 = (ArrayList<ApostadorDTO>) temp;
 			listOfGamblers = temp2;
 		} else {
-			listOfGamblers = listOfGamblers = new ArrayList<>();
+			listOfGamblers = new ArrayList<>();
 		}
 	}
 
 	@Override
 	public void create(String... args) {
-
-		ApostadoresDTO apostadores = new ApostadoresDTO();
-		apostadores.setCompleteName(args[0]);
-		apostadores.setIdentification(Double.parseDouble(args[1]));
-		apostadores.setBookmakerHeadquarters(args[2]);
-		apostadores.setAddressOfThePerson(args[3]);
-		apostadores.setPhoneNumber(Double.parseDouble(args[4]));
-
-		listOfGamblers.add(apostadores);
+		ApostadorDTO gamblers = new ApostadorDTO();
+		gamblers.setCompleteName(args[0]);
+		gamblers.setIdentification(Double.parseDouble(args[1]));
+		gamblers.setBirthDate(args[2]);
+		gamblers.setBookmakerHeadquarters(args[3]);
+		gamblers.setAddressOfThePerson(args[4]);
+		gamblers.setPhoneNumber(Double.parseDouble(args[5]));
+		listOfGamblers.add(gamblers);
 		writeDataSerializable();
 	}
 
 	@Override
-	public void create(Object obj) {
-
-		listOfGamblers.add((ApostadoresDTO) obj);
+	public void create(Object o) {
+		listOfGamblers.add((ApostadorDTO) o);
 		writeDataSerializable();
 	}
 
@@ -48,8 +54,8 @@ public class ApostadoresDAO implements CRUDOperation {
 	public String read() {
 		index = 0;
 		StringBuilder Sb = new StringBuilder();
-		listOfGamblers.forEach(apostadores -> {
-			Sb.append(index + "->" + (apostadores.toString() + "\n"));
+		listOfGamblers.forEach(gamblers -> {
+			Sb.append(index + "->" + (gamblers.toString() + "\n"));
 		});
 		return Sb.toString();
 	}
@@ -60,27 +66,22 @@ public class ApostadoresDAO implements CRUDOperation {
 			return false;
 		} else {
 			if (!args[0].isBlank() || !args[0].isEmpty() || args[0] != null) {
-				try {
-					listOfGamblers.get(index).setCompleteName(args[0]);
-				} catch (NumberFormatException e) {
-
-				}
-
+				listOfGamblers.get(index).setCompleteName(args[0]);
 			}
 			if (!args[1].isBlank() || !args[1].isEmpty() || args[1] != null) {
 				listOfGamblers.get(index).setIdentification(Double.parseDouble(args[1]));
 			}
 			if (!args[2].isBlank() || !args[2].isEmpty() || args[2] != null) {
-				listOfGamblers.get(index).setBookmakerHeadquarters(args[2]);
-
+				listOfGamblers.get(index).setBirthDate(args[2]);
 			}
 			if (!args[3].isBlank() || !args[3].isEmpty() || args[3] != null) {
-				listOfGamblers.get(index).setAddressOfThePerson(args[3]);
-
+				listOfGamblers.get(index).setBookmakerHeadquarters(args[3]);
 			}
 			if (!args[4].isBlank() || !args[4].isEmpty() || args[4] != null) {
-				listOfGamblers.get(index).setPhoneNumber(Double.parseDouble(args[4]));
-				;
+				listOfGamblers.get(index).setAddressOfThePerson(args[4]);
+			}
+			if (!args[5].isBlank() || !args[5].isEmpty() || args[5] != null) {
+				listOfGamblers.get(index).setPhoneNumber(Double.parseDouble(args[5]));
 			}
 		}
 		writeDataSerializable();
@@ -89,12 +90,10 @@ public class ApostadoresDAO implements CRUDOperation {
 
 	@Override
 	public boolean delete(int index) {
-
 		if (index < 0 || index >= listOfGamblers.size()) {
 			return false;
 		} else {
 			listOfGamblers.remove(index);
-
 			writeDataSerializable();
 			return true;
 		}
@@ -102,8 +101,7 @@ public class ApostadoresDAO implements CRUDOperation {
 
 	@Override
 	public boolean delete(Object obj) {
-
-		ApostadoresDTO toDelete = (ApostadoresDTO) obj;
+		ApostadorDTO toDelete = (ApostadorDTO) obj;
 		if (listOfGamblers.contains(toDelete)) {
 			listOfGamblers.remove(toDelete);
 			writeDataSerializable();
@@ -113,32 +111,55 @@ public class ApostadoresDAO implements CRUDOperation {
 		}
 	}
 
+	/**
+	 * Escribe los datos de la lista de apostadores en un archivo serializado.
+	 */
 	public void writeDataSerializable() {
 		FileHandler.serializableOpenAndWriteFile(SERIAL_FILENAME, listOfGamblers);
 	}
 
-	public ArrayList<ApostadoresDTO> getListOfGamblers() {
+	/**
+	 * Obtiene la lista de apostadores.
+	 *
+	 * @return Lista de apostadores.
+	 */
+	public ArrayList<ApostadorDTO> getListOfGamblers() {
 		return listOfGamblers;
 	}
 
-	public void setListOfGamblers(ArrayList<ApostadoresDTO> listOfGamblers) {
+	/**
+	 * Establece la lista de apostadores.
+	 *
+	 * @param listOfGamblers Lista de apostadores.
+	 */
+	public void setListOfGamblers(ArrayList<ApostadorDTO> listOfGamblers) {
 		this.listOfGamblers = listOfGamblers;
 	}
 
+	/**
+	 * Obtiene el índice actual.
+	 *
+	 * @return Índice actual.
+	 */
 	public int getIndex() {
 		return index;
 	}
 
+	/**
+	 * Establece el índice actual.
+	 *
+	 * @param index Índice actual.
+	 */
 	public void setIndex(int index) {
 		this.index = index;
 	}
 
-	public String getFILEURL() {
-		return FILEURL;
-	}
-
+	/**
+	 * Obtiene el nombre del archivo serializado.
+	 *
+	 * @return Nombre del archivo serializado.
+	 */
 	public String getSERIAL_FILENAME() {
 		return SERIAL_FILENAME;
 	}
-
 }

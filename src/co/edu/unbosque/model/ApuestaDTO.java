@@ -1,85 +1,79 @@
 package co.edu.unbosque.model;
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
- * La clase `ApuestaDTO` representa las apuestas realizadas por los apostadores
- * en la aplicación. Contiene información sobre la sede de la casa de apuestas,
- * la identificación del apostador, el día de la semana en que se realizó la
- * apuesta y el valor de la apuesta.
- *
- * Esta clase implementa la interfaz `Serializable`, lo que permite su
- * serialización.
+ * Clase que representa un objeto de transferencia de datos (DTO) para apuestas.
+ * Esta clase contiene información relacionada con las apuestas, como la sede de
+ * la casa de apuestas, la identificación del apostador, el día de la semana en
+ * que se realizó la apuesta y el valor de la apuesta.
  */
 public class ApuestaDTO implements Serializable {
 
 	private static final long serialVersionUID = -2781358446157806900L;
-	private String bookmakerHeadquarters;
+	private String bookmakerOffice;
 	private double identification;
 	private String dayOfTheWeek;
 	private double valueOfTheBet;
 
 	/**
-	 * Constructor predeterminado de `ApuestaDTO`.
+	 * Constructor por defecto de ApuestaDTO.
 	 */
 	public ApuestaDTO() {
+
 	}
 
 	/**
-	 * Constructor de `ApuestaDTO` que recibe información detallada sobre la
-	 * apuesta.
+	 * Constructor parametrizado de ApuestaDTO que permite inicializar todos los
+	 * atributos de la clase.
 	 *
-	 * @param bookmakerHeadquarters La sede de la casa de apuestas en la que se
-	 *                              realizó la apuesta.
-	 * @param identification        La identificación del apostador que realizó la
-	 *                              apuesta.
-	 * @param dayOfTheWeek          El día de la semana en que se realizó la
-	 *                              apuesta.
-	 * @param valueOfTheBet         El valor de la apuesta.
+	 * @param bookmakerOffice Sede de la casa de apuestas donde se realizó la
+	 *                        apuesta.
+	 * @param identification  Identificación del apostador que realizó la apuesta.
+	 * @param dayOfTheWeek    Día de la semana en que se realizó la apuesta.
+	 * @param valueOfTheBet   Valor de la apuesta realizada.
 	 */
-	public ApuestaDTO(String bookmakerHeadquarters, double identification, String dayOfTheWeek, double valueOfTheBet) {
+	public ApuestaDTO(String bookmakerOffice, double identification, String dayOfTheWeek, double valueOfTheBet) {
 		super();
-		this.bookmakerHeadquarters = bookmakerHeadquarters;
+		this.bookmakerOffice = bookmakerOffice;
 		this.identification = identification;
 		this.dayOfTheWeek = dayOfTheWeek;
 		this.valueOfTheBet = valueOfTheBet;
 	}
 
+	// Getters y setters de los atributos de la clase
+
 	/**
-	 * Obtiene la sede de la casa de apuestas en la que se realizó la apuesta.
+	 * Obtiene la sede de la casa de apuestas.
 	 *
-	 * @return La sede de la casa de apuestas.
+	 * @return Sede de la casa de apuestas.
 	 */
-	public String getBookmakerHeadquarters() {
-		return bookmakerHeadquarters;
+	public String getBookmakerOffice() {
+		return bookmakerOffice;
 	}
 
 	/**
-	 * Establece la sede de la casa de apuestas en la que se realizó la apuesta.
+	 * Establece la sede de la casa de apuestas.
 	 *
-	 * @param bookmakerHeadquarters La sede de la casa de apuestas.
+	 * @param bookmakerOffice Sede de la casa de apuestas.
 	 */
-	public void setBookmakerHeadquarters(String bookmakerHeadquarters) {
-		this.bookmakerHeadquarters = bookmakerHeadquarters;
+	public void setBookmakerOffice(String bookmakerOffice) {
+		this.bookmakerOffice = bookmakerOffice;
 	}
 
 	/**
-	 * Obtiene la identificación del apostador que realizó la apuesta.
+	 * Obtiene la identificación del apostador.
 	 *
-	 * @return La identificación del apostador.
+	 * @return Identificación del apostador.
 	 */
 	public double getIdentification() {
 		return identification;
 	}
 
 	/**
-	 * Establece la identificación del apostador que realizó la apuesta.
+	 * Establece la identificación del apostador.
 	 *
-	 * @param identification La identificación del apostador.
+	 * @param identification Identificación del apostador.
 	 */
 	public void setIdentification(double identification) {
 		this.identification = identification;
@@ -88,7 +82,7 @@ public class ApuestaDTO implements Serializable {
 	/**
 	 * Obtiene el día de la semana en que se realizó la apuesta.
 	 *
-	 * @return El día de la semana.
+	 * @return Día de la semana.
 	 */
 	public String getDayOfTheWeek() {
 		return dayOfTheWeek;
@@ -97,67 +91,48 @@ public class ApuestaDTO implements Serializable {
 	/**
 	 * Establece el día de la semana en que se realizó la apuesta.
 	 *
-	 * @param dayOfTheWeek El día de la semana.
+	 * @param dayOfTheWeek Día de la semana.
 	 */
 	public void setDayOfTheWeek(String dayOfTheWeek) {
 		this.dayOfTheWeek = dayOfTheWeek;
 	}
 
 	/**
-	 * Obtiene el valor de la apuesta.
+	 * Obtiene el valor de la apuesta realizada.
 	 *
-	 * @return El valor de la apuesta.
+	 * @return Valor de la apuesta.
 	 */
 	public double getValueOfTheBet() {
 		return valueOfTheBet;
 	}
 
 	/**
-	 * Establece el valor de la apuesta.
+	 * Establece el valor de la apuesta realizada.
 	 *
-	 * @param valueOfTheBet El valor de la apuesta.
+	 * @param valueOfTheBet Valor de la apuesta.
 	 */
 	public void setValueOfTheBet(double valueOfTheBet) {
 		this.valueOfTheBet = valueOfTheBet;
 	}
 
 	/**
-	 * Obtiene el valor de la versión serializable de la clase.
+	 * Obtiene el valor del serialVersionUID.
 	 *
-	 * @return El valor de la versión serializable.
+	 * @return Valor del serialVersionUID.
 	 */
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
+	/**
+	 * Devuelve una representación en forma de cadena (String) de un objeto
+	 * ApuestaDTO.
+	 *
+	 * @return Cadena que representa el objeto ApuestaDTO.
+	 */
 	@Override
 	public String toString() {
-		return "ApuestasDTO [bookmakerHeadquarters=" + bookmakerHeadquarters + ", identification=" + identification
+		return "ApuestaDTO [bookmakerOffice=" + bookmakerOffice + ", identification=" + identification
 				+ ", dayOfTheWeek=" + dayOfTheWeek + ", valueOfTheBet=" + valueOfTheBet + "]";
-	}
-
-	/**
-	 * Convierte una fecha en formato de cadena a su correspondiente día de la
-	 * semana.
-	 *
-	 * @param fechaString La fecha en formato de cadena ("yyyy-MM-dd").
-	 * @return El día de la semana correspondiente a la fecha.
-	 */
-	public static String obtenerDiaSemana(String fechaString) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-		try {
-			Date fecha = sdf.parse(fechaString);
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(fecha);
-
-			int diaSemana = calendar.get(Calendar.DAY_OF_WEEK);
-
-			String[] diasSemana = { "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado" };
-
-			return diasSemana[diaSemana - 1];
-		} catch (ParseException e) {
-			return "Fecha no válida";
-		}
 	}
 }

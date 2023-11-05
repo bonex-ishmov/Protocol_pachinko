@@ -16,6 +16,7 @@ public class JuegoCasaDeApuestasDTO extends SedeCasaDeApuestasDTO implements Ser
 	 * Constructor por defecto de JuegoCasaDeApuestasDTO.
 	 */
 	public JuegoCasaDeApuestasDTO() {
+
 	}
 
 	/**
@@ -198,7 +199,7 @@ public class JuegoCasaDeApuestasDTO extends SedeCasaDeApuestasDTO implements Ser
 	 */
 	@Override
 	public String toString() {
-		return "JuegoCasaDeApuestasDTO [gameName=" + gameName + ", typeOfGame=" + typeOfGame + ", budgetAllocated="
-				+ budgetAllocated + "]";
+		return super.toString() + "JuegoCasaDeApuestasDTO [gameName=" + gameName + ", typeOfGame=" + typeOfGame
+				+ ", budgetAllocated=" + budgetAllocated + "]";
 	}
 }

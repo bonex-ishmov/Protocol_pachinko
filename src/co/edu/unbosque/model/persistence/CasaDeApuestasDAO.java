@@ -6,10 +6,9 @@ import co.edu.unbosque.model.*;
 import co.edu.unbosque.model.persistence.*;
 
 public class CasaDeApuestasDAO implements CRUDOperation {
+
 	ArrayList<CasaDeApuestasDTO> listOfHouses;
 
-	final String FILEURL = "src/co/edu/unbosque/model/persistence/archivocasadeapuestas.csv";
-	final String SERIAL_FILENAME = "serialCasasDeApuestas.dat";
 	int index = 0;
 
 	public CasaDeApuestasDAO() {
@@ -18,12 +17,12 @@ public class CasaDeApuestasDAO implements CRUDOperation {
 
 	@Override
 	public void create(String... args) {
-		CasaDeApuestasDTO casa = new CasaDeApuestasDTO();
-		casa.setBookMarkerName(args[0]);
-		casa.setNumberOfLocations(Integer.parseInt(args[1]));
-		casa.setTotalBudgetAvailable(Double.parseDouble(args[2]));
+		CasaDeApuestasDTO house = new CasaDeApuestasDTO();
+		house.setBookMarkerName(args[0]);
+		house.setNumberOfLocations(Integer.parseInt(args[1]));
+		house.setTotalBudgetAvailable(Double.parseDouble(args[2]));
 
-		listOfHouses.add(casa);
+		listOfHouses.add(house);
 
 	}
 
@@ -37,8 +36,8 @@ public class CasaDeApuestasDAO implements CRUDOperation {
 	public String read() {
 		index = 0;
 		StringBuilder Sb = new StringBuilder();
-		listOfHouses.forEach(casa -> {
-			Sb.append(index + "->" + (casa.toString() + "\n"));
+		listOfHouses.forEach(house -> {
+			Sb.append(index + "->" + (house.toString() + "\n"));
 		});
 		return Sb.toString();
 	}
@@ -107,14 +106,6 @@ public class CasaDeApuestasDAO implements CRUDOperation {
 
 	public void setIndex(int index) {
 		this.index = index;
-	}
-
-	public String getFILEURL() {
-		return FILEURL;
-	}
-
-	public String getSERIAL_FILENAME() {
-		return SERIAL_FILENAME;
 	}
 
 }

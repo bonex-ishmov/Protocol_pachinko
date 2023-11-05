@@ -15,6 +15,7 @@ public class SedeCasaDeApuestasDTO extends CasaDeApuestasDTO implements Serializ
 	 * Constructor por defecto de SedeCasaDeApuestasDTO.
 	 */
 	public SedeCasaDeApuestasDTO() {
+
 	}
 
 	/**
@@ -111,6 +112,7 @@ public class SedeCasaDeApuestasDTO extends CasaDeApuestasDTO implements Serializ
 	 */
 	@Override
 	public String toString() {
-		return "SedeCasaDeApuestasDTO [address=" + address + ", numberOfEmployees=" + numberOfEmployees + "]";
+		return super.toString() + "SedeCasaDeApuestasDTO [address=" + address + ", numberOfEmployees="
+				+ numberOfEmployees + "]";
 	}
 }
