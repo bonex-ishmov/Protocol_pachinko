@@ -14,8 +14,12 @@ public class UserGuidedInterface {
 
 	}
 
+<<<<<<< HEAD
 	public JButton crearBoton(int posicionX, int posicionY, int ancho, int largo, Color color, String titulo,
 			boolean visiblidad) {
+=======
+	public JButton crearBoton(int posicionX, int posicionY, int ancho, int largo, Color color, String titulo, boolean visiblidad) {
+>>>>>>> 06b97665a61e4ade6f705555b317a77419d70b4e
 		JButton botonNuevo;
 		botonNuevo = new JButton(titulo);
 		botonNuevo.setBounds(posicionX, posicionY, ancho, largo);
@@ -53,4 +57,8 @@ public class UserGuidedInterface {
 		return texto;
 	}
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 06b97665a61e4ade6f705555b317a77419d70b4e
