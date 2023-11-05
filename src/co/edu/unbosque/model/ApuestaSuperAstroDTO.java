@@ -9,35 +9,36 @@ import java.util.Arrays;
  * relacionada con las apuestas de Super Astro, como un conjunto de cuatro
  * números y el signo zodiacal asociado a la apuesta.
  */
-public class ApuestaSuperAstro extends ApuestaDTO implements Serializable {
+public class ApuestaSuperAstroDTO extends ApuestaDTO implements Serializable {
 
 	private static final long serialVersionUID = -4402814736606761069L;
 	private int[] fourNumbers;
 	private String zodiacSign;
 
 	/**
-	 * Constructor por defecto de ApuestaSuperAstro.
+	 * Constructor por defecto de ApuestaSuperAstroDTO.
 	 */
-	public ApuestaSuperAstro() {
-
+	public ApuestaSuperAstroDTO() {
+		super(); // Llama al constructor de la superclase ApuestaDTO
 	}
 
 	/**
-	 * Constructor parametrizado de ApuestaSuperAstro que permite inicializar los
+	 * Constructor parametrizado de ApuestaSuperAstroDTO que permite inicializar los
 	 * atributos específicos de Super Astro.
 	 *
 	 * @param fourNumbers Conjunto de cuatro números de la apuesta.
 	 * @param zodiacSign  Signo zodiacal asociado a la apuesta de Super Astro.
 	 */
-	public ApuestaSuperAstro(int[] fourNumbers, String zodiacSign) {
+	public ApuestaSuperAstroDTO(int[] fourNumbers, String zodiacSign) {
 		super(); // Llama al constructor de la superclase ApuestaDTO
 		this.fourNumbers = fourNumbers;
 		this.zodiacSign = zodiacSign;
 	}
 
 	/**
-	 * Constructor parametrizado de ApuestaSuperAstro que permite inicializar tanto
-	 * los atributos de la superclase como los atributos específicos de Super Astro.
+	 * Constructor parametrizado de ApuestaSuperAstroDTO que permite inicializar
+	 * tanto los atributos de la superclase como los atributos específicos de Super
+	 * Astro.
 	 *
 	 * @param bookmakerOffice Sede de la casa de apuestas donde se realizó la
 	 *                        apuesta.
@@ -47,8 +48,8 @@ public class ApuestaSuperAstro extends ApuestaDTO implements Serializable {
 	 * @param fourNumbers     Conjunto de cuatro números de la apuesta.
 	 * @param zodiacSign      Signo zodiacal asociado a la apuesta de Super Astro.
 	 */
-	public ApuestaSuperAstro(String bookmakerOffice, double identification, String dayOfTheWeek, double valueOfTheBet,
-			int[] fourNumbers, String zodiacSign) {
+	public ApuestaSuperAstroDTO(String bookmakerOffice, double identification, String dayOfTheWeek,
+			double valueOfTheBet, int[] fourNumbers, String zodiacSign) {
 		super(bookmakerOffice, identification, dayOfTheWeek, valueOfTheBet);
 		this.fourNumbers = fourNumbers;
 		this.zodiacSign = zodiacSign;

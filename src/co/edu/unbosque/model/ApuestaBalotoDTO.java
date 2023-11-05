@@ -9,7 +9,7 @@ import java.util.Arrays;
  * con las apuestas de Baloto, como un conjunto de seis números seleccionados
  * para la apuesta.
  */
-public class ApuestaBaloto extends ApuestaDTO implements Serializable {
+public class ApuestaBalotoDTO extends ApuestaDTO implements Serializable {
 
 	private static final long serialVersionUID = -2432698889942765132L;
 	private int[] sixNumbers;
@@ -17,8 +17,8 @@ public class ApuestaBaloto extends ApuestaDTO implements Serializable {
 	/**
 	 * Constructor por defecto de ApuestaBaloto.
 	 */
-	public ApuestaBaloto() {
-		
+	public ApuestaBalotoDTO() {
+		super(); // Llama al constructor de la superclase ApuestaDTO
 	}
 
 	/**
@@ -28,7 +28,7 @@ public class ApuestaBaloto extends ApuestaDTO implements Serializable {
 	 * @param sixNumbers Conjunto de seis números seleccionados para la apuesta de
 	 *                   Baloto.
 	 */
-	public ApuestaBaloto(int[] sixNumbers) {
+	public ApuestaBalotoDTO(int[] sixNumbers) {
 		super(); // Llama al constructor de la superclase ApuestaDTO
 		this.sixNumbers = sixNumbers;
 	}
@@ -45,7 +45,7 @@ public class ApuestaBaloto extends ApuestaDTO implements Serializable {
 	 * @param sixNumbers      Conjunto de seis números seleccionados para la apuesta
 	 *                        de Baloto.
 	 */
-	public ApuestaBaloto(String bookmakerOffice, double identification, String dayOfTheWeek, double valueOfTheBet,
+	public ApuestaBalotoDTO(String bookmakerOffice, double identification, String dayOfTheWeek, double valueOfTheBet,
 			int[] sixNumbers) {
 		super(bookmakerOffice, identification, dayOfTheWeek, valueOfTheBet);
 		this.sixNumbers = sixNumbers;

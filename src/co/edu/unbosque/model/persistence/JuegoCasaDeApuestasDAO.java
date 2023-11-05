@@ -9,6 +9,8 @@ import co.edu.unbosque.model.JuegoCasaDeApuestasDTO;
  * persistencia de datos de juegos de casas de apuestas. Implementa la interfaz
  * CRUDOperation para realizar operaciones de creación, lectura, actualización y
  * eliminación de datos de juegos de casas de apuestas.
+ * 
+ * @see CRUDOperation
  */
 public class JuegoCasaDeApuestasDAO implements CRUDOperation {
 	ArrayList<JuegoCasaDeApuestasDTO> listOfGames;

@@ -20,7 +20,7 @@ public class ApuestaLoteriaDTO extends ApuestaDTO implements Serializable {
 	 * Constructor por defecto de ApuestaLoteriaDTO.
 	 */
 	public ApuestaLoteriaDTO() {
-
+		super(); // Llama al constructor de la superclase ApuestaDTO
 	}
 
 	/**

@@ -8,7 +8,7 @@ import java.io.Serializable;
  * con las apuestas de BetPlay, como los equipos involucrados en la apuesta y el
  * resultado de la misma.
  */
-public class ApuestaBetPlay extends ApuestaDTO implements Serializable {
+public class ApuestaBetPlayDTO extends ApuestaDTO implements Serializable {
 
 	private static final long serialVersionUID = -6341812716503899102L;
 	private String teamOne;
@@ -16,21 +16,21 @@ public class ApuestaBetPlay extends ApuestaDTO implements Serializable {
 	private String resultBet;
 
 	/**
-	 * Constructor por defecto de ApuestaBetPlay.
+	 * Constructor por defecto de ApuestaBetPlayDTO.
 	 */
-	public ApuestaBetPlay() {
-
+	public ApuestaBetPlayDTO() {
+		super(); // Llama al constructor de la superclase ApuestaDTO
 	}
 
 	/**
-	 * Constructor parametrizado de ApuestaBetPlay que permite inicializar los
+	 * Constructor parametrizado de ApuestaBetPlayDTO que permite inicializar los
 	 * atributos específicos de BetPlay.
 	 *
 	 * @param teamOne   Nombre del primer equipo involucrado en la apuesta.
 	 * @param teamTwo   Nombre del segundo equipo involucrado en la apuesta.
 	 * @param resultBet Resultado de la apuesta.
 	 */
-	public ApuestaBetPlay(String teamOne, String teamTwo, String resultBet) {
+	public ApuestaBetPlayDTO(String teamOne, String teamTwo, String resultBet) {
 		super(); // Llama al constructor de la superclase ApuestaDTO
 		this.teamOne = teamOne;
 		this.teamTwo = teamTwo;
@@ -38,8 +38,8 @@ public class ApuestaBetPlay extends ApuestaDTO implements Serializable {
 	}
 
 	/**
-	 * Constructor parametrizado de ApuestaBetPlay que permite inicializar tanto los
-	 * atributos de la superclase como los atributos específicos de BetPlay.
+	 * Constructor parametrizado de ApuestaBetPlayDTO que permite inicializar tanto
+	 * los atributos de la superclase como los atributos específicos de BetPlay.
 	 *
 	 * @param bookmakerOffice Sede de la casa de apuestas donde se realizó la
 	 *                        apuesta.
@@ -50,7 +50,7 @@ public class ApuestaBetPlay extends ApuestaDTO implements Serializable {
 	 * @param teamTwo         Nombre del segundo equipo involucrado en la apuesta.
 	 * @param resultBet       Resultado de la apuesta.
 	 */
-	public ApuestaBetPlay(String bookmakerOffice, double identification, String dayOfTheWeek, double valueOfTheBet,
+	public ApuestaBetPlayDTO(String bookmakerOffice, double identification, String dayOfTheWeek, double valueOfTheBet,
 			String teamOne, String teamTwo, String resultBet) {
 		super(bookmakerOffice, identification, dayOfTheWeek, valueOfTheBet);
 		this.teamOne = teamOne;

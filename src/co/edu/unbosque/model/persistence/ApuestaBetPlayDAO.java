@@ -1,35 +1,33 @@
 package co.edu.unbosque.model.persistence;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
-import co.edu.unbosque.model.ApostadorDTO;
+import co.edu.unbosque.model.ApuestaBetPlayDTO;
 import co.edu.unbosque.model.ApuestaDTO;
 
 /**
- * Clase que representa un DAO (Data Access Object) para gestionar la
- * persistencia de datos de apuestas. Implementa la interfaz CRUDOperation para
- * realizar operaciones de creación, lectura, actualización y eliminación de
- * datos de apuestas.
+ * La clase ApuestaBetPlayDAO implementa operaciones CRUD (Crear, Leer,
+ * Actualizar y Eliminar) para gestionar una lista de apuestas del juego
+ * BetPlay. También proporciona métodos para escribir los datos en un archivo
+ * serializado.
  * 
  * @see CRUDOperation
  */
-public class ApuestaDAO implements CRUDOperation {
-	private ArrayList<ApuestaDTO> listOfBets;
-	final String SERIAL_FILENAME = "apuesta.dat";
+public class ApuestaBetPlayDAO implements CRUDOperation {
+
+	private ArrayList<ApuestaBetPlayDTO> listOfBets;
+	final String SERIAL_FILENAME = "apuestaBetPlay.dat";
 	int index = 0;
 
 	/**
-	 * Constructor de ApuestaDAO que inicializa la lista de apuestas.
+	 * Constructor de la clase ApuestaBetPlayDAO que inicializa la lista de
+	 * apuestas.
 	 */
-	public ApuestaDAO() {
-		listOfBets = new ArrayList<ApuestaDTO>();
+	public ApuestaBetPlayDAO() {
+		listOfBets = new ArrayList<ApuestaBetPlayDTO>();
 		if (FileHandler.serializableOpenAndReadFile(SERIAL_FILENAME) != null) {
 			Object temp = FileHandler.serializableOpenAndReadFile(SERIAL_FILENAME);
-			ArrayList<ApuestaDTO> temp2 = (ArrayList<ApuestaDTO>) temp;
+			ArrayList<ApuestaBetPlayDTO> temp2 = (ArrayList<ApuestaBetPlayDTO>) temp;
 			listOfBets = temp2;
 		} else {
 			listOfBets = new ArrayList<>();
@@ -38,19 +36,24 @@ public class ApuestaDAO implements CRUDOperation {
 
 	@Override
 	public void create(String... args) {
-		ApuestaDTO bet = new ApuestaDTO();
+		ApuestaBetPlayDTO bet = new ApuestaBetPlayDTO();
 		bet.setBookmakerOffice(args[0]);
 		bet.setIdentification(Double.parseDouble(args[1]));
 		bet.setDayOfTheWeek(args[2]);
 		bet.setValueOfTheBet(Double.parseDouble(args[3]));
+		bet.setTeamOne(args[4]);
+		bet.setTeamTwo(args[5]);
+		bet.setResultBet(args[6]);
 		listOfBets.add(bet);
 		writeDataSerializable();
+
 	}
 
 	@Override
 	public void create(Object o) {
-		listOfBets.add((ApuestaDTO) o);
+		listOfBets.add((ApuestaBetPlayDTO) o);
 		writeDataSerializable();
+
 	}
 
 	@Override
@@ -80,6 +83,15 @@ public class ApuestaDAO implements CRUDOperation {
 			if (!args[3].isBlank() || !args[3].isEmpty() || args[3] != null) {
 				listOfBets.get(index).setValueOfTheBet(Double.parseDouble(args[3]));
 			}
+			if (!args[4].isBlank() || !args[4].isEmpty() || args[4] != null) {
+				listOfBets.get(index).setTeamOne(args[4]);
+			}
+			if (!args[5].isBlank() || !args[5].isEmpty() || args[5] != null) {
+				listOfBets.get(index).setTeamTwo(args[5]);
+			}
+			if (!args[6].isBlank() || !args[6].isEmpty() || args[6] != null) {
+				listOfBets.get(index).setResultBet(args[6]);
+			}
 		}
 		writeDataSerializable();
 		return true;
@@ -98,38 +110,13 @@ public class ApuestaDAO implements CRUDOperation {
 
 	@Override
 	public boolean delete(Object o) {
-		ApuestaDTO toDelete = (ApuestaDTO) o;
+		ApuestaBetPlayDTO toDelete = (ApuestaBetPlayDTO) o;
 		if (listOfBets.contains(toDelete)) {
 			listOfBets.remove(toDelete);
 			writeDataSerializable();
 			return true;
 		} else {
 			return false;
-		}
-	}
-
-	/**
-	 * Método que obtiene el día de la semana a partir de una fecha en formato de
-	 * cadena.
-	 *
-	 * @param fechaString Cadena que representa la fecha en formato "yyyy-MM-dd".
-	 * @return Nombre del día de la semana o "Fecha no válida" en caso de error.
-	 */
-	public static String obtenerDiaSemana(String fechaString) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-		try {
-			Date fecha = sdf.parse(fechaString);
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(fecha);
-
-			int diaSemana = calendar.get(Calendar.DAY_OF_WEEK);
-
-			String[] diasSemana = { "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado" };
-
-			return diasSemana[diaSemana - 1];
-		} catch (ParseException e) {
-			return "Fecha no válida";
 		}
 	}
 
@@ -143,25 +130,25 @@ public class ApuestaDAO implements CRUDOperation {
 	/**
 	 * Obtiene la lista de apuestas.
 	 *
-	 * @return Lista de apuestas.
+	 * @return La lista de apuestas.
 	 */
-	public ArrayList<ApuestaDTO> getListOfBets() {
+	public ArrayList<ApuestaBetPlayDTO> getListOfBets() {
 		return listOfBets;
 	}
 
 	/**
 	 * Establece la lista de apuestas.
 	 *
-	 * @param listOfBets Lista de apuestas.
+	 * @param listOfBets La nueva lista de apuestas.
 	 */
-	public void setListOfBets(ArrayList<ApuestaDTO> listOfBets) {
+	public void setListOfBets(ArrayList<ApuestaBetPlayDTO> listOfBets) {
 		this.listOfBets = listOfBets;
 	}
 
 	/**
 	 * Obtiene el índice actual.
 	 *
-	 * @return Índice actual.
+	 * @return El índice actual.
 	 */
 	public int getIndex() {
 		return index;
@@ -170,7 +157,7 @@ public class ApuestaDAO implements CRUDOperation {
 	/**
 	 * Establece el índice actual.
 	 *
-	 * @param index Índice actual.
+	 * @param index El nuevo índice.
 	 */
 	public void setIndex(int index) {
 		this.index = index;
@@ -179,7 +166,7 @@ public class ApuestaDAO implements CRUDOperation {
 	/**
 	 * Obtiene el nombre del archivo serializado.
 	 *
-	 * @return Nombre del archivo serializado.
+	 * @return El nombre del archivo serializado.
 	 */
 	public String getSERIAL_FILENAME() {
 		return SERIAL_FILENAME;

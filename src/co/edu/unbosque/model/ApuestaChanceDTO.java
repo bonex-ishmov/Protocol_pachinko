@@ -9,16 +9,16 @@ import java.util.Arrays;
  * con las apuestas de Chance, como el nombre de la lotería de Chance y un
  * conjunto de cuatro números asociados a la apuesta.
  */
-public class ApuestaChance extends ApuestaDTO implements Serializable {
+public class ApuestaChanceDTO extends ApuestaDTO implements Serializable {
 
 	private static final long serialVersionUID = 6467706599620146542L;
 	private String lotteryName;
 	private int[] fourNumbers;
 
 	/**
-	 * Constructor por defecto de ApuestaChance.
+	 * Constructor por defecto de ApuestaChanceDTO.
 	 */
-	public ApuestaChance() {
+	public ApuestaChanceDTO() {
 		super(); // Llama al constructor de la superclase ApuestaDTO
 	}
 
@@ -29,15 +29,15 @@ public class ApuestaChance extends ApuestaDTO implements Serializable {
 	 * @param lotteryName Nombre de la lotería de Chance.
 	 * @param fourNumbers Conjunto de cuatro números de la apuesta.
 	 */
-	public ApuestaChance(String lotteryName, int[] fourNumbers) {
+	public ApuestaChanceDTO(String lotteryName, int[] fourNumbers) {
 		super(); // Llama al constructor de la superclase ApuestaDTO
 		this.lotteryName = lotteryName;
 		this.fourNumbers = fourNumbers;
 	}
 
 	/**
-	 * Constructor parametrizado de ApuestaChance que permite inicializar tanto los
-	 * atributos de la superclase como los atributos específicos de Chance.
+	 * Constructor parametrizado de ApuestaChanceDTO que permite inicializar tanto
+	 * los atributos de la superclase como los atributos específicos de Chance.
 	 *
 	 * @param bookmakerOffice Sede de la casa de apuestas donde se realizó la
 	 *                        apuesta.
@@ -47,7 +47,7 @@ public class ApuestaChance extends ApuestaDTO implements Serializable {
 	 * @param lotteryName     Nombre de la lotería de Chance.
 	 * @param fourNumbers     Conjunto de cuatro números de la apuesta.
 	 */
-	public ApuestaChance(String bookmakerOffice, double identification, String dayOfTheWeek, double valueOfTheBet,
+	public ApuestaChanceDTO(String bookmakerOffice, double identification, String dayOfTheWeek, double valueOfTheBet,
 			String lotteryName, int[] fourNumbers) {
 		super(bookmakerOffice, identification, dayOfTheWeek, valueOfTheBet);
 		this.lotteryName = lotteryName;

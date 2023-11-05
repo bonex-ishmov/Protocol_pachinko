@@ -9,6 +9,8 @@ import co.edu.unbosque.model.SedeCasaDeApuestasDTO;
  * persistencia de datos de sedes de casas de apuestas. Implementa la interfaz
  * CRUDOperation para realizar operaciones de creación, lectura, actualización y
  * eliminación de datos de sedes de casas de apuestas.
+ * 
+ * @see CRUDOperation
  */
 public class SedeCasaDeApuestasDAO implements CRUDOperation {
 	ArrayList<SedeCasaDeApuestasDTO> listOfLocations;

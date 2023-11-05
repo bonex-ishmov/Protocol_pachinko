@@ -8,19 +8,21 @@ import co.edu.unbosque.model.ApostadorDTO;
  * Clase que representa un DAO (Data Access Object) para gestionar la
  * persistencia de datos de apostadores. Implementa la interfaz CRUDOperation
  * para realizar operaciones de creación, lectura, actualización y eliminación
- * de datos de apostadores.
+ * de datos del apostador.
+ * 
+ * @see CRUDOperation
  */
-public class ApostadoresDAO implements CRUDOperation {
+public class ApostadorDAO implements CRUDOperation {
 	ArrayList<ApostadorDTO> listOfGamblers;
 
 	final String SERIAL_FILENAME = "apostadores.dat";
 	int index = 0;
 
 	/**
-	 * Constructor de ApostadoresDAO que inicializa la lista de apostadores. También
+	 * Constructor de ApostadorDAO que inicializa la lista de apostadores. También
 	 * intenta cargar datos previos desde un archivo serializado si existe.
 	 */
-	public ApostadoresDAO() {
+	public ApostadorDAO() {
 		listOfGamblers = new ArrayList<ApostadorDTO>();
 		if (FileHandler.serializableOpenAndReadFile(SERIAL_FILENAME) != null) {
 			Object temp = FileHandler.serializableOpenAndReadFile(SERIAL_FILENAME);
