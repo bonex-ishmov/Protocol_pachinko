@@ -38,7 +38,7 @@ public class ApuestaLoteriaDAO implements CRUDOperation {
 	public void create(String... args) {
 		ApuestaLoteriaDTO bet = new ApuestaLoteriaDTO();
 		bet.setBookmakerOffice(args[0]);
-		bet.setIdentification(Double.parseDouble(args[1]));
+		bet.setIdentification(Long.parseLong(args[1]));
 		bet.setDayOfTheWeek(args[2]);
 		bet.setValueOfTheBet(Double.parseDouble(args[3]));
 		bet.setLotteryName(args[4]);
@@ -80,7 +80,7 @@ public class ApuestaLoteriaDAO implements CRUDOperation {
 				listOfBets.get(index).setBookmakerOffice(args[0]);
 			}
 			if (!args[1].isBlank() || !args[1].isEmpty() || args[1] != null) {
-				listOfBets.get(index).setIdentification(Double.parseDouble(args[1]));
+				listOfBets.get(index).setIdentification(Long.parseLong(args[1]));
 			}
 			if (!args[2].isBlank() || !args[2].isEmpty() || args[2] != null) {
 				listOfBets.get(index).setDayOfTheWeek(args[2]);

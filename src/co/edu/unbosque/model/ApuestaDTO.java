@@ -12,7 +12,7 @@ public class ApuestaDTO implements Serializable {
 
 	private static final long serialVersionUID = -2781358446157806900L;
 	private String bookmakerOffice;
-	private double identification;
+	private long identification;
 	private String dayOfTheWeek;
 	private double valueOfTheBet;
 
@@ -33,7 +33,7 @@ public class ApuestaDTO implements Serializable {
 	 * @param dayOfTheWeek    Día de la semana en que se realizó la apuesta.
 	 * @param valueOfTheBet   Valor de la apuesta realizada.
 	 */
-	public ApuestaDTO(String bookmakerOffice, double identification, String dayOfTheWeek, double valueOfTheBet) {
+	public ApuestaDTO(String bookmakerOffice, long identification, String dayOfTheWeek, double valueOfTheBet) {
 		super();
 		this.bookmakerOffice = bookmakerOffice;
 		this.identification = identification;
@@ -66,7 +66,7 @@ public class ApuestaDTO implements Serializable {
 	 *
 	 * @return Identificación del apostador.
 	 */
-	public double getIdentification() {
+	public long getIdentification() {
 		return identification;
 	}
 
@@ -75,7 +75,7 @@ public class ApuestaDTO implements Serializable {
 	 *
 	 * @param identification Identificación del apostador.
 	 */
-	public void setIdentification(double identification) {
+	public void setIdentification(long identification) {
 		this.identification = identification;
 	}
 

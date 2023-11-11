@@ -12,11 +12,11 @@ public class ApostadorDTO implements Serializable {
 
 	private static final long serialVersionUID = -6733443461609975906L;
 	private String completeName;
-	private double identification;
+	private long identification;
 	private String birthDate;
 	private String bookmakerHeadquarters;
 	private String addressOfThePerson;
-	private double phoneNumber;
+	private long phoneNumber;
 
 	/**
 	 * Constructor por defecto de ApostadorDTO.
@@ -37,8 +37,8 @@ public class ApostadorDTO implements Serializable {
 	 * @param addressOfThePerson    Dirección del apostador.
 	 * @param phoneNumber           Número de teléfono del apostador.
 	 */
-	public ApostadorDTO(String completeName, double identification, String birthDate, String bookmakerHeadquarters,
-			String addressOfThePerson, double phoneNumber) {
+	public ApostadorDTO(String completeName, long identification, String birthDate, String bookmakerHeadquarters,
+			String addressOfThePerson, long phoneNumber) {
 		super();
 		this.completeName = completeName;
 		this.identification = identification;
@@ -73,7 +73,7 @@ public class ApostadorDTO implements Serializable {
 	 *
 	 * @return Identificación del apostador.
 	 */
-	public double getIdentification() {
+	public long getIdentification() {
 		return identification;
 	}
 
@@ -82,7 +82,7 @@ public class ApostadorDTO implements Serializable {
 	 *
 	 * @param identification Identificación del apostador.
 	 */
-	public void setIdentification(double identification) {
+	public void setIdentification(long identification) {
 		this.identification = identification;
 	}
 
@@ -145,7 +145,7 @@ public class ApostadorDTO implements Serializable {
 	 *
 	 * @return Número de teléfono del apostador.
 	 */
-	public double getPhoneNumber() {
+	public long getPhoneNumber() {
 		return phoneNumber;
 	}
 
@@ -154,7 +154,7 @@ public class ApostadorDTO implements Serializable {
 	 *
 	 * @param phoneNumber Número de teléfono del apostador.
 	 */
-	public void setPhoneNumber(double phoneNumber) {
+	public void setPhoneNumber(long phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 

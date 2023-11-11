@@ -47,7 +47,7 @@ public class ApuestaChanceDTO extends ApuestaDTO implements Serializable {
 	 * @param lotteryName     Nombre de la lotería de Chance.
 	 * @param fourNumbers     Conjunto de cuatro números de la apuesta.
 	 */
-	public ApuestaChanceDTO(String bookmakerOffice, double identification, String dayOfTheWeek, double valueOfTheBet,
+	public ApuestaChanceDTO(String bookmakerOffice, long identification, String dayOfTheWeek, double valueOfTheBet,
 			String lotteryName, int[] fourNumbers) {
 		super(bookmakerOffice, identification, dayOfTheWeek, valueOfTheBet);
 		this.lotteryName = lotteryName;

@@ -48,8 +48,8 @@ public class ApuestaSuperAstroDTO extends ApuestaDTO implements Serializable {
 	 * @param fourNumbers     Conjunto de cuatro números de la apuesta.
 	 * @param zodiacSign      Signo zodiacal asociado a la apuesta de Super Astro.
 	 */
-	public ApuestaSuperAstroDTO(String bookmakerOffice, double identification, String dayOfTheWeek,
-			double valueOfTheBet, int[] fourNumbers, String zodiacSign) {
+	public ApuestaSuperAstroDTO(String bookmakerOffice, long identification, String dayOfTheWeek, double valueOfTheBet,
+			int[] fourNumbers, String zodiacSign) {
 		super(bookmakerOffice, identification, dayOfTheWeek, valueOfTheBet);
 		this.fourNumbers = fourNumbers;
 		this.zodiacSign = zodiacSign;

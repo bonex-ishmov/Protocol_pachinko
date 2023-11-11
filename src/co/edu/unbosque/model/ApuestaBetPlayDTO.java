@@ -50,7 +50,7 @@ public class ApuestaBetPlayDTO extends ApuestaDTO implements Serializable {
 	 * @param teamTwo         Nombre del segundo equipo involucrado en la apuesta.
 	 * @param resultBet       Resultado de la apuesta.
 	 */
-	public ApuestaBetPlayDTO(String bookmakerOffice, double identification, String dayOfTheWeek, double valueOfTheBet,
+	public ApuestaBetPlayDTO(String bookmakerOffice, long identification, String dayOfTheWeek, double valueOfTheBet,
 			String teamOne, String teamTwo, String resultBet) {
 		super(bookmakerOffice, identification, dayOfTheWeek, valueOfTheBet);
 		this.teamOne = teamOne;

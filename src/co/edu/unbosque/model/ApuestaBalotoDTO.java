@@ -45,7 +45,7 @@ public class ApuestaBalotoDTO extends ApuestaDTO implements Serializable {
 	 * @param sixNumbers      Conjunto de seis números seleccionados para la apuesta
 	 *                        de Baloto.
 	 */
-	public ApuestaBalotoDTO(String bookmakerOffice, double identification, String dayOfTheWeek, double valueOfTheBet,
+	public ApuestaBalotoDTO(String bookmakerOffice, long identification, String dayOfTheWeek, double valueOfTheBet,
 			int[] sixNumbers) {
 		super(bookmakerOffice, identification, dayOfTheWeek, valueOfTheBet);
 		this.sixNumbers = sixNumbers;
