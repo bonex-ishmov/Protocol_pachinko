@@ -61,6 +61,7 @@ public class JuegoCasaDeApuestasDAO implements CRUDOperation {
 		StringBuilder Sb = new StringBuilder();
 		listOfGames.forEach(game -> {
 			Sb.append(index + "->" + (game.toString() + "\n"));
+			index++;
 		});
 		return Sb.toString();
 	}

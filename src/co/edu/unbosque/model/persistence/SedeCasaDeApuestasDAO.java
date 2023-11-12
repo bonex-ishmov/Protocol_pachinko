@@ -58,6 +58,7 @@ public class SedeCasaDeApuestasDAO implements CRUDOperation {
 		StringBuilder Sb = new StringBuilder();
 		listOfLocations.forEach(site -> {
 			Sb.append(index + "->" + (site.toString() + "\n"));
+			index++;
 		});
 		return Sb.toString();
 	}

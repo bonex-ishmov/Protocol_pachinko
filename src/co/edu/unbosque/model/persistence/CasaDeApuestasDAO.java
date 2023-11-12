@@ -53,6 +53,7 @@ public class CasaDeApuestasDAO implements CRUDOperation {
 	@Override
 	public void create(Object obj) {
 		listOfHouses.add((CasaDeApuestasDTO) obj);
+		writeInProperties();
 	}
 
 	/**
@@ -66,6 +67,7 @@ public class CasaDeApuestasDAO implements CRUDOperation {
 		StringBuilder sb = new StringBuilder();
 		listOfHouses.forEach(house -> {
 			sb.append(index + "->" + (house.toString() + "\n"));
+			index++;
 		});
 		return sb.toString();
 	}
@@ -112,6 +114,7 @@ public class CasaDeApuestasDAO implements CRUDOperation {
 			return false;
 		} else {
 			listOfHouses.remove(index);
+			writeInProperties();
 			return true;
 		}
 	}
@@ -127,6 +130,7 @@ public class CasaDeApuestasDAO implements CRUDOperation {
 		CasaDeApuestasDTO toDelete = (CasaDeApuestasDTO) o;
 		if (listOfHouses.contains(toDelete)) {
 			listOfHouses.remove(toDelete);
+			writeInProperties();
 			return true;
 		} else {
 			return false;

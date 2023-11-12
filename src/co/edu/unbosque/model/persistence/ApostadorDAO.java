@@ -58,6 +58,7 @@ public class ApostadorDAO implements CRUDOperation {
 		StringBuilder Sb = new StringBuilder();
 		listOfGamblers.forEach(gamblers -> {
 			Sb.append(index + "->" + (gamblers.toString() + "\n"));
+			index++;
 		});
 		return Sb.toString();
 	}
