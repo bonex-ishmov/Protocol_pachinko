@@ -21,7 +21,7 @@ public class UserGuidedInterface {
 	 * @param visibilidad Indica si el campo de texto es visible o no.
 	 * @return Un JTextField creado con las especificaciones dadas.
 	 */
-	public JTextField escribirCadena(int posicionX, int posicionY, int ancho, int largo, boolean visibilidad) {
+	public JTextField crearFormulario(int posicionX, int posicionY, int ancho, int largo, boolean visibilidad) {
 		JTextField formulario = new JTextField();
 		formulario.setBounds(posicionX, posicionY, ancho, largo);
 		formulario.setVisible(visibilidad);
