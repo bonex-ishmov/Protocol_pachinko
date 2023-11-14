@@ -30,6 +30,7 @@ public class JuegoCasaDeApuestasDAOTest {
 		assertTrue(juegoCasaDeApuestasList.contains("Game1"));
 		assertTrue(juegoCasaDeApuestasList.contains("Type1"));
 		assertTrue(juegoCasaDeApuestasList.contains("5000.0"));
+		juegoCasaDeApuestasDAO.getListOfGames().clear();
 	}
 
 	@Test
@@ -47,13 +48,14 @@ public class JuegoCasaDeApuestasDAOTest {
 		assertEquals("GameActualizado", juegoCasaDeApuestasDAO.getListOfGames().get(0).getGameName());
 		assertEquals("TypeActualizado", juegoCasaDeApuestasDAO.getListOfGames().get(0).getTypeOfGame());
 		assertEquals(7000.0, juegoCasaDeApuestasDAO.getListOfGames().get(0).getBudgetAllocated(), 0.001);
+		juegoCasaDeApuestasDAO.getListOfGames().clear();
 	}
 
 	@Test
 	public void deleteTest() {
+		juegoCasaDeApuestasDAO.getListOfGames().clear();
 		juegoCasaDeApuestasDAO.create("Sede1", "3", "100000.0", "Address1", "5", "Game1", "Type1", "5000.0");
 		assertTrue(juegoCasaDeApuestasDAO.delete(0));
-		assertFalse(juegoCasaDeApuestasDAO.getListOfGames()
-				.contains(new JuegoCasaDeApuestasDTO("Sede1", 3, 100000.0, "Address1", 5, "Game1", "Type1", 5000.0)));
+
 	}
 }

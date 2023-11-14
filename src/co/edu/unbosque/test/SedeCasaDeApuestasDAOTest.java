@@ -27,6 +27,7 @@ public class SedeCasaDeApuestasDAOTest {
 		assertTrue(sedeCasaDeApuestasList.contains("100000.0"));
 		assertTrue(sedeCasaDeApuestasList.contains("Address1"));
 		assertTrue(sedeCasaDeApuestasList.contains("5"));
+		sedeCasaDeApuestasDAO.getListOfLocations().clear();
 	}
 
 	@Test
@@ -40,10 +41,12 @@ public class SedeCasaDeApuestasDAOTest {
 		assertEquals(150000.0, sedeCasaDeApuestasDAO.getListOfLocations().get(0).getTotalBudgetAvailable(), 0.001);
 		assertEquals("AddressActualizada", sedeCasaDeApuestasDAO.getListOfLocations().get(0).getAddress());
 		assertEquals(10, sedeCasaDeApuestasDAO.getListOfLocations().get(0).getNumberOfEmployees());
+		sedeCasaDeApuestasDAO.getListOfLocations().clear();
 	}
 
 	@Test
 	public void deleteTest() {
+		sedeCasaDeApuestasDAO.getListOfLocations().clear();
 		sedeCasaDeApuestasDAO.create("Sede1", "3", "100000.0", "Address1", "5");
 		assertTrue(sedeCasaDeApuestasDAO.delete(0));
 		assertFalse(sedeCasaDeApuestasDAO.getListOfLocations()

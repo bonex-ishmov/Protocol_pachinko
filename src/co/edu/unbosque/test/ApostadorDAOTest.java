@@ -21,7 +21,14 @@ public class ApostadorDAOTest {
 	public void createAndReadTest() {
 
 		apostadorDAO.create("awfef", "123456789", "1990-01-01", "Headquthsthtarters", "dhdjdytj", "987654321");
-		System.out.println(apostadorDAO.read());
+		String apostador = apostadorDAO.read();
+		assertTrue(apostador.contains("awfef"));
+		assertTrue(apostador.contains("123456789"));
+		assertTrue(apostador.contains("1990-01-01"));
+		assertTrue(apostador.contains("Headquthsthtarters"));
+		assertTrue(apostador.contains("dhdjdytj"));
+		assertTrue(apostador.contains("987654321"));
+		apostadorDAO.getListOfGamblers().clear();
 	}
 
 	@Test
@@ -41,6 +48,7 @@ public class ApostadorDAOTest {
 		assertEquals(place, apostadorDAO.getListOfGamblers().get(0).getBookmakerHeadquarters());
 		assertEquals(adress, apostadorDAO.getListOfGamblers().get(0).getAddressOfThePerson());
 		assertEquals(phone, apostadorDAO.getListOfGamblers().get(0).getPhoneNumber());
+		apostadorDAO.getListOfGamblers().clear();
 	}
 
 	@Test
