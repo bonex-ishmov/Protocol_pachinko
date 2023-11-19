@@ -9,14 +9,15 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import co.edu.unbosque.view.*;
 
-public class Controller  implements ActionListener{
+public class Controller implements ActionListener {
 
-GuidedUserInterface gui = new GuidedUserInterface();
+	GuidedUserInterface gui = new GuidedUserInterface();
 	JFrame ventanaPrincipal, ventanaCrearCasa, ventanaRegistrarCliente, ventanaGestionSedes;
 	JButton btnCrearCasaApuestas, btnRegistrarUsuario, btnSedes, btnJuegos, btnCrearCasa, btnCancelarCasa,
 			btnCrearCliente, btnCancelarCliente, btnCrearSede, btnCancelarSede;
@@ -42,8 +43,8 @@ GuidedUserInterface gui = new GuidedUserInterface();
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		if(e.getSource() == consentimiento) {
+
+		if (e.getSource() == consentimiento) {
 			btnCrearCliente.setEnabled(true);
 		}
 
@@ -63,86 +64,83 @@ GuidedUserInterface gui = new GuidedUserInterface();
 			if (ventanaCrearCasa != null) {
 				ventanaCrearCasa.dispose();
 			}
+		}
+		if (e.getSource() == btnCancelarCliente) {
+			if (ventanaGestionSedes != null) {
+				ventanaRegistrarCliente.dispose();
 			}
-			if (e.getSource() == btnCancelarCliente) {
-				if (ventanaGestionSedes != null) {
-					ventanaRegistrarCliente.dispose();
-				}
+		}
+		if (e.getSource() == btnCancelarSede) {
+			if (ventanaGestionSedes != null) {
+				ventanaGestionSedes.dispose();
 			}
-				if (e.getSource() == btnCancelarSede) {
-					if (ventanaGestionSedes != null) {
-						ventanaGestionSedes.dispose();
-					}
-				}
+		}
 
-				if (e.getSource() == btnCrearCliente) {
-					String informacionNombre = campoNombres.getText();
-					String informacionTelefono = campoCelular.getText();
-					String informacionCedula = campoCedula.getText();
-					String informacionDireccionJuego = campoDireccionJuego.getText();
-					Boolean comprobarNumeros = comprobarNumero(informacionCedula) && comprobarNumero(informacionTelefono);
+		if (e.getSource() == btnCrearCliente) {
+			String informacionNombre = campoNombres.getText();
+			String informacionTelefono = campoCelular.getText();
+			String informacionCedula = campoCedula.getText();
+			String informacionDireccionJuego = campoDireccionJuego.getText();
+			Boolean comprobarNumeros = comprobarNumero(informacionCedula) && comprobarNumero(informacionTelefono);
 
-					if (informacionNombre.isEmpty() || informacionCedula.isEmpty() || informacionTelefono.isEmpty()
-							|| informacionDireccionJuego.isEmpty()) {
-						JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
-					} else if (comprobarNumeros== false) {
-						JOptionPane.showMessageDialog(null,
-								"Los campos cedula y telefono solo acepta numeros estimado usuario");
+			if (informacionNombre.isEmpty() || informacionCedula.isEmpty() || informacionTelefono.isEmpty()
+					|| informacionDireccionJuego.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
+			} else if (comprobarNumeros == false) {
+				JOptionPane.showMessageDialog(null,
+						"Los campos cedula y telefono solo acepta numeros estimado usuario");
 
-					} else
-						JOptionPane.showMessageDialog(null, "¡Bienvenido a la casa de juegos! "+ informacionNombre);
+			} else
+				JOptionPane.showMessageDialog(null, "¡Bienvenido a la casa de juegos! " + informacionNombre);
 
-					// INSTALA ACA EL MODELO MI CARNITA
-					// Y LOS PAPELES MANI?
-					// CUIDAO CON ESTE
+			// INSTALA ACA EL MODELO MI CARNITA
+			// Y LOS PAPELES MANI?
+			// CUIDAO CON ESTE
 
-				}
-				
-				if(e.getSource() == btnCrearCasa) {
-					String informacionDireccionCasa = campoDireccion.getText();
-					String informacionDinero = campoDinero.getText();
-					String informacionSedes = campoNumSedes.getText();
-					Boolean comprobarCamposNumericos = comprobarNumero(informacionDinero) && comprobarNumero(informacionSedes);
-					
-					if (informacionDireccionCasa.isEmpty() || informacionDinero.isEmpty() || informacionSedes.isEmpty()) {
-						JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
-					} else if (comprobarCamposNumericos == false) {
-						JOptionPane.showMessageDialog (null,"Los campos cantidad de dinero y numero de sedes solo acepta numeros  estimado usuario" );
+		}
 
-					} else
-						JOptionPane.showMessageDialog(null, "Casa de juegos creada exitosamente ");
+		if (e.getSource() == btnCrearCasa) {
+			String informacionDireccionCasa = campoDireccion.getText();
+			String informacionDinero = campoDinero.getText();
+			String informacionSedes = campoNumSedes.getText();
+			Boolean comprobarCamposNumericos = comprobarNumero(informacionDinero) && comprobarNumero(informacionSedes);
 
-					// INSTALA ACA EL MODELO MI CARNITA
-					// ACA DIEGO NO ESTA, APROVECHA
+			if (informacionDireccionCasa.isEmpty() || informacionDinero.isEmpty() || informacionSedes.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
+			} else if (comprobarCamposNumericos == false) {
+				JOptionPane.showMessageDialog(null,
+						"Los campos cantidad de dinero y numero de sedes solo acepta numeros  estimado usuario");
 
-				}
-				
-				if(e.getSource() == btnCrearSede) {
-					String informacionDireccion = campoDireccionSede.getText();
-					String informacionEmpleados = campoEmpleados.getText();
-					Boolean comprobarEmpleados = comprobarNumero(informacionEmpleados);
-					
-					if (informacionDireccion.isEmpty() || informacionEmpleados.isEmpty()) {
-						JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
-					} else if (comprobarEmpleados == false) {
-						JOptionPane.showMessageDialog (null,"El campo empleados acepta numeros  estimado usuario" );
+			} else
+				JOptionPane.showMessageDialog(null, "Casa de juegos creada exitosamente ");
 
-					} else
-						JOptionPane.showMessageDialog(null, "Sede creada exitosamente ");
+			// INSTALA ACA EL MODELO MI CARNITA
+			// ACA DIEGO NO ESTA, APROVECHA
 
-					// INSTALA ACA EL MODELO MI CARNITA
-					// INVOCA A HOYOS PARA ATACAR A DIEGO
+		}
 
-				}
-					
-					
-					  //  https://www.youtube.com/watch?v=SMmf3os4EGw Ya valio scooby xd
-				
-				      //    https://www.instagram.com/reel/CzTZfeII3xm/?igshid=MTc4MmM1YmI2Ng==
-				}
-					
-				
-			
+		if (e.getSource() == btnCrearSede) {
+			String informacionDireccion = campoDireccionSede.getText();
+			String informacionEmpleados = campoEmpleados.getText();
+			Boolean comprobarEmpleados = comprobarNumero(informacionEmpleados);
+
+			if (informacionDireccion.isEmpty() || informacionEmpleados.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
+			} else if (comprobarEmpleados == false) {
+				JOptionPane.showMessageDialog(null, "El campo empleados acepta numeros  estimado usuario");
+
+			} else
+				JOptionPane.showMessageDialog(null, "Sede creada exitosamente ");
+
+			// INSTALA ACA EL MODELO MI CARNITA
+			// INVOCA A HOYOS PARA ATACAR A DIEGO
+
+		}
+
+		// https://www.youtube.com/watch?v=SMmf3os4EGw Ya valio scooby xd
+
+		// https://www.instagram.com/reel/CzTZfeII3xm/?igshid=MTc4MmM1YmI2Ng==
+	}
 
 	public void VentanaPrincipal() {
 		ventanaPrincipal = gui.crearVentana(500, 400, "Gestion casa de juegos", true);
@@ -242,5 +240,4 @@ GuidedUserInterface gui = new GuidedUserInterface();
 		ventanaGestionSedes.add(btnCancelarSede);
 	}
 
-	
 }
