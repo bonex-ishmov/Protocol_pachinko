@@ -17,7 +17,7 @@ import co.edu.unbosque.view.*;
 
 public class Controller implements ActionListener {
 
-	GuidedUserInterface gui = new GuidedUserInterface();
+	UserGuidedInterface gui = new UserGuidedInterface();
 	JFrame ventanaPrincipal, ventanaCrearCasa, ventanaRegistrarCliente, ventanaGestionSedes;
 	JButton btnCrearCasaApuestas, btnRegistrarUsuario, btnSedes, btnJuegos, btnCrearCasa, btnCancelarCasa,
 			btnCrearCliente, btnCancelarCliente, btnCrearSede, btnCancelarSede;

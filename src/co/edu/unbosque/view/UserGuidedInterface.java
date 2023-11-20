@@ -1,6 +1,8 @@
 package co.edu.unbosque.view;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
+
 import javax.swing.*;
 
 /**
@@ -111,5 +113,21 @@ public class UserGuidedInterface {
 		texto.setBounds(posicionX, posicionY, ancho, largo);
 		texto.setVisible(true);
 		return texto;
+	}
+
+	/**
+	 * Crea un JComboBox con elementos predefinidos.
+	 *
+	 * @param items  Elementos a ser agregados al JComboBox.
+	 * @param posX   Posición X del JComboBox en el contenedor.
+	 * @param posY   Posición Y del JComboBox en el contenedor.
+	 * @param width  Ancho del JComboBox.
+	 * @param height Altura del JComboBox.
+	 * @return Un JComboBox con los elementos proporcionados.
+	 */
+	public static JComboBox<String> createComboBox(String[] items, int posX, int posY, int width, int height) {
+		JComboBox<String> comboBox = new JComboBox<>(items);
+		comboBox.setBounds(posX, posY, width, height);
+		return comboBox;
 	}
 }
