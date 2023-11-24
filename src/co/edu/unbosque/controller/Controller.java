@@ -21,16 +21,20 @@ public class Controller implements ActionListener {
 
 	UserGuidedInterface gui;
 
-	JFrame ventanaPrincipal, ventanaCrearCasa, ventanaRegistrarCliente, ventanaGestionSedes;
+	JFrame ventanaPrincipal, ventanaCrearCasa, ventanaRegistrarCliente, ventanaGestionSedes, ventanaJuegos, ventanaBetplay, ventanaLoteria, ventanaChance, ventanaBaloto, ventanaSuperastro;
 	JButton btnCrearCasaApuestas, btnRegistrarUsuario, btnSedes, btnJuegos, btnCrearCasa, btnCancelarCasa,
-			btnCrearCliente, btnCancelarCliente, btnCrearSede, btnCancelarSede;
+			btnCrearCliente, btnCancelarCliente, btnCrearSede, btnCancelarSede, btnActualizarCasa, btnEliminarCasa,
+			btnActualizarSede, btnActualizarCliente, btnLeerCliente, btnEliminarCliente, btnBetplay, btnLoteria,
+			btnSuperastro, btnChance, btnBaloto, btnApostar, btnCrearBetplay, btnCancelarBetplay;
 	JLabel textoBienvenida, textoCrearCasa, textoNombreCasa, textoSedes, textoDireccion, textoDinero, textoNombres,
-			textoTelefono, textoCedula, textoDireccionJuego, textoGestionSedes, textoDireccionSede, textoEmpleadosSede;
+			textoApostadorTitulo, textoTelefono, textoCedula, textoDireccionJuego, textoGestionSedes, textoNombreSede,
+			textoEmpleadosSede, textoListaClientes, textoListaCasa, textoNombreBetplay, textoTipoBetplay, textoPresupuestoBetplay, textoTituloBetplay;
 	JTextField campoNumSedes, campoDinero, campoDireccion, campoNombres, campoCedula, campoDireccionJuego, campoCelular,
-			campoEmpleados, campoDireccionSede;
+			campoEmpleados, campoNombreSede, campoNombreBetplay, campoPresupuestoBetplay;
 	JRadioButton consentimiento;
-	JList listadoSedes;
-	DefaultListModel modeloLista;
+	JList listadoSedes, listadoClientes, listaCasa, listaInformacion;
+	DefaultListModel modeloLista, modeloListaClientes, modeloListaCasa, modeloListaInformacion;
+	JComboBox diasSemana, tipoBetplay, lista;
 
 	public Controller() {
 		gui = new UserGuidedInterface();
