@@ -3,8 +3,6 @@ package co.edu.unbosque.controller;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -16,8 +14,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import co.edu.unbosque.model.CasaDeApuestasDTO;
 import co.edu.unbosque.model.persistence.ApostadorDAO;
 import co.edu.unbosque.model.persistence.CasaDeApuestasDAO;
+import co.edu.unbosque.model.persistence.JuegoCasaDeApuestasDAO;
 import co.edu.unbosque.model.persistence.SedeCasaDeApuestasDAO;
 import co.edu.unbosque.view.*;
 
@@ -48,14 +48,20 @@ public class Controller implements ActionListener {
 	CasaDeApuestasDAO casaApuestaDao;
 	SedeCasaDeApuestasDAO sedeApuestaDao;
 	ApostadorDAO apostadorDAO;
+	JuegoCasaDeApuestasDAO juegoCasaApuestasDao;
 	Console con;
 
 	public Controller() {
 		gui = new UserGuidedInterface();
 		casaApuestaDao = new CasaDeApuestasDAO();
 		sedeApuestaDao = new SedeCasaDeApuestasDAO();
+		juegoCasaApuestasDao = new JuegoCasaDeApuestasDAO();
 		apostadorDAO = new ApostadorDAO();
 		con = new Console();
+	}
+
+	public boolean contieneSoloNumeros(String texto) {
+		return texto.matches("[0-9]+");
 	}
 
 //	public void agregarFondo(String rutaImagen) {
@@ -67,10 +73,22 @@ public class Controller implements ActionListener {
 //		ventanaPrincipal.revalidate();
 //	}
 
-	public Boolean comprobarNumero(String numero) {
+	public Boolean comprobarNumeroInt(String numero) {
 		Boolean confirmacion;
 		try {
 			int conversion = Integer.parseInt(numero);
+			return confirmacion = true;
+		} catch (NumberFormatException ex) {
+			return confirmacion = false;
+
+		}
+
+	}
+
+	public Boolean comprobarNumeroLong(String numero) {
+		Boolean confirmacion;
+		try {
+			long conversion = Long.parseLong(numero);
 			return confirmacion = true;
 		} catch (NumberFormatException ex) {
 			return confirmacion = false;
@@ -158,11 +176,15 @@ public class Controller implements ActionListener {
 		campoNumSedes = gui.crearFormulario(120, 200, 40, 20, true);
 		campoDinero = gui.crearFormulario(120, 120, 140, 20, true);
 		campoDireccion = gui.crearFormulario(120, 160, 140, 20, true);
-		listaCasa = new JList<Object>();
+		listaCasa = new JList<>();
 		modeloListaCasa = new DefaultListModel();
+		for (int i = 0; i < casaApuestaDao.getListOfHouses().size(); i++) {
+			modeloListaCasa.addElement(casaApuestaDao.getListOfHouses().get(i).getBookMarkerName());
+			modeloListaCasa.addElement(casaApuestaDao.getListOfHouses().get(i).getNumberOfLocations());
+			modeloListaCasa.addElement(casaApuestaDao.getListOfHouses().get(i).getTotalBudgetAvailable());
+		}
 		listaCasa.setBounds(40, 270, 200, 30);
 		listaCasa.setModel(modeloListaCasa);
-		ventanaCrearCasa.add(listaCasa);
 		ventanaCrearCasa.add(btnCancelarCasa);
 		ventanaCrearCasa.add(btnCrearCasa);
 		ventanaCrearCasa.add(textoCrearCasa);
@@ -175,6 +197,7 @@ public class Controller implements ActionListener {
 		ventanaCrearCasa.add(btnActualizarCasa);
 		ventanaCrearCasa.add(btnEliminarCasa);
 		ventanaCrearCasa.add(textoListaCasa);
+		ventanaCrearCasa.add(listaCasa);
 	}
 
 	public void ventanaGestionCliente() {
@@ -189,7 +212,7 @@ public class Controller implements ActionListener {
 		btnLeerCliente.addActionListener(this);
 		btnActualizarCliente = gui.crearBoton(180, 250, 140, 20, Color.orange, "Actualizar datos", false);
 		btnActualizarCliente.addActionListener(this);
-		btnCrearCliente = gui.crearBoton(20, 250, 140, 20, Color.green, "Gestion cliente", true);
+		btnCrearCliente = gui.crearBoton(20, 250, 140, 20, Color.green, "Crear cliente", true);
 		btnCrearCliente.setEnabled(false);
 		btnCancelarCliente = gui.crearBoton(20, 290, 140, 20, Color.red, "Cancelar", true);
 		btnCrearCliente.addActionListener(this);
@@ -346,13 +369,45 @@ public class Controller implements ActionListener {
 		if (e.getSource() == btnCrearJuego && betplay == true) {
 			String informacionNombreJuego = campoNombreJuego.getText();
 			String informacionPresupuestoJuego = campoPresupuestoJuego.getText();
-			String informacionTipoJuego = (String) comboTipoJuego.getSelectedItem();
+			String informacionSedeJuego = (String) comboTipoJuego.getSelectedItem();
+			String informacionBetPlay = "";
+			String informacionCasa = "";
+			String numSedes = "";
+			String presupuestoJuego = "";
+			String numEmpleado = "";
+			String tipoDeJuego = "BetPlay";
+			Boolean comprobarNumeros = comprobarNumeroLong(informacionPresupuestoJuego);
 
-			if (informacionTipoJuego.isEmpty() || informacionNombreJuego.isEmpty()
-					|| informacionPresupuestoJuego.isEmpty()) {
+			if (informacionNombreJuego.isEmpty() || informacionPresupuestoJuego.isEmpty()
+					|| informacionSedeJuego.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
+			} else if (comprobarNumeros == false) {
+				JOptionPane.showMessageDialog(null, "El campo de presupuesto solo acepta numeros estimado usuario");
+
 			} else {
 
+				boolean betPlay = false;
+
+				for (int i = 0; i < sedeApuestaDao.getListOfLocations().size(); i++) {
+					if (sedeApuestaDao.getListOfLocations().get(i).getAddress()
+							.equalsIgnoreCase(informacionSedeJuego)) {
+
+						informacionCasa = sedeApuestaDao.getListOfLocations().get(i).getBookMarkerName();
+						numSedes = sedeApuestaDao.getListOfLocations().get(i).getNumberOfLocations() + "";
+						presupuestoJuego = sedeApuestaDao.getListOfLocations().get(i).getTotalBudgetAvailable() + "";
+						numEmpleado = sedeApuestaDao.getListOfLocations().get(i).getNumberOfEmployees() + "";
+
+						juegoCasaApuestasDao.create(informacionCasa, numSedes, presupuestoJuego, informacionSedeJuego,
+								numEmpleado, tipoDeJuego, informacionNombreJuego, informacionPresupuestoJuego);
+						betPlay = true;
+						JOptionPane.showMessageDialog(null, "Juego  registrado exitosamente");
+						break;
+					}
+				}
+
+				if (!betPlay) {
+					JOptionPane.showMessageDialog(null, " juego no encontrada");
+				}
 			}
 
 		}
@@ -360,13 +415,45 @@ public class Controller implements ActionListener {
 		if (e.getSource() == btnCrearJuego && baloto == true) {
 			String informacionNombreJuego = campoNombreJuego.getText();
 			String informacionPresupuestoJuego = campoPresupuestoJuego.getText();
-			String informacionTipoJuego = (String) comboTipoJuego.getSelectedItem();
+			String informacionSedeJuego = (String) comboTipoJuego.getSelectedItem();
+			String informacionBaloto = "";
+			String informacionCasa = "";
+			String numSedes = "";
+			String presupuestoJuego = "";
+			String numEmpleado = "";
+			String tipoDeJuego = "Baloto";
+			Boolean comprobarNumeros = comprobarNumeroLong(informacionPresupuestoJuego);
 
-			if (informacionTipoJuego.isEmpty() || informacionNombreJuego.isEmpty()
-					|| informacionPresupuestoJuego.isEmpty()) {
+			if (informacionNombreJuego.isEmpty() || informacionPresupuestoJuego.isEmpty()
+					|| informacionSedeJuego.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
+			} else if (comprobarNumeros == false) {
+				JOptionPane.showMessageDialog(null, "El campo de presupuesto solo acepta numeros estimado usuario");
+
 			} else {
 
+				boolean baloto = false;
+
+				for (int i = 0; i < sedeApuestaDao.getListOfLocations().size(); i++) {
+					if (sedeApuestaDao.getListOfLocations().get(i).getAddress()
+							.equalsIgnoreCase(informacionSedeJuego)) {
+
+						informacionCasa = sedeApuestaDao.getListOfLocations().get(i).getBookMarkerName();
+						numSedes = sedeApuestaDao.getListOfLocations().get(i).getNumberOfLocations() + "";
+						presupuestoJuego = sedeApuestaDao.getListOfLocations().get(i).getTotalBudgetAvailable() + "";
+						numEmpleado = sedeApuestaDao.getListOfLocations().get(i).getNumberOfEmployees() + "";
+
+						juegoCasaApuestasDao.create(informacionCasa, numSedes, presupuestoJuego, informacionSedeJuego,
+								numEmpleado, tipoDeJuego, informacionNombreJuego, informacionPresupuestoJuego);
+						baloto = true;
+						JOptionPane.showMessageDialog(null, "Juego  registrado exitosamente");
+						break;
+					}
+				}
+
+				if (!baloto) {
+					JOptionPane.showMessageDialog(null, " juego no encontrada");
+				}
 			}
 
 		}
@@ -374,13 +461,45 @@ public class Controller implements ActionListener {
 		if (e.getSource() == btnCrearJuego && loteria == true) {
 			String informacionNombreJuego = campoNombreJuego.getText();
 			String informacionPresupuestoJuego = campoPresupuestoJuego.getText();
-			String informacionTipoJuego = (String) comboTipoJuego.getSelectedItem();
+			String informacionSedeJuego = (String) comboTipoJuego.getSelectedItem();
+			String informacionLoteria = "";
+			String informacionCasa = "";
+			String numSedes = "";
+			String presupuestoJuego = "";
+			String numEmpleado = "";
+			String tipoDeJuego = "Loteria";
+			Boolean comprobarNumeros = comprobarNumeroLong(informacionPresupuestoJuego);
 
-			if (informacionTipoJuego.isEmpty() || informacionNombreJuego.isEmpty()
-					|| informacionPresupuestoJuego.isEmpty()) {
+			if (informacionNombreJuego.isEmpty() || informacionPresupuestoJuego.isEmpty()
+					|| informacionSedeJuego.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
+			} else if (comprobarNumeros == false) {
+				JOptionPane.showMessageDialog(null, "El campo de presupuesto solo acepta numeros estimado usuario");
+
 			} else {
 
+				boolean loteria = false;
+
+				for (int i = 0; i < sedeApuestaDao.getListOfLocations().size(); i++) {
+					if (sedeApuestaDao.getListOfLocations().get(i).getAddress()
+							.equalsIgnoreCase(informacionSedeJuego)) {
+
+						informacionCasa = sedeApuestaDao.getListOfLocations().get(i).getBookMarkerName();
+						numSedes = sedeApuestaDao.getListOfLocations().get(i).getNumberOfLocations() + "";
+						presupuestoJuego = sedeApuestaDao.getListOfLocations().get(i).getTotalBudgetAvailable() + "";
+						numEmpleado = sedeApuestaDao.getListOfLocations().get(i).getNumberOfEmployees() + "";
+
+						juegoCasaApuestasDao.create(informacionCasa, numSedes, presupuestoJuego, informacionSedeJuego,
+								numEmpleado, tipoDeJuego, informacionNombreJuego, informacionPresupuestoJuego);
+						loteria = true;
+						JOptionPane.showMessageDialog(null, "Juego  registrado exitosamente");
+						break;
+					}
+				}
+
+				if (!loteria) {
+					JOptionPane.showMessageDialog(null, " juego no encontrada");
+				}
 			}
 
 		}
@@ -388,13 +507,45 @@ public class Controller implements ActionListener {
 		if (e.getSource() == btnCrearJuego && superastro == true) {
 			String informacionNombreJuego = campoNombreJuego.getText();
 			String informacionPresupuestoJuego = campoPresupuestoJuego.getText();
-			String informacionTipoJuego = (String) comboTipoJuego.getSelectedItem();
+			String informacionSedeJuego = (String) comboTipoJuego.getSelectedItem();
+			String informacionSuperAstro = "";
+			String informacionCasa = "";
+			String numSedes = "";
+			String presupuestoJuego = "";
+			String numEmpleado = "";
+			String tipoDeJuego = "Super Astro";
+			Boolean comprobarNumeros = comprobarNumeroLong(informacionPresupuestoJuego);
 
-			if (informacionTipoJuego.isEmpty() || informacionNombreJuego.isEmpty()
-					|| informacionPresupuestoJuego.isEmpty()) {
+			if (informacionNombreJuego.isEmpty() || informacionPresupuestoJuego.isEmpty()
+					|| informacionSedeJuego.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
+			} else if (comprobarNumeros == false) {
+				JOptionPane.showMessageDialog(null, "El campo de presupuesto solo acepta numeros estimado usuario");
+
 			} else {
 
+				boolean superAstro = false;
+
+				for (int i = 0; i < sedeApuestaDao.getListOfLocations().size(); i++) {
+					if (sedeApuestaDao.getListOfLocations().get(i).getAddress()
+							.equalsIgnoreCase(informacionSedeJuego)) {
+
+						informacionCasa = sedeApuestaDao.getListOfLocations().get(i).getBookMarkerName();
+						numSedes = sedeApuestaDao.getListOfLocations().get(i).getNumberOfLocations() + "";
+						presupuestoJuego = sedeApuestaDao.getListOfLocations().get(i).getTotalBudgetAvailable() + "";
+						numEmpleado = sedeApuestaDao.getListOfLocations().get(i).getNumberOfEmployees() + "";
+
+						juegoCasaApuestasDao.create(informacionCasa, numSedes, presupuestoJuego, informacionSedeJuego,
+								numEmpleado, tipoDeJuego, informacionNombreJuego, informacionPresupuestoJuego);
+						superAstro = true;
+						JOptionPane.showMessageDialog(null, "Juego  registrado exitosamente");
+						break;
+					}
+				}
+
+				if (!superAstro) {
+					JOptionPane.showMessageDialog(null, " juego no encontrada");
+				}
 			}
 
 		}
@@ -402,13 +553,45 @@ public class Controller implements ActionListener {
 		if (e.getSource() == btnCrearJuego && chance == true) {
 			String informacionNombreJuego = campoNombreJuego.getText();
 			String informacionPresupuestoJuego = campoPresupuestoJuego.getText();
-			String informacionTipoJuego = (String) comboTipoJuego.getSelectedItem();
+			String informacionSedeJuego = (String) comboTipoJuego.getSelectedItem();
+			String informacionSuperAstro = "";
+			String informacionCasa = "";
+			String numSedes = "";
+			String presupuestoJuego = "";
+			String numEmpleado = "";
+			String tipoDeJuego = "Chance";
+			Boolean comprobarNumeros = comprobarNumeroLong(informacionPresupuestoJuego);
 
-			if (informacionTipoJuego.isEmpty() || informacionNombreJuego.isEmpty()
-					|| informacionPresupuestoJuego.isEmpty()) {
+			if (informacionNombreJuego.isEmpty() || informacionPresupuestoJuego.isEmpty()
+					|| informacionSedeJuego.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
+			} else if (comprobarNumeros == false) {
+				JOptionPane.showMessageDialog(null, "El campo de presupuesto solo acepta numeros estimado usuario");
+
 			} else {
 
+				boolean superAstro = false;
+
+				for (int i = 0; i < sedeApuestaDao.getListOfLocations().size(); i++) {
+					if (sedeApuestaDao.getListOfLocations().get(i).getAddress()
+							.equalsIgnoreCase(informacionSedeJuego)) {
+
+						informacionCasa = sedeApuestaDao.getListOfLocations().get(i).getBookMarkerName();
+						numSedes = sedeApuestaDao.getListOfLocations().get(i).getNumberOfLocations() + "";
+						presupuestoJuego = sedeApuestaDao.getListOfLocations().get(i).getTotalBudgetAvailable() + "";
+						numEmpleado = sedeApuestaDao.getListOfLocations().get(i).getNumberOfEmployees() + "";
+
+						juegoCasaApuestasDao.create(informacionCasa, numSedes, presupuestoJuego, informacionSedeJuego,
+								numEmpleado, tipoDeJuego, informacionNombreJuego, informacionPresupuestoJuego);
+						superAstro = true;
+						JOptionPane.showMessageDialog(null, "Juego  registrado exitosamente");
+						break;
+					}
+				}
+
+				if (!superAstro) {
+					JOptionPane.showMessageDialog(null, " juego no encontrada");
+				}
 			}
 
 		}
@@ -495,10 +678,14 @@ public class Controller implements ActionListener {
 
 		if (e.getSource() == btnCrearCliente) {
 			String informacionNombre = campoNombres.getText();
-			String informacionTelefono = campoCelular.getText();
 			String informacionCedula = campoCedula.getText();
+			String informacionFecha = "";
+			String informacionCasa = "";
 			String informacionDireccionJuego = (String) comboDireccionJuego.getSelectedItem();
-			Boolean comprobarNumeros = comprobarNumero(informacionCedula) && comprobarNumero(informacionTelefono);
+			String informacionTelefono = campoCelular.getText();
+
+			Boolean comprobarNumeros = contieneSoloNumeros(informacionCedula)
+					&& contieneSoloNumeros(informacionTelefono);
 
 			if (informacionNombre.isEmpty() || informacionCedula.isEmpty() || informacionTelefono.isEmpty()
 					|| informacionDireccionJuego.isEmpty()) {
@@ -509,25 +696,38 @@ public class Controller implements ActionListener {
 
 			} else {
 
-				apostadorDAO.create(informacionNombre, informacionTelefono, informacionCedula,
-						informacionDireccionJuego);
-				JOptionPane.showMessageDialog(null, "¡Bienvenido a la casa de juegos! " + informacionNombre);
-				btnActualizarCliente.setVisible(true);
-				btnLeerCliente.setVisible(true);
-				btnEliminarCliente.setVisible(true);
+				boolean sedeEncontrada = false;
+
+				for (int i = 0; i < sedeApuestaDao.getListOfLocations().size(); i++) {
+					if (sedeApuestaDao.getListOfLocations().get(i).getAddress()
+							.equalsIgnoreCase(informacionDireccionJuego)) {
+
+						informacionCasa = sedeApuestaDao.getListOfLocations().get(i).getBookMarkerName();
+
+						apostadorDAO.create(informacionNombre, informacionCedula, informacionFecha, informacionCasa,
+								informacionDireccionJuego, informacionTelefono);
+						sedeEncontrada = true;
+						JOptionPane.showMessageDialog(null, "cliente registrado exitosamente");
+						break;
+					}
+				}
+
+				if (!sedeEncontrada) {
+					JOptionPane.showMessageDialog(null, "Sede de juegos no encontrada");
+				}
 			}
-			// INSTALA ACA EL MODELO MI CARNITA
-			// Y LOS PAPELES MANI?
-			// CUIDAO CON ESTE
 
 		}
 
 		if (e.getSource() == btnActualizarCliente) {
 			String informacionNombre = campoNombres.getText();
-			String informacionTelefono = campoCelular.getText();
 			String informacionCedula = campoCedula.getText();
+			String informacionFecha = "";
+			String informacionCasa = "";
 			String informacionDireccionJuego = (String) comboDireccionJuego.getSelectedItem();
-			Boolean comprobarNumeros = comprobarNumero(informacionCedula) && comprobarNumero(informacionTelefono);
+			String informacionTelefono = campoCelular.getText();
+			Boolean comprobarNumeros = contieneSoloNumeros(informacionCedula)
+					&& contieneSoloNumeros(informacionTelefono);
 
 			if (informacionNombre.isEmpty() || informacionCedula.isEmpty() || informacionTelefono.isEmpty()
 					|| informacionDireccionJuego.isEmpty()) {
@@ -538,25 +738,25 @@ public class Controller implements ActionListener {
 
 			} else {
 
-				boolean clienteEncontrado = false;
+				boolean sedeEncontrada = false;
+
 				for (int i = 0; i < apostadorDAO.getListOfGamblers().size(); i++) {
 					if (apostadorDAO.getListOfGamblers().get(i).getCompleteName().equalsIgnoreCase(informacionNombre)) {
-						casaApuestaDao.update(i, informacionNombre, informacionTelefono, informacionCedula);
-						clienteEncontrado = true;
-						JOptionPane.showMessageDialog(null, "Cliente actualizado exitosamente");
+
+						informacionCasa = sedeApuestaDao.getListOfLocations().get(i).getBookMarkerName();
+
+						apostadorDAO.update(i, informacionNombre, informacionCedula, informacionFecha, informacionCasa,
+								informacionDireccionJuego, informacionTelefono);
+						sedeEncontrada = true;
+						JOptionPane.showMessageDialog(null, "cliente actualizado exitosamente");
 						break;
 					}
 				}
 
-				JOptionPane.showMessageDialog(null, "¡Bienvenido a la casa de juegos! " + informacionNombre);
-				btnActualizarCliente.setVisible(true);
-				btnLeerCliente.setVisible(true);
-				btnEliminarCliente.setVisible(true);
+				if (!sedeEncontrada) {
+					JOptionPane.showMessageDialog(null, "Cliente no encontrado");
+				}
 			}
-			// INSTALA ACA EL MODELO MI CARNITA
-			// Y LOS PAPELES MANI?
-			// CUIDAO CON ESTE
-
 		}
 
 		if (e.getSource() == btnEliminarCliente) {
@@ -589,7 +789,8 @@ public class Controller implements ActionListener {
 			String informacionDireccionCasa = campoDireccion.getText();
 			String informacionDinero = campoDinero.getText();
 			String informacionSedes = campoNumSedes.getText();
-			Boolean comprobarCamposNumericos = comprobarNumero(informacionDinero) && comprobarNumero(informacionSedes);
+			Boolean comprobarCamposNumericos = comprobarNumeroLong(informacionDinero)
+					&& comprobarNumeroInt(informacionSedes);
 
 			if (informacionDireccionCasa.isEmpty() || informacionDinero.isEmpty() || informacionSedes.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
@@ -634,7 +835,8 @@ public class Controller implements ActionListener {
 			String informacionNombreCasaApuesta = campoDireccion.getText();
 			String informacionDinero = campoDinero.getText();
 			String informacionSedes = campoNumSedes.getText();
-			Boolean comprobarCamposNumericos = comprobarNumero(informacionDinero) && comprobarNumero(informacionSedes);
+			Boolean comprobarCamposNumericos = comprobarNumeroLong(informacionDinero)
+					&& comprobarNumeroInt(informacionSedes);
 
 			if (informacionNombreCasaApuesta.isEmpty() || informacionDinero.isEmpty() || informacionSedes.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
@@ -659,18 +861,15 @@ public class Controller implements ActionListener {
 					JOptionPane.showMessageDialog(null, "No se ha encontrado la casa de juegos especificada");
 				}
 			}
-
-			// INSTALA ACA EL MODELO MI CARNITA
-		} // ACA DIEGO NO ESTA, APROVECHA
+		}
 
 		if (e.getSource() == btnCrearSede) {
-
 			String informacionCasa = (String) comboDireccionSede.getSelectedItem();
 			String informacionNumeroLocaciones = "";
 			String informacionPresupuesto = "";
 			String informacionDireccion = campoNombreSede.getText();
 			String informacionEmpleados = campoEmpleados.getText();
-			Boolean comprobarEmpleados = comprobarNumero(informacionEmpleados);
+			Boolean comprobarEmpleados = comprobarNumeroInt(informacionEmpleados);
 
 			if (informacionDireccion.isEmpty() || informacionEmpleados.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
@@ -697,8 +896,6 @@ public class Controller implements ActionListener {
 					JOptionPane.showMessageDialog(null, "No se ha encontrado la casa de juegos especificada");
 				}
 			}
-			// INSTALA ACA EL MODELO MI CARNITA
-			// INVOCA A HOYOS PARA ATACAR A DIEGO
 
 		}
 
@@ -708,7 +905,7 @@ public class Controller implements ActionListener {
 			String informacionPresupuesto = "";
 			String informacionDireccion = campoNombreSede.getText();
 			String informacionEmpleados = campoEmpleados.getText();
-			Boolean comprobarEmpleados = comprobarNumero(informacionEmpleados);
+			Boolean comprobarEmpleados = comprobarNumeroInt(informacionEmpleados);
 
 			if (informacionDireccion.isEmpty() || informacionEmpleados.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
@@ -737,6 +934,9 @@ public class Controller implements ActionListener {
 					JOptionPane.showMessageDialog(null, "No se ha encontrado la casa de juegos especificada");
 				}
 			}
+
 		}
+
 	}
+
 }

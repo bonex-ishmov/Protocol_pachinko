@@ -37,11 +37,11 @@ public class ApostadorDAO implements CRUDOperation {
 	public void create(String... args) {
 		ApostadorDTO gamblers = new ApostadorDTO();
 		gamblers.setCompleteName(args[0]);
-		gamblers.setIdentification(Long.parseLong(args[1]));
+		gamblers.setIdentification(args[1]);
 		gamblers.setBirthDate(args[2]);
 		gamblers.setBookmakerHeadquarters(args[3]);
 		gamblers.setAddressOfThePerson(args[4]);
-		gamblers.setPhoneNumber(Long.parseLong(args[5]));
+		gamblers.setPhoneNumber(args[5]);
 		listOfGamblers.add(gamblers);
 		writeDataSerializable();
 	}
@@ -72,7 +72,7 @@ public class ApostadorDAO implements CRUDOperation {
 				listOfGamblers.get(index).setCompleteName(args[0]);
 			}
 			if (!args[1].isBlank() || !args[1].isEmpty() || args[1] != null) {
-				listOfGamblers.get(index).setIdentification(Long.parseLong(args[1]));
+				listOfGamblers.get(index).setIdentification(args[1]);
 			}
 			if (!args[2].isBlank() || !args[2].isEmpty() || args[2] != null) {
 				listOfGamblers.get(index).setBirthDate(args[2]);
@@ -84,7 +84,7 @@ public class ApostadorDAO implements CRUDOperation {
 				listOfGamblers.get(index).setAddressOfThePerson(args[4]);
 			}
 			if (!args[5].isBlank() || !args[5].isEmpty() || args[5] != null) {
-				listOfGamblers.get(index).setPhoneNumber(Long.parseLong(args[5]));
+				listOfGamblers.get(index).setPhoneNumber(args[5]);
 			}
 		}
 		writeDataSerializable();
