@@ -537,6 +537,28 @@ public class Controller implements ActionListener {
 		}
 
 		if (e.getSource() == btnEliminarCliente) {
+			
+			String informacionCliente = campoNombres.getText();
+			if (informacionCliente.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Debe llenar el nombre del cliente, estimado usuario");
+			} else {
+				boolean clienteEncontrado = false;
+
+				for (int i = 0; i < ApostadorDao.getListOfGamblers().size(); i++) {
+					if (informacionCliente
+							.equalsIgnoreCase(ApostadorDao.getListOfGamblers().get(i).getCompleteName())) {
+						ApostadorDao.delete(i);
+						JOptionPane.showMessageDialog(null, "Cliente eliminado exitosamente");
+						clienteEncontrado = true;
+						break;
+					}
+				}
+
+				if (!clienteEncontrado) {
+					JOptionPane.showMessageDialog(null, "Cliente no encontrado no encontrada");
+					casaApuestaDao.delete(0);
+				}
+			}
 
 		}
 
