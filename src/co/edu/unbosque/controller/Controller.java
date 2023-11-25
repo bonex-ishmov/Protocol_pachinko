@@ -94,9 +94,8 @@ public class Controller implements ActionListener {
 	public void ventanaGestionCasa() {
 		textoListaCasa = gui.crearTexto(60, 240, 160, 20, "Informacion de la casa", true);
 		ventanaCrearCasa = gui.crearVentana(300, 500, "Gestion casa", true);
-		btnActualizarCasa = gui.crearBoton(20, 350, 120, 25, Color.blue, "Actualizar", true);
-		btnEliminarCasa = gui.crearBoton(150, 350, 120, 25, Color.orange, "Eliminar", true);
-		btnEliminarCasa.addActionListener(this);
+		btnActualizarCasa = gui.crearBoton(20, 350, 120, 25, Color.blue, "Actualizar", false);
+		btnEliminarCasa = gui.crearBoton(150, 350, 120, 25, Color.orange, "Eliminar", false);
 		btnActualizarCasa.addActionListener(this);
 		btnCrearCasa = gui.crearBoton(20, 400, 120, 25, Color.GREEN, "Crear casa", true);
 		btnCrearCasa.addActionListener(this);
@@ -283,6 +282,26 @@ public class Controller implements ActionListener {
 
 		}
 
+		if (e.getSource() == btnBetplay) {
+			ventanaRegistroBetplay();
+		}
+
+		if (e.getSource() == btnLoteria) {
+
+		}
+
+		if (e.getSource() == btnBaloto) {
+
+		}
+
+		if (e.getSource() == btnSuperastro) {
+
+		}
+
+		if (e.getSource() == btnChance) {
+
+		}
+
 		if (e.getSource() == btnRegistrarUsuario) {
 			ventanaGestionCliente();
 		}
@@ -384,7 +403,29 @@ public class Controller implements ActionListener {
 						"Los campos cantidad de dinero y numero de sedes solo acepta numeros  estimado usuario");
 
 			} else {
+
 				casaApuestaDao.create(informacionNombreCasaApuesta, informacionDinero, informacionSedes);
+				JOptionPane.showMessageDialog(null, "Casa de juegos creada exitosamente ");
+				btnActualizarCasa.setVisible(true);
+				btnEliminarCasa.setVisible(true);
+				// INSTALA ACA EL MODELO MI CARNITA
+			} // ACA DIEGO NO ESTA, APROVECHA
+
+		}
+
+		if (e.getSource() == btnEliminarCasa) {
+			String informacionDireccionCasa = campoDireccion.getText();
+			String informacionDinero = campoDinero.getText();
+			String informacionSedes = campoNumSedes.getText();
+			Boolean comprobarCamposNumericos = comprobarNumero(informacionDinero) && comprobarNumero(informacionSedes);
+
+			if (informacionDireccionCasa.isEmpty() || informacionDinero.isEmpty() || informacionSedes.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
+			} else if (comprobarCamposNumericos == false) {
+				JOptionPane.showMessageDialog(null,
+						"Los campos cantidad de dinero y numero de sedes solo acepta numeros  estimado usuario");
+
+			} else {
 				JOptionPane.showMessageDialog(null, "Casa de juegos creada exitosamente ");
 
 			}
@@ -447,6 +488,29 @@ public class Controller implements ActionListener {
 					JOptionPane.showMessageDialog(null, "No se ha encontrado la casa de juegos especificada");
 				}
 			}
+
+			// INSTALA ACA EL MODELO MI CARNITA
+		} // ACA DIEGO NO ESTA, APROVECHA
+
+		if (e.getSource() == btnActualizarCasa)
+
+		{
+			String informacionDireccionCasa = campoDireccion.getText();
+			String informacionDinero = campoDinero.getText();
+			String informacionSedes = campoNumSedes.getText();
+			Boolean comprobarCamposNumericos = comprobarNumero(informacionDinero) && comprobarNumero(informacionSedes);
+
+			if (informacionDireccionCasa.isEmpty() || informacionDinero.isEmpty() || informacionSedes.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
+			} else if (comprobarCamposNumericos == false) {
+				JOptionPane.showMessageDialog(null,
+						"Los campos cantidad de dinero y numero de sedes solo acepta numeros  estimado usuario");
+
+			} else {
+				JOptionPane.showMessageDialog(null, "Casa de juegos creada exitosamente ");
+
+				// INSTALA ACA EL MODELO MI CARNITA
+			} // ACA DIEGO NO ESTA, APROVECHA
 
 		}
 
