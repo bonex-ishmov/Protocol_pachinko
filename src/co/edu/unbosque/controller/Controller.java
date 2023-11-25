@@ -3,6 +3,7 @@ package co.edu.unbosque.controller;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.DefaultListModel;
@@ -14,9 +15,8 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-
-import co.edu.unbosque.model.CasaDeApuestasDTO;
 import co.edu.unbosque.model.persistence.CasaDeApuestasDAO;
+import co.edu.unbosque.model.persistence.SedeCasaDeApuestasDAO;
 import co.edu.unbosque.view.*;
 
 public class Controller implements ActionListener {
@@ -25,27 +25,32 @@ public class Controller implements ActionListener {
 
 	JFrame ventanaPrincipal, ventanaCrearCasa, ventanaRegistrarCliente, ventanaGestionSedes, ventanaJuegos,
 			ventanaGestionJuego, ventanaGestionApuestas;
-	JButton btnCrearCasaApuestas, btnRegistrarUsuario, btnSedes, btnJuegos, btnCrearCasa, btnCancelarCasa, btnGestionApuestas,
-			btnCrearCliente, btnCancelarCliente, btnCrearSede, btnCancelarSede, btnActualizarCasa, btnEliminarCasa,
-			btnActualizarSede, btnActualizarCliente, btnLeerCliente, btnEliminarCliente, btnBetplay, btnLoteria,
-			btnSuperastro, btnChance, btnBaloto, btnApostar, btnCrearJuego, btnCancelarJuego, btnChanceApuesta ,btnBalotoApuesta,btnSuperastroApuesta,btnLoteriaApuesta,btnBetplayApuesta,btnApostarApuesta;
+	JButton btnCrearCasaApuestas, btnRegistrarUsuario, btnSedes, btnJuegos, btnCrearCasa, btnCancelarCasa,
+			btnGestionApuestas, btnCrearCliente, btnCancelarCliente, btnCrearSede, btnCancelarSede, btnActualizarCasa,
+			btnEliminarCasa, btnActualizarSede, btnActualizarCliente, btnLeerCliente, btnEliminarCliente, btnBetplay,
+			btnLoteria, btnSuperastro, btnChance, btnBaloto, btnApostar, btnCrearJuego, btnCancelarJuego,
+			btnChanceApuesta, btnBalotoApuesta, btnSuperastroApuesta, btnLoteriaApuesta, btnBetplayApuesta,
+			btnApostarApuesta;
 	JLabel textoBienvenida, textoCrearCasa, textoNombreCasa, textoSedes, textoDireccion, textoDinero, textoNombres,
 			textoApostadorTitulo, textoTelefono, textoCedula, textoDireccionJuego, textoGestionSedes, textoNombreSede,
 			textoEmpleadosSede, textoListaClientes, textoListaCasa, textoNombreJuego, textoTipoJuego,
 			textoPresupuestoJuego, textoTituloJuego, textoInformacionJuego;
-	JTextField campoNumSedes, campoDinero, campoDireccion, campoNombres, campoCedula, campoCelular,
-			campoEmpleados, campoNombreSede, campoNombreJuego, campoPresupuestoJuego;
+	JTextField campoNumSedes, campoDinero, campoDireccion, campoNombres, campoCedula, campoCelular, campoEmpleados,
+			campoNombreSede, campoNombreJuego, campoPresupuestoJuego;
 	JRadioButton consentimiento;
 	JList listadoSedes, listadoClientes, listaCasa, listaInformacion, listadoJuego;
 	DefaultListModel modeloLista, modeloListaClientes, modeloListaCasa, modeloListaInformacion, modeloListaJuego;
 	JComboBox diasSemana, tipoJuego, comboTipoJuego, comboSede, comboDireccionJuego;
 	boolean baloto, betplay, loteria, chance, superastro;
+
 	CasaDeApuestasDAO casaApuestaDao;
+	SedeCasaDeApuestasDAO sedeApuestaDao;
 	Console con;
 
 	public Controller() {
 		gui = new UserGuidedInterface();
 		casaApuestaDao = new CasaDeApuestasDAO();
+		sedeApuestaDao = new SedeCasaDeApuestasDAO();
 		con = new Console();
 	}
 
@@ -70,27 +75,19 @@ public class Controller implements ActionListener {
 
 	}
 
-	public void ventanaPrincipal() {
-		ventanaPrincipal = gui.crearVentana(500, 400, "Gestion casa de juegos", true);
-		btnCrearCasaApuestas = gui.crearBoton(20, 100, 160, 25, Color.cyan, "Gestion Casa", true);
-		btnRegistrarUsuario = gui.crearBoton(20, 150, 160, 25, Color.yellow, "Gestion Cliente", true);
-		btnSedes = gui.crearBoton(20, 250, 160, 25, Color.GRAY, "Gestion sedes", true);
-		btnJuegos = gui.crearBoton(20, 200, 160, 25, Color.RED, "Gestion Apuestas", true);
-		btnCrearCasaApuestas.addActionListener(this);
-		btnSedes.addActionListener(this);
-		btnJuegos.addActionListener(this);
-		btnRegistrarUsuario.addActionListener(this);
-		listaInformacion = new JList<Object>();
-		modeloListaInformacion = new DefaultListModel();
-		listaInformacion.setBounds(220, 100, 230, 200);
-		listaInformacion.setModel(modeloListaInformacion);
-		ventanaPrincipal.add(listaInformacion);
-		textoBienvenida = gui.crearTexto(20, 50, 190, 30, "Gestion Casa de Juegos", true);
-		ventanaPrincipal.add(btnCrearCasaApuestas);
-		ventanaPrincipal.add(textoBienvenida);
-		ventanaPrincipal.add(btnRegistrarUsuario);
-		ventanaPrincipal.add(btnSedes);
-		ventanaPrincipal.add(btnJuegos);
+	public String[] obtenerDirreciones() {
+
+		if (sedeApuestaDao.getListOfLocations() == null || sedeApuestaDao.getListOfLocations().isEmpty()) {
+			return new String[0];
+		}
+
+		String[] direcciones = new String[sedeApuestaDao.getListOfLocations().size()];
+
+		for (int i = 0; i < sedeApuestaDao.getListOfLocations().size(); i++) {
+			direcciones[i] = sedeApuestaDao.getListOfLocations().get(i).getAddress();
+		}
+
+		return direcciones;
 	}
 
 	public void ventanaPrincipal() {
@@ -184,8 +181,8 @@ public class Controller implements ActionListener {
 		textoTelefono = gui.crearTexto(20, 110, 140, 20, "Telefono personal", true);
 		campoCelular = gui.crearFormulario(170, 110, 140, 20, true);
 		campoCedula = gui.crearFormulario(170, 150, 140, 20, true);
-		String[] sede = {""};
-		 comboDireccionJuego = gui.createComboBox(sede,170 , 190, 140, 20);
+		String[] sede = obtenerDirreciones();
+		comboDireccionJuego = gui.createComboBox(sede, 170, 190, 140, 20);
 		textoCedula = gui.crearTexto(20, 150, 140, 20, "Cedula mayor de edad", true);
 		textoDireccionJuego = gui.crearTexto(20, 190, 140, 20, "Sede en la que juega", true);
 		listadoClientes = new JList<Object>();
@@ -214,19 +211,19 @@ public class Controller implements ActionListener {
 
 	public void ventanaRegistroJuego() {
 		textoInformacionJuego = gui.crearTexto(330, 10, 120, 30, "Informacion", true);
-		textoTituloJuego = gui.crearTexto(20, 20, 120, 20, "Gestion Betplay", true);
+		textoTituloJuego = gui.crearTexto(20, 20, 120, 20, "Gestion del juego", true);
 		ventanaGestionJuego = gui.crearVentana(500, 300, "Gestion del juego", true);
 		textoNombreJuego = gui.crearTexto(20, 80, 120, 20, "Nombre del juego", true);
 		campoNombreJuego = gui.crearFormulario(150, 80, 120, 20, true);
 		textoPresupuestoJuego = gui.crearTexto(20, 120, 120, 20, "Presupuesto", true);
-		textoTipoJuego = gui.crearTexto(20, 160, 120, 20, "Tipo de juego", true);
+		textoTipoJuego = gui.crearTexto(20, 160, 120, 20, "Sede donde se juega", true);
 		campoPresupuestoJuego = gui.crearFormulario(150, 120, 120, 20, true);
-		String[] tipoJuego = { "Deportivo", "Loteria", "Chance" };
+		String[] sede = obtenerDirreciones();
 		btnCrearJuego = gui.crearBoton(40, 200, 100, 20, Color.green, "Gestionar", true);
 		btnCrearJuego.addActionListener(this);
 		btnCancelarJuego = gui.crearBoton(180, 200, 100, 20, Color.red, "Cancelar", true);
 		btnCancelarJuego.addActionListener(this);
-		comboTipoJuego = gui.createComboBox(tipoJuego, 150, 160, 120, 20);
+		comboTipoJuego = gui.createComboBox(sede, 150, 160, 120, 20);
 		listadoJuego = new JList<Object>();
 		modeloListaJuego = new DefaultListModel();
 		listadoJuego.setBounds(300, 40, 150, 200);
@@ -244,8 +241,6 @@ public class Controller implements ActionListener {
 		ventanaGestionJuego.add(textoInformacionJuego);
 	}
 
-
-	
 	public void ventanaGestionJuegos() {
 		ventanaJuegos = gui.crearVentana(600, 400, "Apuestas y juegos", true);
 		btnChance = gui.crearBoton(60, 60, 80, 80, Color.red, "Chance", true);
@@ -268,7 +263,7 @@ public class Controller implements ActionListener {
 		ventanaJuegos.add(btnBetplay);
 		ventanaJuegos.add(btnApostar);
 	}
-	
+
 	public void ventanaGestionApuestas() {
 		ventanaGestionApuestas = gui.crearVentana(600, 400, "Apuestas ", true);
 		btnChanceApuesta = gui.crearBoton(60, 60, 80, 80, Color.red, "Chance", true);
@@ -324,73 +319,76 @@ public class Controller implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-public void actionPerformed(ActionEvent e) {
-
 		if (e.getSource() == btnCrearJuego && betplay == true) {
 			String informacionNombreJuego = campoNombreJuego.getText();
 			String informacionPresupuestoJuego = campoPresupuestoJuego.getText();
 			String informacionTipoJuego = (String) comboTipoJuego.getSelectedItem();
-			
-			if(informacionTipoJuego.isEmpty() || informacionNombreJuego.isEmpty() || informacionPresupuestoJuego.isEmpty()) {
+
+			if (informacionTipoJuego.isEmpty() || informacionNombreJuego.isEmpty()
+					|| informacionPresupuestoJuego.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
-			}else {
-				
+			} else {
+
 			}
-			
+
 		}
-		
+
 		if (e.getSource() == btnCrearJuego && baloto == true) {
 			String informacionNombreJuego = campoNombreJuego.getText();
 			String informacionPresupuestoJuego = campoPresupuestoJuego.getText();
 			String informacionTipoJuego = (String) comboTipoJuego.getSelectedItem();
-			
-			if(informacionTipoJuego.isEmpty() || informacionNombreJuego.isEmpty() || informacionPresupuestoJuego.isEmpty()) {
+
+			if (informacionTipoJuego.isEmpty() || informacionNombreJuego.isEmpty()
+					|| informacionPresupuestoJuego.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
-			}else {
-				
+			} else {
+
 			}
-			
+
 		}
-		
+
 		if (e.getSource() == btnCrearJuego && loteria == true) {
 			String informacionNombreJuego = campoNombreJuego.getText();
 			String informacionPresupuestoJuego = campoPresupuestoJuego.getText();
 			String informacionTipoJuego = (String) comboTipoJuego.getSelectedItem();
-			
-			if(informacionTipoJuego.isEmpty() || informacionNombreJuego.isEmpty() || informacionPresupuestoJuego.isEmpty()) {
+
+			if (informacionTipoJuego.isEmpty() || informacionNombreJuego.isEmpty()
+					|| informacionPresupuestoJuego.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
-			}else {
-				
+			} else {
+
 			}
-			
+
 		}
-		
+
 		if (e.getSource() == btnCrearJuego && superastro == true) {
 			String informacionNombreJuego = campoNombreJuego.getText();
 			String informacionPresupuestoJuego = campoPresupuestoJuego.getText();
 			String informacionTipoJuego = (String) comboTipoJuego.getSelectedItem();
-			
-			if(informacionTipoJuego.isEmpty() || informacionNombreJuego.isEmpty() || informacionPresupuestoJuego.isEmpty()) {
+
+			if (informacionTipoJuego.isEmpty() || informacionNombreJuego.isEmpty()
+					|| informacionPresupuestoJuego.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
-			}else {
-				
+			} else {
+
 			}
-			
+
 		}
-		
+
 		if (e.getSource() == btnCrearJuego && chance == true) {
 			String informacionNombreJuego = campoNombreJuego.getText();
 			String informacionPresupuestoJuego = campoPresupuestoJuego.getText();
 			String informacionTipoJuego = (String) comboTipoJuego.getSelectedItem();
-			
-			if(informacionTipoJuego.isEmpty() || informacionNombreJuego.isEmpty() || informacionPresupuestoJuego.isEmpty()) {
+
+			if (informacionTipoJuego.isEmpty() || informacionNombreJuego.isEmpty()
+					|| informacionPresupuestoJuego.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
-			}else {
-				
+			} else {
+
 			}
-			
+
 		}
-		
+
 		if (e.getSource() == consentimiento) {
 			btnCrearCliente.setEnabled(true);
 		}
@@ -431,7 +429,7 @@ public void actionPerformed(ActionEvent e) {
 				loteria = false;
 				chance = false;
 				superastro = false;
-				
+
 			}
 		}
 
@@ -450,8 +448,8 @@ public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnJuegos) {
 			ventanaGestionJuegos();
 		}
-		
-		if(e.getSource() == btnGestionApuestas) {
+
+		if (e.getSource() == btnGestionApuestas) {
 			ventanaGestionApuestas();
 		}
 
