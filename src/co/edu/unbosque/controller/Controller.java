@@ -578,7 +578,7 @@ public class Controller implements ActionListener {
 
 				boolean sedeEncontrada = false;
 
-				for (int i = 0; i < sedeApuestaDao.getListOfLocations().size(); i++) {
+				for (int i = 0; i < apostadorDAO.getListOfGamblers().size(); i++) {
 					if (apostadorDAO.getListOfGamblers().get(i).getCompleteName().equalsIgnoreCase(informacionNombre)) {
 
 						informacionCasa = sedeApuestaDao.getListOfLocations().get(i).getBookMarkerName();
