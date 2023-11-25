@@ -345,12 +345,37 @@ public class Controller implements ActionListener {
 			String informacionNombreJuego = campoNombreJuego.getText();
 			String informacionPresupuestoJuego = campoPresupuestoJuego.getText();
 			String informacionTipoJuego = (String) comboTipoJuego.getSelectedItem();
+			String informacionBetPlay ="";
+			
+			
+			Boolean comprobarNumeros = comprobarNumero(informacionPresupuestoJuego);
 
-			if (informacionTipoJuego.isEmpty() || informacionNombreJuego.isEmpty()
-					|| informacionPresupuestoJuego.isEmpty()) {
+			if (informacionNombreJuego.isEmpty() || informacionPresupuestoJuego.isEmpty() || informacionTipoJuego.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
+			} else if (comprobarNumeros == false) {
+				JOptionPane.showMessageDialog(null,
+						"Los campos cedula y telefono solo acepta numeros estimado usuario");
+
 			} else {
 
+				boolean betPlay = false;
+
+				for (int i = 0; i < ApuestaBetPlayDao.getListOfBets().size(); i++) {
+					if (sedeApuestaDao.getListOfLocations().get(i).getAddress()
+							.equalsIgnoreCase(informacionPresupuestoJuego)) {
+
+						informacionBetPlay = ApuestaBetPlayDao.getListOfBets().get(i).getBookmakerOffice();
+
+						ApuestaBetPlayDao.create(informacionNombreJuego, informacionPresupuestoJuego,  informacionTipoJuego);
+						betPlay = true;
+						JOptionPane.showMessageDialog(null, "Juego  registrado exitosamente");
+						break;
+					}
+				}
+
+				if (!betPlay) {
+					JOptionPane.showMessageDialog(null, " juego no encontrada");
+				}
 			}
 
 		}
