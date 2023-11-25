@@ -392,13 +392,45 @@ public class Controller implements ActionListener {
 		if (e.getSource() == btnCrearJuego && baloto == true) {
 			String informacionNombreJuego = campoNombreJuego.getText();
 			String informacionPresupuestoJuego = campoPresupuestoJuego.getText();
-			String informacionTipoJuego = (String) comboTipoJuego.getSelectedItem();
+			String informacionSedeJuego = (String) comboTipoJuego.getSelectedItem();
+			String informacionBaloto = "";
+			String informacionCasa = "";
+			String numSedes = "";
+			String presupuestoJuego = "";
+			String numEmpleado = "";
+			String tipoDeJuego = "Baloto";
+			Boolean comprobarNumeros = comprobarNumero(informacionPresupuestoJuego);
 
-			if (informacionTipoJuego.isEmpty() || informacionNombreJuego.isEmpty()
-					|| informacionPresupuestoJuego.isEmpty()) {
+			if (informacionNombreJuego.isEmpty() || informacionPresupuestoJuego.isEmpty()
+					|| informacionSedeJuego.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
+			} else if (comprobarNumeros == false) {
+				JOptionPane.showMessageDialog(null, "El campo de presupuesto solo acepta numeros estimado usuario");
+
 			} else {
 
+				boolean baloto = false;
+
+				for (int i = 0; i < sedeApuestaDao.getListOfLocations().size(); i++) {
+					if (sedeApuestaDao.getListOfLocations().get(i).getAddress()
+							.equalsIgnoreCase(informacionSedeJuego)) {
+
+						informacionCasa = sedeApuestaDao.getListOfLocations().get(i).getBookMarkerName();
+						numSedes = sedeApuestaDao.getListOfLocations().get(i).getNumberOfLocations() + "";
+						presupuestoJuego = sedeApuestaDao.getListOfLocations().get(i).getTotalBudgetAvailable() + "";
+						numEmpleado = sedeApuestaDao.getListOfLocations().get(i).getNumberOfEmployees() + "";
+
+						juegoCasaApuestasDao.create(informacionCasa, numSedes, presupuestoJuego, informacionSedeJuego,
+								numEmpleado, tipoDeJuego, informacionNombreJuego, informacionPresupuestoJuego);
+						baloto = true;
+						JOptionPane.showMessageDialog(null, "Juego  registrado exitosamente");
+						break;
+					}
+				}
+
+				if (!baloto) {
+					JOptionPane.showMessageDialog(null, " juego no encontrada");
+				}
 			}
 
 		}
@@ -406,27 +438,91 @@ public class Controller implements ActionListener {
 		if (e.getSource() == btnCrearJuego && loteria == true) {
 			String informacionNombreJuego = campoNombreJuego.getText();
 			String informacionPresupuestoJuego = campoPresupuestoJuego.getText();
-			String informacionTipoJuego = (String) comboTipoJuego.getSelectedItem();
+			String informacionSedeJuego = (String) comboTipoJuego.getSelectedItem();
+			String informacionLoteria = "";
+			String informacionCasa = "";
+			String numSedes = "";
+			String presupuestoJuego = "";
+			String numEmpleado = "";
+			String tipoDeJuego = "Loteria";
+			Boolean comprobarNumeros = comprobarNumero(informacionPresupuestoJuego);
 
-			if (informacionTipoJuego.isEmpty() || informacionNombreJuego.isEmpty()
-					|| informacionPresupuestoJuego.isEmpty()) {
+			if (informacionNombreJuego.isEmpty() || informacionPresupuestoJuego.isEmpty()
+					|| informacionSedeJuego.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
+			} else if (comprobarNumeros == false) {
+				JOptionPane.showMessageDialog(null, "El campo de presupuesto solo acepta numeros estimado usuario");
+
 			} else {
 
+				boolean loteria = false;
+
+				for (int i = 0; i < sedeApuestaDao.getListOfLocations().size(); i++) {
+					if (sedeApuestaDao.getListOfLocations().get(i).getAddress()
+							.equalsIgnoreCase(informacionSedeJuego)) {
+
+						informacionCasa = sedeApuestaDao.getListOfLocations().get(i).getBookMarkerName();
+						numSedes = sedeApuestaDao.getListOfLocations().get(i).getNumberOfLocations() + "";
+						presupuestoJuego = sedeApuestaDao.getListOfLocations().get(i).getTotalBudgetAvailable() + "";
+						numEmpleado = sedeApuestaDao.getListOfLocations().get(i).getNumberOfEmployees() + "";
+
+						juegoCasaApuestasDao.create(informacionCasa, numSedes, presupuestoJuego, informacionSedeJuego,
+								numEmpleado, tipoDeJuego, informacionNombreJuego, informacionPresupuestoJuego);
+						loteria = true;
+						JOptionPane.showMessageDialog(null, "Juego  registrado exitosamente");
+						break;
+					}
+				}
+
+				if (!loteria) {
+					JOptionPane.showMessageDialog(null, " juego no encontrada");
+				}
 			}
 
 		}
 
 		if (e.getSource() == btnCrearJuego && superastro == true) {
-			String informacionNombreJuego = campoNombreJuego.getText();
+String informacionNombreJuego = campoNombreJuego.getText();
 			String informacionPresupuestoJuego = campoPresupuestoJuego.getText();
-			String informacionTipoJuego = (String) comboTipoJuego.getSelectedItem();
+			String informacionSedeJuego = (String) comboTipoJuego.getSelectedItem();
+			String informacionSuperAstro = "";
+			String informacionCasa = "";
+			String numSedes = "";
+			String presupuestoJuego = "";
+			String numEmpleado = "";
+			String tipoDeJuego = "Super Astro";
+			Boolean comprobarNumeros = comprobarNumero(informacionPresupuestoJuego);
 
-			if (informacionTipoJuego.isEmpty() || informacionNombreJuego.isEmpty()
-					|| informacionPresupuestoJuego.isEmpty()) {
+			if (informacionNombreJuego.isEmpty() || informacionPresupuestoJuego.isEmpty()
+					|| informacionSedeJuego.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
+			} else if (comprobarNumeros == false) {
+				JOptionPane.showMessageDialog(null, "El campo de presupuesto solo acepta numeros estimado usuario");
+
 			} else {
 
+				boolean superAstro = false;
+
+				for (int i = 0; i < sedeApuestaDao.getListOfLocations().size(); i++) {
+					if (sedeApuestaDao.getListOfLocations().get(i).getAddress()
+							.equalsIgnoreCase(informacionSedeJuego)) {
+
+						informacionCasa = sedeApuestaDao.getListOfLocations().get(i).getBookMarkerName();
+						numSedes = sedeApuestaDao.getListOfLocations().get(i).getNumberOfLocations() + "";
+						presupuestoJuego = sedeApuestaDao.getListOfLocations().get(i).getTotalBudgetAvailable() + "";
+						numEmpleado = sedeApuestaDao.getListOfLocations().get(i).getNumberOfEmployees() + "";
+
+						juegoCasaApuestasDao.create(informacionCasa, numSedes, presupuestoJuego, informacionSedeJuego,
+								numEmpleado, tipoDeJuego, informacionNombreJuego, informacionPresupuestoJuego);
+						superAstro = true;
+						JOptionPane.showMessageDialog(null, "Juego  registrado exitosamente");
+						break;
+					}
+				}
+
+				if (!superAstro) {
+					JOptionPane.showMessageDialog(null, " juego no encontrada");
+				}
 			}
 
 		}
