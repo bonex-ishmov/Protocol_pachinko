@@ -15,6 +15,8 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
+import co.edu.unbosque.model.persistence.ApostadorDAO;
 import co.edu.unbosque.model.persistence.CasaDeApuestasDAO;
 import co.edu.unbosque.model.persistence.SedeCasaDeApuestasDAO;
 import co.edu.unbosque.view.*;
@@ -40,17 +42,19 @@ public class Controller implements ActionListener {
 	JRadioButton consentimiento;
 	JList listadoSedes, listadoClientes, listaCasa, listaInformacion, listadoJuego;
 	DefaultListModel modeloLista, modeloListaClientes, modeloListaCasa, modeloListaInformacion, modeloListaJuego;
-	JComboBox diasSemana, tipoJuego, comboTipoJuego, comboSede, comboDireccionJuego;
+	JComboBox diasSemana, tipoJuego, comboTipoJuego, comboSede, comboDireccionJuego, comboDireccionSede;
 	boolean baloto, betplay, loteria, chance, superastro;
 
 	CasaDeApuestasDAO casaApuestaDao;
 	SedeCasaDeApuestasDAO sedeApuestaDao;
+	ApostadorDAO apostadorDAO;
 	Console con;
 
 	public Controller() {
 		gui = new UserGuidedInterface();
 		casaApuestaDao = new CasaDeApuestasDAO();
 		sedeApuestaDao = new SedeCasaDeApuestasDAO();
+		apostadorDAO = new ApostadorDAO();
 		con = new Console();
 	}
 
@@ -88,6 +92,21 @@ public class Controller implements ActionListener {
 		}
 
 		return direcciones;
+	}
+
+	public String[] obtenerNombreCasas() {
+
+		if (casaApuestaDao.getListOfHouses() == null || casaApuestaDao.getListOfHouses().isEmpty()) {
+			return new String[0];
+		}
+
+		String[] casas = new String[casaApuestaDao.getListOfHouses().size()];
+
+		for (int i = 0; i < casaApuestaDao.getListOfHouses().size(); i++) {
+			casas[i] = casaApuestaDao.getListOfHouses().get(i).getBookMarkerName();
+		}
+
+		return casas;
 	}
 
 	public void ventanaPrincipal() {
@@ -288,15 +307,18 @@ public class Controller implements ActionListener {
 		ventanaGestionSedes = gui.crearVentana(500, 400, "Gestionar sedes", true);
 		btnCrearSede = gui.crearBoton(40, 115, 90, 20, Color.GREEN, "crear", true);
 		btnCrearSede.addActionListener(this);
-		btnActualizarSede = gui.crearBoton(320, 115, 90, 20, Color.blue, "Actualizar", false);
+		btnActualizarSede = gui.crearBoton(320, 115, 90, 20, Color.blue, "Actualizar", true);
 		btnActualizarSede.addActionListener(this);
 		btnCancelarSede = gui.crearBoton(180, 115, 90, 20, Color.RED, "cancelar", true);
 		btnCancelarSede.addActionListener(this);
 		textoGestionSedes = gui.crearTexto(10, 0, 140, 30, "Gestionar sedes", true);
-		textoNombreSede = gui.crearTexto(20, 20, 150, 140, "Nombre", true);
+		textoNombreSede = gui.crearTexto(20, 20, 150, 140, "Direccion", true);
 		textoEmpleadosSede = gui.crearTexto(20, 40, 140, 30, "Numero de empleados", true);
 		campoEmpleados = gui.crearFormulario(170, 45, 140, 20, true);
 		campoNombreSede = gui.crearFormulario(170, 80, 140, 20, true);
+		textoTipoJuego = gui.crearTexto(340, 30, 140, 40, "casa al la que pertenece", true);
+		String[] sede = obtenerNombreCasas();
+		comboDireccionSede = gui.createComboBox(sede, 340, 70, 140, 20);
 		listadoSedes = new JList<Object>();
 		modeloLista = new DefaultListModel();
 		listadoSedes.setBounds(20, 150, 400, 150);
@@ -310,6 +332,8 @@ public class Controller implements ActionListener {
 		ventanaGestionSedes.add(btnCrearSede);
 		ventanaGestionSedes.add(btnCancelarSede);
 		ventanaGestionSedes.add(btnActualizarSede);
+		ventanaGestionSedes.add(comboDireccionSede);
+		ventanaGestionSedes.add(textoTipoJuego);
 	}
 
 	public void execute() {
@@ -485,8 +509,8 @@ public class Controller implements ActionListener {
 
 			} else {
 
-				ApostadorDao.create(informacionNombre, informacionTelefono, informacionCedula,
-			        informacionDireccionJuego);
+				apostadorDAO.create(informacionNombre, informacionTelefono, informacionCedula,
+						informacionDireccionJuego);
 				JOptionPane.showMessageDialog(null, "¡Bienvenido a la casa de juegos! " + informacionNombre);
 				btnActualizarCliente.setVisible(true);
 				btnLeerCliente.setVisible(true);
@@ -515,9 +539,8 @@ public class Controller implements ActionListener {
 			} else {
 
 				boolean clienteEncontrado = false;
-				for (int i = 0; i < ApostadorDao.getListOfGamblers().size(); i++) {
-					if (ApostadorDao.getListOfGamblers().get(i).getCompleteName()
-							.equalsIgnoreCase(informacionNombre)) {
+				for (int i = 0; i < apostadorDAO.getListOfGamblers().size(); i++) {
+					if (apostadorDAO.getListOfGamblers().get(i).getCompleteName().equalsIgnoreCase(informacionNombre)) {
 						casaApuestaDao.update(i, informacionNombre, informacionTelefono, informacionCedula);
 						clienteEncontrado = true;
 						JOptionPane.showMessageDialog(null, "Cliente actualizado exitosamente");
@@ -537,17 +560,17 @@ public class Controller implements ActionListener {
 		}
 
 		if (e.getSource() == btnEliminarCliente) {
-			
+
 			String informacionCliente = campoNombres.getText();
 			if (informacionCliente.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar el nombre del cliente, estimado usuario");
 			} else {
 				boolean clienteEncontrado = false;
 
-				for (int i = 0; i < ApostadorDao.getListOfGamblers().size(); i++) {
+				for (int i = 0; i < apostadorDAO.getListOfGamblers().size(); i++) {
 					if (informacionCliente
-							.equalsIgnoreCase(ApostadorDao.getListOfGamblers().get(i).getCompleteName())) {
-						ApostadorDao.delete(i);
+							.equalsIgnoreCase(apostadorDAO.getListOfGamblers().get(i).getCompleteName())) {
+						apostadorDAO.delete(i);
 						JOptionPane.showMessageDialog(null, "Cliente eliminado exitosamente");
 						clienteEncontrado = true;
 						break;
@@ -641,6 +664,10 @@ public class Controller implements ActionListener {
 		} // ACA DIEGO NO ESTA, APROVECHA
 
 		if (e.getSource() == btnCrearSede) {
+
+			String informacionCasa = (String) comboDireccionSede.getSelectedItem();
+			String informacionNumeroLocaciones = "";
+			String informacionPresupuesto = "";
 			String informacionDireccion = campoNombreSede.getText();
 			String informacionEmpleados = campoEmpleados.getText();
 			Boolean comprobarEmpleados = comprobarNumero(informacionEmpleados);
@@ -651,11 +678,24 @@ public class Controller implements ActionListener {
 				JOptionPane.showMessageDialog(null, "El campo empleados acepta numeros  estimado usuario");
 
 			} else {
+				boolean casaEncontrada = false;
 
-				sedeDAO.create(informacionDireccion, informacionEmpleados);
-				JOptionPane.showMessageDialog(null, "Casa de juegos creada exitosamente ");
-				JOptionPane.showMessageDialog(null, "Sede creada exitosamente ");
-				btnActualizarSede.setVisible(true);
+				for (int i = 0; i < casaApuestaDao.getListOfHouses().size(); i++) {
+					if (casaApuestaDao.getListOfHouses().get(i).getBookMarkerName().equalsIgnoreCase(informacionCasa)) {
+						informacionNumeroLocaciones = casaApuestaDao.getListOfHouses().get(i).getNumberOfLocations()
+								+ "";
+						informacionPresupuesto = casaApuestaDao.getListOfHouses().get(i).getTotalBudgetAvailable() + "";
+						sedeApuestaDao.create(informacionCasa, informacionNumeroLocaciones, informacionPresupuesto,
+								informacionDireccion, informacionEmpleados);
+						casaEncontrada = true;
+						JOptionPane.showMessageDialog(null, "sede de juegos creada exitosamente");
+						break;
+					}
+				}
+
+				if (!casaEncontrada) {
+					JOptionPane.showMessageDialog(null, "No se ha encontrado la casa de juegos especificada");
+				}
 			}
 			// INSTALA ACA EL MODELO MI CARNITA
 			// INVOCA A HOYOS PARA ATACAR A DIEGO
@@ -663,6 +703,9 @@ public class Controller implements ActionListener {
 		}
 
 		if (e.getSource() == btnActualizarSede) {
+			String informacionCasa = (String) comboDireccionSede.getSelectedItem();
+			String informacionNumeroLocaciones = "";
+			String informacionPresupuesto = "";
 			String informacionDireccion = campoNombreSede.getText();
 			String informacionEmpleados = campoEmpleados.getText();
 			Boolean comprobarEmpleados = comprobarNumero(informacionEmpleados);
@@ -674,32 +717,26 @@ public class Controller implements ActionListener {
 
 			} else {
 
-				boolean sedeEncontrada = false;
+				boolean casaEncontrada = false;
 
 				for (int i = 0; i < casaApuestaDao.getListOfHouses().size(); i++) {
-					if (casaApuestaDao.getListOfHouses().get(i).getBookMarkerName()
+					if (sedeApuestaDao.getListOfLocations().get(i).getAddress()
 							.equalsIgnoreCase(informacionDireccion)) {
-						casaApuestaDao.update(i, informacionDireccion, informacionEmpleados);
-						sedeEncontrada = true;
-						JOptionPane.showMessageDialog(null, "sede actualizada exitosamente");
+						informacionNumeroLocaciones = casaApuestaDao.getListOfHouses().get(i).getNumberOfLocations()
+								+ "";
+						informacionPresupuesto = casaApuestaDao.getListOfHouses().get(i).getTotalBudgetAvailable() + "";
+						sedeApuestaDao.update(i, informacionCasa, informacionNumeroLocaciones, informacionPresupuesto,
+								informacionDireccion, informacionEmpleados);
+						casaEncontrada = true;
+						JOptionPane.showMessageDialog(null, "sede de juegos creada exitosamente");
 						break;
 					}
 				}
 
-				if (!sedeEncontrada) {
-					JOptionPane.showMessageDialog(null, "No se ha encontrado la sede especificada");
+				if (!casaEncontrada) {
+					JOptionPane.showMessageDialog(null, "No se ha encontrado la casa de juegos especificada");
 				}
-				JOptionPane.showMessageDialog(null, "Sede creada exitosamente ");
-				btnActualizarSede.setVisible(true);
 			}
-			// INSTALA ACA EL MODELO MI CARNITA
-			// INVOCA A HOYOS PARA ATACAR A DIEGO
-
 		}
-
-		// https://www.youtube.com/watch?v=SMmf3os4EGw Ya valio scooby xd
-
-		// https://www.instagram.com/reel/CzTZfeII3xm/?igshid=MTc4MmM1YmI2Ng==
 	}
-
 }
