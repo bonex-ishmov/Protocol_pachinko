@@ -12,11 +12,11 @@ public class ApostadorDTO implements Serializable {
 
 	private static final long serialVersionUID = -6733443461609975906L;
 	private String completeName;
-	private long identification;
+	private String identification;
 	private String birthDate;
 	private String bookmakerHeadquarters;
 	private String addressOfThePerson;
-	private long phoneNumber;
+	private String phoneNumber;
 
 	/**
 	 * Constructor por defecto de ApostadorDTO.
@@ -37,8 +37,8 @@ public class ApostadorDTO implements Serializable {
 	 * @param addressOfThePerson    Dirección del apostador.
 	 * @param phoneNumber           Número de teléfono del apostador.
 	 */
-	public ApostadorDTO(String completeName, long identification, String birthDate, String bookmakerHeadquarters,
-			String addressOfThePerson, long phoneNumber) {
+	public ApostadorDTO(String completeName, String identification, String birthDate, String bookmakerHeadquarters,
+			String addressOfThePerson, String phoneNumber) {
 		super();
 		this.completeName = completeName;
 		this.identification = identification;
@@ -73,7 +73,7 @@ public class ApostadorDTO implements Serializable {
 	 *
 	 * @return Identificación del apostador.
 	 */
-	public long getIdentification() {
+	public String getIdentification() {
 		return identification;
 	}
 
@@ -82,7 +82,7 @@ public class ApostadorDTO implements Serializable {
 	 *
 	 * @param identification Identificación del apostador.
 	 */
-	public void setIdentification(long identification) {
+	public void setIdentification(String identification) {
 		this.identification = identification;
 	}
 
@@ -145,7 +145,7 @@ public class ApostadorDTO implements Serializable {
 	 *
 	 * @return Número de teléfono del apostador.
 	 */
-	public long getPhoneNumber() {
+	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 
@@ -154,7 +154,7 @@ public class ApostadorDTO implements Serializable {
 	 *
 	 * @param phoneNumber Número de teléfono del apostador.
 	 */
-	public void setPhoneNumber(long phoneNumber) {
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 
