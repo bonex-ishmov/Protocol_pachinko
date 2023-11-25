@@ -105,10 +105,11 @@ public class FileHandler {
 		try {
 			fos = new FileOutputStream(new File("src/co/edu/unbosque/model/persistence/" + fileName));
 
-			for (CasaDeApuestasDTO casa : casas) {
-				propFile.setProperty("bookMarkerName", casa.getBookMarkerName());
-				propFile.setProperty("NumberOfLocations", String.valueOf(casa.getNumberOfLocations()));
-				propFile.setProperty("totalBudgetAvailable", String.valueOf(casa.getTotalBudgetAvailable()));
+			for (int i = 0; i < casas.size(); i++) {
+				CasaDeApuestasDTO casa = casas.get(i);
+				propFile.setProperty("bookMarkerName_" + i, casa.getBookMarkerName());
+				propFile.setProperty("NumberOfLocations_" + i, String.valueOf(casa.getNumberOfLocations()));
+				propFile.setProperty("totalBudgetAvailable_" + i, String.valueOf(casa.getTotalBudgetAvailable()));
 			}
 
 			propFile.store(fos, "Archivo de propiedades");
