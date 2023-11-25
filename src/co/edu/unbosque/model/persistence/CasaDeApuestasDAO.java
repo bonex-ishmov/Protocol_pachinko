@@ -26,7 +26,7 @@ public class CasaDeApuestasDAO implements CRUDOperation {
 	 */
 	public CasaDeApuestasDAO() {
 		listOfHouses = new ArrayList<CasaDeApuestasDTO>();
-		FileHandler.propertiesOpenAndReadFile(PROPERTIES_FILENAME);
+		listOfHouses = (ArrayList<CasaDeApuestasDTO>) FileHandler.propertiesOpenAndReadFile(PROPERTIES_FILENAME);
 	}
 
 	/**

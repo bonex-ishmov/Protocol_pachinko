@@ -40,11 +40,13 @@ public class Controller implements ActionListener {
 	DefaultListModel modeloLista, modeloListaClientes, modeloListaCasa, modeloListaInformacion;
 	JComboBox diasSemana, tipoBetplay, lista;
 
-	private CasaDeApuestasDAO casaApuestaDao;
+	CasaDeApuestasDAO casaApuestaDao;
+	Console con;
 
 	public Controller() {
 		gui = new UserGuidedInterface();
 		casaApuestaDao = new CasaDeApuestasDAO();
+		con = new Console();
 	}
 
 //	public void agregarFondo(String rutaImagen) {
@@ -405,7 +407,7 @@ public class Controller implements ActionListener {
 
 			} else {
 
-				casaApuestaDao.create(informacionNombreCasaApuesta, informacionDinero, informacionSedes);
+				casaApuestaDao.create(informacionNombreCasaApuesta, informacionSedes, informacionDinero);
 				JOptionPane.showMessageDialog(null, "Casa de juegos creada exitosamente ");
 				// INSTALA ACA EL MODELO MI CARNITA
 			} // ACA DIEGO NO ESTA, APROVECHA
@@ -456,11 +458,10 @@ public class Controller implements ActionListener {
 				for (int i = 0; i < casaApuestaDao.getListOfHouses().size(); i++) {
 					if (casaApuestaDao.getListOfHouses().get(i).getBookMarkerName()
 							.equalsIgnoreCase(informacionNombreCasaApuesta)) {
-						casaApuestaDao.update(i, informacionNombreCasaApuesta, informacionDinero, informacionSedes);
+						casaApuestaDao.update(i, informacionNombreCasaApuesta, informacionSedes, informacionDinero);
 						casaEncontrada = true;
 						JOptionPane.showMessageDialog(null, "Casa de juegos actualizada exitosamente");
-						break; // Importante: salir del bucle una vez que se ha encontrado y actualizado la
-								// casa de juegos
+						break;
 					}
 				}
 

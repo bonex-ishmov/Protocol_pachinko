@@ -5,6 +5,7 @@
 package co.edu.unbosque.model.persistence;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -99,34 +100,20 @@ public class FileHandler {
 	 *                 archivo.
 	 */
 	public static void propertiesOpenAndWriteFile(String fileName, List<CasaDeApuestasDTO> casas) {
-		FileOutputStream fos = null;
-		Properties propFile = new Properties();
+		try (PrintWriter writer = new PrintWriter(
+				new FileWriter("src/co/edu/unbosque/model/persistence/" + fileName))) {
+			int propertyCounter = 0;
 
-		try {
-			fos = new FileOutputStream(new File("src/co/edu/unbosque/model/persistence/" + fileName));
+			for (CasaDeApuestasDTO casa : casas) {
+				writer.println("bookMarkerName_" + propertyCounter + "=" + casa.getBookMarkerName());
+				writer.println("NumberOfLocations_" + propertyCounter + "=" + casa.getNumberOfLocations());
+				writer.println("totalBudgetAvailable_" + propertyCounter + "=" + casa.getTotalBudgetAvailable());
 
-			for (int i = 0; i < casas.size(); i++) {
-				CasaDeApuestasDTO casa = casas.get(i);
-				propFile.setProperty("bookMarkerName_" + i, casa.getBookMarkerName());
-				propFile.setProperty("NumberOfLocations_" + i, String.valueOf(casa.getNumberOfLocations()));
-				propFile.setProperty("totalBudgetAvailable_" + i, String.valueOf(casa.getTotalBudgetAvailable()));
+				propertyCounter++;
 			}
-
-			propFile.store(fos, "Archivo de propiedades");
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			System.out.println("Problemas al crear o buscar el archivo config.properties (escritura).");
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				if (fos != null) {
-					fos.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			System.out.println("Problemas al escribir en el archivo.");
 		}
 	}
 
@@ -137,26 +124,38 @@ public class FileHandler {
 	 * @param fileName El nombre del archivo de propiedades.
 	 * @return El objeto Properties leído desde el archivo.
 	 */
-	public static Properties propertiesOpenAndReadFile(String fileName) {
-		Properties properties = new Properties();
-		FileInputStream fis = null;
+	public static List<CasaDeApuestasDTO> propertiesOpenAndReadFile(String fileName) {
+		List<CasaDeApuestasDTO> casas = new ArrayList<>();
 
-		try {
-			fis = new FileInputStream("src/co/edu/unbosque/model/persistence/" + fileName);
-			properties.load(fis);
+		try (BufferedReader reader = new BufferedReader(
+				new FileReader("src/co/edu/unbosque/model/persistence/" + fileName))) {
+			String line;
+			int propertyCounter = 0;
+			CasaDeApuestasDTO casa = new CasaDeApuestasDTO();
+
+			while ((line = reader.readLine()) != null) {
+				String[] parts = line.split("=");
+
+				if (parts.length == 2) {
+					String propertyName = parts[0];
+					String propertyValue = parts[1];
+
+					if (propertyName.startsWith("bookMarkerName")) {
+						casa.setBookMarkerName(propertyValue);
+					} else if (propertyName.startsWith("NumberOfLocations")) {
+						casa.setNumberOfLocations(Integer.parseInt(propertyValue));
+					} else if (propertyName.startsWith("totalBudgetAvailable")) {
+						casa.setTotalBudgetAvailable(Double.parseDouble(propertyValue));
+						casas.add(casa); // Agregar la casa al ArrayList
+						casa = new CasaDeApuestasDTO(); // Crear una nueva instancia para la próxima casa
+					}
+				}
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("Problemas al leer el archivo " + fileName);
-		} finally {
-			try {
-				if (fis != null) {
-					fis.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			System.out.println("Problemas al leer el archivo.");
 		}
 
-		return properties;
+		return casas;
 	}
 }
