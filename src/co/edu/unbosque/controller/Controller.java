@@ -127,9 +127,10 @@ public class Controller implements ActionListener {
 	public void ventanaGestionCasa() {
 		textoListaCasa = gui.crearTexto(60, 240, 160, 20, "Informacion de la casa", true);
 		ventanaCrearCasa = gui.crearVentana(300, 500, "Gestion casa", true);
-		btnActualizarCasa = gui.crearBoton(20, 350, 120, 25, Color.blue, "Actualizar", false);
-		btnEliminarCasa = gui.crearBoton(150, 350, 120, 25, Color.orange, "Eliminar", false);
+		btnActualizarCasa = gui.crearBoton(20, 350, 120, 25, Color.blue, "Actualizar", true);
+		btnEliminarCasa = gui.crearBoton(150, 350, 120, 25, Color.orange, "Eliminar", true);
 		btnActualizarCasa.addActionListener(this);
+		btnEliminarCasa.addActionListener(this);
 		btnCrearCasa = gui.crearBoton(20, 400, 120, 25, Color.GREEN, "Crear casa", true);
 		btnCrearCasa.addActionListener(this);
 		btnCancelarCasa = gui.crearBoton(150, 400, 120, 25, Color.red, "Cancelar", true);
@@ -540,8 +541,6 @@ public void actionPerformed(ActionEvent e) {
 
 			} else {
 				JOptionPane.showMessageDialog(null, "Casa de juegos creada exitosamente ");
-				btnActualizarCasa.setVisible(true);
-				btnEliminarCasa.setVisible(true);
 				// INSTALA ACA EL MODELO MI CARNITA
 			} // ACA DIEGO NO ESTA, APROVECHA
 
