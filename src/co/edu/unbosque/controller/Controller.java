@@ -45,12 +45,14 @@ public class Controller implements ActionListener {
 
 	CasaDeApuestasDAO casaApuestaDao;
 	SedeCasaDeApuestasDAO sedeApuestaDao;
+	ApostadorDAO ApostadorDao;
 	Console con;
 
 	public Controller() {
 		gui = new UserGuidedInterface();
 		casaApuestaDao = new CasaDeApuestasDAO();
 		sedeApuestaDao = new SedeCasaDeApuestasDAO();
+		ApostadorDao = new ApostadorDAO();
 		con = new Console();
 	}
 
