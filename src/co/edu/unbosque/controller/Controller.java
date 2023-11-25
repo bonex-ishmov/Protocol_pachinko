@@ -46,12 +46,14 @@ public class Controller implements ActionListener {
 	CasaDeApuestasDAO casaApuestaDao;
 	SedeCasaDeApuestasDAO sedeApuestaDao;
 	ApostadorDAO apostadorDAO;
+	JuegoCasaDeApuestasDAO juegoCasaApuestasDao;
 	Console con;
 
 	public Controller() {
 		gui = new UserGuidedInterface();
 		casaApuestaDao = new CasaDeApuestasDAO();
 		sedeApuestaDao = new SedeCasaDeApuestasDAO();
+		juegoCasaApuestasDao = new JuegoCasaDeApuestasDAO();
 		apostadorDAO = new ApostadorDAO();
 		con = new Console();
 	}
@@ -349,7 +351,6 @@ public class Controller implements ActionListener {
 			String informacionCasa = "";
 			String numSedes = "";
 			String presupuestoJuego = "";
-			String direccion = "";
 			String numEmpleado = "";
 			String tipoDeJuego = "BetPlay";
 			Boolean comprobarNumeros = comprobarNumero(informacionPresupuestoJuego);
@@ -358,8 +359,7 @@ public class Controller implements ActionListener {
 					|| informacionSedeJuego.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
 			} else if (comprobarNumeros == false) {
-				JOptionPane.showMessageDialog(null,
-						"Los campos cedula y telefono solo acepta numeros estimado usuario");
+				JOptionPane.showMessageDialog(null, "El campo de presupuesto solo acepta numeros estimado usuario");
 
 			} else {
 
@@ -369,16 +369,13 @@ public class Controller implements ActionListener {
 					if (sedeApuestaDao.getListOfLocations().get(i).getAddress()
 							.equalsIgnoreCase(informacionSedeJuego)) {
 
-						informacionBetPlay = ApuestaBetPlayDao.getListOfBets().get(i).getBookmakerOffice();
-						informacionCasa = casaApuestaDao.getListOfHouses().get(i).getBookMarkerName();
+						informacionCasa = sedeApuestaDao.getListOfLocations().get(i).getBookMarkerName();
 						numSedes = sedeApuestaDao.getListOfLocations().get(i).getNumberOfLocations() + "";
-						presupuestoJuego = casaApuestaDao.getListOfHouses().get(i).getTotalBudgetAvailable() + "";
-						direccion = sedeApuestaDao.getListOfLocations().get(i).getAddress();
+						presupuestoJuego = sedeApuestaDao.getListOfLocations().get(i).getTotalBudgetAvailable() + "";
 						numEmpleado = sedeApuestaDao.getListOfLocations().get(i).getNumberOfEmployees() + "";
 
-						ApuestaBetPlayDao.create(informacionNombreJuego, informacionPresupuestoJuego,
-								informacionSedeJuego, informacionBetPlay, informacionCasa, numSedes, presupuestoJuego,
-								direccion, numEmpleado, tipoDeJuego);
+						juegoCasaApuestasDao.create(informacionCasa, numSedes, presupuestoJuego, informacionSedeJuego,
+								numEmpleado, tipoDeJuego, informacionNombreJuego, informacionPresupuestoJuego);
 						betPlay = true;
 						JOptionPane.showMessageDialog(null, "Juego  registrado exitosamente");
 						break;
