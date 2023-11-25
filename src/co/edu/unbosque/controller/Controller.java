@@ -187,7 +187,7 @@ public class Controller implements ActionListener {
 		btnLeerCliente.addActionListener(this);
 		btnActualizarCliente = gui.crearBoton(180, 250, 140, 20, Color.orange, "Actualizar datos", false);
 		btnActualizarCliente.addActionListener(this);
-		btnCrearCliente = gui.crearBoton(20, 250, 140, 20, Color.green, "Gestion cliente", true);
+		btnCrearCliente = gui.crearBoton(20, 250, 140, 20, Color.green, "Crear cliente", true);
 		btnCrearCliente.setEnabled(false);
 		btnCancelarCliente = gui.crearBoton(20, 290, 140, 20, Color.red, "Cancelar", true);
 		btnCrearCliente.addActionListener(this);
@@ -512,11 +512,11 @@ public class Controller implements ActionListener {
 
 				boolean sedeEncontrada = false;
 
-				for (int i = 0; i < casaApuestaDao.getListOfHouses().size(); i++) {
-					if (apostadorDAO.getListOfGamblers().get(i).getAddressOfThePerson()
+				for (int i = 0; i < sedeApuestaDao.getListOfLocations().size(); i++) {
+					if (sedeApuestaDao.getListOfLocations().get(i).getAddress()
 							.equalsIgnoreCase(informacionDireccionJuego)) {
 
-						informacionCasa = apostadorDAO.getListOfGamblers().get(i).getBookmakerHeadquarters();
+						informacionCasa = sedeApuestaDao.getListOfLocations().get(i).getBookMarkerName();
 
 						apostadorDAO.create(informacionNombre, informacionCedula, informacionFecha, informacionCasa,
 								informacionDireccionJuego, informacionTelefono);
@@ -553,10 +553,10 @@ public class Controller implements ActionListener {
 
 				boolean sedeEncontrada = false;
 
-				for (int i = 0; i < casaApuestaDao.getListOfHouses().size(); i++) {
+				for (int i = 0; i < sedeApuestaDao.getListOfLocations().size(); i++) {
 					if (apostadorDAO.getListOfGamblers().get(i).getCompleteName().equalsIgnoreCase(informacionNombre)) {
 
-						informacionCasa = apostadorDAO.getListOfGamblers().get(i).getBookmakerHeadquarters();
+						informacionCasa = sedeApuestaDao.getListOfLocations().get(i).getBookMarkerName();
 
 						apostadorDAO.update(i, informacionNombre, informacionCedula, informacionFecha, informacionCasa,
 								informacionDireccionJuego, informacionTelefono);
@@ -570,7 +570,6 @@ public class Controller implements ActionListener {
 					JOptionPane.showMessageDialog(null, "Cliente no encontrado");
 				}
 			}
-
 		}
 
 		if (e.getSource() == btnEliminarCliente) {
