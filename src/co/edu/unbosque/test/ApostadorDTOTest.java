@@ -14,18 +14,18 @@ public class ApostadorDTOTest {
 		ApostadorDTO apostador = new ApostadorDTO();
 
 		assertEquals(null, apostador.getCompleteName());
-		assertEquals(0, apostador.getIdentification());
+		assertEquals(null, apostador.getIdentification());
 		assertEquals(null, apostador.getBirthDate());
 		assertEquals(null, apostador.getBookmakerHeadquarters());
 		assertEquals(null, apostador.getAddressOfThePerson());
-		assertEquals(0, apostador.getPhoneNumber());
+		assertEquals(null, apostador.getPhoneNumber());
 	}
 
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testConstructorParametrizado() {
-		ApostadorDTO apostador = new ApostadorDTO("Juan Perez", 1234567890, "1990-01-01", "Bogota", "Calle 123 # 45-67",
-				315586063);
+		ApostadorDTO apostador = new ApostadorDTO("Juan Perez", "1234567890", "1990-01-01", "Bogota",
+				"Calle 123 # 45-67", "315586063");
 
 		assertEquals("Juan Perez", apostador.getCompleteName());
 		assertEquals(1234567890, apostador.getIdentification());
@@ -41,11 +41,11 @@ public class ApostadorDTOTest {
 		ApostadorDTO apostador = new ApostadorDTO();
 
 		apostador.setCompleteName("Juan Perez");
-		apostador.setIdentification(1234567890);
+		apostador.setIdentification("1234567890");
 		apostador.setBirthDate("1990-01-01");
 		apostador.setBookmakerHeadquarters("Bogotá");
 		apostador.setAddressOfThePerson("Calle 123 # 45-67");
-		apostador.setPhoneNumber(987654321);
+		apostador.setPhoneNumber("987654321");
 
 		assertEquals("Juan Perez", apostador.getCompleteName());
 		assertEquals(1234567890, apostador.getIdentification());
@@ -57,11 +57,12 @@ public class ApostadorDTOTest {
 
 	@Test
 	public void testToString() {
-		ApostadorDTO apostador = new ApostadorDTO("Juan Perez", 1234567890, "1990-01-01", "Bogotá", "Calle 123 # 45-67",
-				987654321);
+		ApostadorDTO apostador = new ApostadorDTO("Juan Perez", "1234567890", "1990-01-01", "Bogotá",
+				"Calle 123 # 45-67", "987654321");
 
 		String expectedString = "ApostadoresDTO [completeName=Juan Perez, identification=1234567890, birthDate=1990-01-01, bookmakerHeadquarters=Bogotá, addressOfThePerson=Calle 123 # 45-67, phoneNumber=987654321]";
 
 		assertEquals(expectedString, apostador.toString());
 	}
 }
+
