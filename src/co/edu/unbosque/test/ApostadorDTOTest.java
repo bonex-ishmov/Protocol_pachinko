@@ -28,11 +28,11 @@ public class ApostadorDTOTest {
 				"Calle 123 # 45-67", "315586063");
 
 		assertEquals("Juan Perez", apostador.getCompleteName());
-		assertEquals(1234567890, apostador.getIdentification());
+		assertEquals("1234567890", apostador.getIdentification());
 		assertEquals("1990-01-01", apostador.getBirthDate());
 		assertEquals("Bogota", apostador.getBookmakerHeadquarters());
 		assertEquals("Calle 123 # 45-67", apostador.getAddressOfThePerson());
-		assertEquals(315586063, apostador.getPhoneNumber());
+		assertEquals("315586063", apostador.getPhoneNumber());
 	}
 
 	@SuppressWarnings("deprecation")
@@ -48,11 +48,11 @@ public class ApostadorDTOTest {
 		apostador.setPhoneNumber("987654321");
 
 		assertEquals("Juan Perez", apostador.getCompleteName());
-		assertEquals(1234567890, apostador.getIdentification());
+		assertEquals("1234567890", apostador.getIdentification());
 		assertEquals("1990-01-01", apostador.getBirthDate());
 		assertEquals("Bogotá", apostador.getBookmakerHeadquarters());
 		assertEquals("Calle 123 # 45-67", apostador.getAddressOfThePerson());
-		assertEquals(987654321, apostador.getPhoneNumber());
+		assertEquals("987654321", apostador.getPhoneNumber());
 	}
 
 	@Test
