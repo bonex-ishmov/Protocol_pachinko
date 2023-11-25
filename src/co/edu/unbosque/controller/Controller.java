@@ -45,14 +45,14 @@ public class Controller implements ActionListener {
 
 	CasaDeApuestasDAO casaApuestaDao;
 	SedeCasaDeApuestasDAO sedeApuestaDao;
-	ApostadorDAO ApostadorDao;
+	ApostadorDAO apostadorDAO;
 	Console con;
 
 	public Controller() {
 		gui = new UserGuidedInterface();
 		casaApuestaDao = new CasaDeApuestasDAO();
 		sedeApuestaDao = new SedeCasaDeApuestasDAO();
-		ApostadorDao = new ApostadorDAO();
+		apostadorDAO = new ApostadorDAO();
 		con = new Console();
 	}
 
@@ -493,9 +493,12 @@ public class Controller implements ActionListener {
 
 		if (e.getSource() == btnCrearCliente) {
 			String informacionNombre = campoNombres.getText();
-			String informacionTelefono = campoCelular.getText();
 			String informacionCedula = campoCedula.getText();
+			String informacionFecha = "";
+			String informacionCasa = "";
 			String informacionDireccionJuego = (String) comboDireccionJuego.getSelectedItem();
+			String informacionTelefono = campoCelular.getText();
+
 			Boolean comprobarNumeros = comprobarNumero(informacionCedula) && comprobarNumero(informacionTelefono);
 
 			if (informacionNombre.isEmpty() || informacionCedula.isEmpty() || informacionTelefono.isEmpty()
@@ -507,24 +510,36 @@ public class Controller implements ActionListener {
 
 			} else {
 
-				ApostadorDao.create(informacionNombre, informacionTelefono, informacionCedula,
-			        informacionDireccionJuego);
-				JOptionPane.showMessageDialog(null, "¡Bienvenido a la casa de juegos! " + informacionNombre);
-				btnActualizarCliente.setVisible(true);
-				btnLeerCliente.setVisible(true);
-				btnEliminarCliente.setVisible(true);
+				boolean sedeEncontrada = false;
+
+				for (int i = 0; i < casaApuestaDao.getListOfHouses().size(); i++) {
+					if (apostadorDAO.getListOfGamblers().get(i).getAddressOfThePerson()
+							.equalsIgnoreCase(informacionDireccionJuego)) {
+
+						informacionCasa = apostadorDAO.getListOfGamblers().get(i).getBookmakerHeadquarters();
+
+						apostadorDAO.create(informacionNombre, informacionCedula, informacionFecha, informacionCasa,
+								informacionDireccionJuego, informacionTelefono);
+						sedeEncontrada = true;
+						JOptionPane.showMessageDialog(null, "cliente registrado exitosamente");
+						break;
+					}
+				}
+
+				if (!sedeEncontrada) {
+					JOptionPane.showMessageDialog(null, "Sede de juegos no encontrada");
+				}
 			}
-			// INSTALA ACA EL MODELO MI CARNITA
-			// Y LOS PAPELES MANI?
-			// CUIDAO CON ESTE
 
 		}
 
 		if (e.getSource() == btnActualizarCliente) {
 			String informacionNombre = campoNombres.getText();
-			String informacionTelefono = campoCelular.getText();
 			String informacionCedula = campoCedula.getText();
+			String informacionFecha = "";
+			String informacionCasa = "";
 			String informacionDireccionJuego = (String) comboDireccionJuego.getSelectedItem();
+			String informacionTelefono = campoCelular.getText();
 			Boolean comprobarNumeros = comprobarNumero(informacionCedula) && comprobarNumero(informacionTelefono);
 
 			if (informacionNombre.isEmpty() || informacionCedula.isEmpty() || informacionTelefono.isEmpty()
@@ -536,25 +551,25 @@ public class Controller implements ActionListener {
 
 			} else {
 
-				boolean clienteEncontrado = false;
-				for (int i = 0; i < ApostadorDao.getListOfGamblers().size(); i++) {
-					if (ApostadorDao.getListOfGamblers().get(i).getCompleteName()
-							.equalsIgnoreCase(informacionNombre)) {
-						casaApuestaDao.update(i, informacionNombre, informacionTelefono, informacionCedula);
-						clienteEncontrado = true;
-						JOptionPane.showMessageDialog(null, "Cliente actualizado exitosamente");
+				boolean sedeEncontrada = false;
+
+				for (int i = 0; i < casaApuestaDao.getListOfHouses().size(); i++) {
+					if (apostadorDAO.getListOfGamblers().get(i).getCompleteName().equalsIgnoreCase(informacionNombre)) {
+
+						informacionCasa = apostadorDAO.getListOfGamblers().get(i).getBookmakerHeadquarters();
+
+						apostadorDAO.update(i, informacionNombre, informacionCedula, informacionFecha, informacionCasa,
+								informacionDireccionJuego, informacionTelefono);
+						sedeEncontrada = true;
+						JOptionPane.showMessageDialog(null, "cliente actualizado exitosamente");
 						break;
 					}
 				}
 
-				JOptionPane.showMessageDialog(null, "¡Bienvenido a la casa de juegos! " + informacionNombre);
-				btnActualizarCliente.setVisible(true);
-				btnLeerCliente.setVisible(true);
-				btnEliminarCliente.setVisible(true);
+				if (!sedeEncontrada) {
+					JOptionPane.showMessageDialog(null, "Cliente no encontrado");
+				}
 			}
-			// INSTALA ACA EL MODELO MI CARNITA
-			// Y LOS PAPELES MANI?
-			// CUIDAO CON ESTE
 
 		}
 
