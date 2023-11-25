@@ -58,6 +58,11 @@ public class Controller implements ActionListener {
 		con = new Console();
 	}
 
+	public boolean contieneSoloNumeros(String texto) {
+		return texto.matches("[0-9]+");
+	}
+
+
 //	public void agregarFondo(String rutaImagen) {
 //		ImageIcon imagenFondo = new ImageIcon(rutaImagen);
 //		JLabel fondo = new JLabel(imagenFondo);
@@ -67,10 +72,22 @@ public class Controller implements ActionListener {
 //		ventanaPrincipal.revalidate();
 //	}
 
-	public Boolean comprobarNumero(String numero) {
+	public Boolean comprobarNumeroInt(String numero) {
 		Boolean confirmacion;
 		try {
 			int conversion = Integer.parseInt(numero);
+			return confirmacion = true;
+		} catch (NumberFormatException ex) {
+			return confirmacion = false;
+
+		}
+
+	}
+
+	public Boolean comprobarNumeroLong(String numero) {
+		Boolean confirmacion;
+		try {
+			long conversion = Long.parseLong(numero);
 			return confirmacion = true;
 		} catch (NumberFormatException ex) {
 			return confirmacion = false;
@@ -353,7 +370,7 @@ public class Controller implements ActionListener {
 			String presupuestoJuego = "";
 			String numEmpleado = "";
 			String tipoDeJuego = "BetPlay";
-			Boolean comprobarNumeros = comprobarNumero(informacionPresupuestoJuego);
+			Boolean comprobarNumeros = comprobarNumeroLong(informacionPresupuestoJuego);
 
 			if (informacionNombreJuego.isEmpty() || informacionPresupuestoJuego.isEmpty()
 					|| informacionSedeJuego.isEmpty()) {
@@ -399,7 +416,7 @@ public class Controller implements ActionListener {
 			String presupuestoJuego = "";
 			String numEmpleado = "";
 			String tipoDeJuego = "Baloto";
-			Boolean comprobarNumeros = comprobarNumero(informacionPresupuestoJuego);
+			Boolean comprobarNumeros = comprobarNumeroLong(informacionPresupuestoJuego);
 
 			if (informacionNombreJuego.isEmpty() || informacionPresupuestoJuego.isEmpty()
 					|| informacionSedeJuego.isEmpty()) {
@@ -445,7 +462,7 @@ public class Controller implements ActionListener {
 			String presupuestoJuego = "";
 			String numEmpleado = "";
 			String tipoDeJuego = "Loteria";
-			Boolean comprobarNumeros = comprobarNumero(informacionPresupuestoJuego);
+			Boolean comprobarNumeros = comprobarNumeroLong(informacionPresupuestoJuego);
 
 			if (informacionNombreJuego.isEmpty() || informacionPresupuestoJuego.isEmpty()
 					|| informacionSedeJuego.isEmpty()) {
@@ -491,7 +508,7 @@ String informacionNombreJuego = campoNombreJuego.getText();
 			String presupuestoJuego = "";
 			String numEmpleado = "";
 			String tipoDeJuego = "Super Astro";
-			Boolean comprobarNumeros = comprobarNumero(informacionPresupuestoJuego);
+			Boolean comprobarNumeros = comprobarNumeroLong(informacionPresupuestoJuego);
 
 			if (informacionNombreJuego.isEmpty() || informacionPresupuestoJuego.isEmpty()
 					|| informacionSedeJuego.isEmpty()) {
@@ -530,13 +547,45 @@ String informacionNombreJuego = campoNombreJuego.getText();
 		if (e.getSource() == btnCrearJuego && chance == true) {
 			String informacionNombreJuego = campoNombreJuego.getText();
 			String informacionPresupuestoJuego = campoPresupuestoJuego.getText();
-			String informacionTipoJuego = (String) comboTipoJuego.getSelectedItem();
+			String informacionSedeJuego = (String) comboTipoJuego.getSelectedItem();
+			String informacionSuperAstro = "";
+			String informacionCasa = "";
+			String numSedes = "";
+			String presupuestoJuego = "";
+			String numEmpleado = "";
+			String tipoDeJuego = "Chance";
+			Boolean comprobarNumeros = comprobarNumeroLong(informacionPresupuestoJuego);
 
-			if (informacionTipoJuego.isEmpty() || informacionNombreJuego.isEmpty()
-					|| informacionPresupuestoJuego.isEmpty()) {
+			if (informacionNombreJuego.isEmpty() || informacionPresupuestoJuego.isEmpty()
+					|| informacionSedeJuego.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
+			} else if (comprobarNumeros == false) {
+				JOptionPane.showMessageDialog(null, "El campo de presupuesto solo acepta numeros estimado usuario");
+
 			} else {
 
+				boolean superAstro = false;
+
+				for (int i = 0; i < sedeApuestaDao.getListOfLocations().size(); i++) {
+					if (sedeApuestaDao.getListOfLocations().get(i).getAddress()
+							.equalsIgnoreCase(informacionSedeJuego)) {
+
+						informacionCasa = sedeApuestaDao.getListOfLocations().get(i).getBookMarkerName();
+						numSedes = sedeApuestaDao.getListOfLocations().get(i).getNumberOfLocations() + "";
+						presupuestoJuego = sedeApuestaDao.getListOfLocations().get(i).getTotalBudgetAvailable() + "";
+						numEmpleado = sedeApuestaDao.getListOfLocations().get(i).getNumberOfEmployees() + "";
+
+						juegoCasaApuestasDao.create(informacionCasa, numSedes, presupuestoJuego, informacionSedeJuego,
+								numEmpleado, tipoDeJuego, informacionNombreJuego, informacionPresupuestoJuego);
+						superAstro = true;
+						JOptionPane.showMessageDialog(null, "Juego  registrado exitosamente");
+						break;
+					}
+				}
+
+				if (!superAstro) {
+					JOptionPane.showMessageDialog(null, " juego no encontrada");
+				}
 			}
 
 		}
@@ -629,7 +678,8 @@ String informacionNombreJuego = campoNombreJuego.getText();
 			String informacionDireccionJuego = (String) comboDireccionJuego.getSelectedItem();
 			String informacionTelefono = campoCelular.getText();
 
-			Boolean comprobarNumeros = comprobarNumero(informacionCedula) && comprobarNumero(informacionTelefono);
+			Boolean comprobarNumeros = contieneSoloNumeros(informacionCedula)
+					&& contieneSoloNumeros(informacionTelefono);
 
 			if (informacionNombre.isEmpty() || informacionCedula.isEmpty() || informacionTelefono.isEmpty()
 					|| informacionDireccionJuego.isEmpty()) {
@@ -670,7 +720,8 @@ String informacionNombreJuego = campoNombreJuego.getText();
 			String informacionCasa = "";
 			String informacionDireccionJuego = (String) comboDireccionJuego.getSelectedItem();
 			String informacionTelefono = campoCelular.getText();
-			Boolean comprobarNumeros = comprobarNumero(informacionCedula) && comprobarNumero(informacionTelefono);
+			Boolean comprobarNumeros = contieneSoloNumeros(informacionCedula)
+					&& contieneSoloNumeros(informacionTelefono);
 
 			if (informacionNombre.isEmpty() || informacionCedula.isEmpty() || informacionTelefono.isEmpty()
 					|| informacionDireccionJuego.isEmpty()) {
@@ -732,7 +783,8 @@ String informacionNombreJuego = campoNombreJuego.getText();
 			String informacionDireccionCasa = campoDireccion.getText();
 			String informacionDinero = campoDinero.getText();
 			String informacionSedes = campoNumSedes.getText();
-			Boolean comprobarCamposNumericos = comprobarNumero(informacionDinero) && comprobarNumero(informacionSedes);
+			Boolean comprobarCamposNumericos = comprobarNumeroLong(informacionDinero)
+					&& comprobarNumeroInt(informacionSedes);
 
 			if (informacionDireccionCasa.isEmpty() || informacionDinero.isEmpty() || informacionSedes.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
@@ -777,7 +829,8 @@ String informacionNombreJuego = campoNombreJuego.getText();
 			String informacionNombreCasaApuesta = campoDireccion.getText();
 			String informacionDinero = campoDinero.getText();
 			String informacionSedes = campoNumSedes.getText();
-			Boolean comprobarCamposNumericos = comprobarNumero(informacionDinero) && comprobarNumero(informacionSedes);
+			Boolean comprobarCamposNumericos = comprobarNumeroLong(informacionDinero)
+					&& comprobarNumeroInt(informacionSedes);
 
 			if (informacionNombreCasaApuesta.isEmpty() || informacionDinero.isEmpty() || informacionSedes.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
@@ -810,7 +863,7 @@ String informacionNombreJuego = campoNombreJuego.getText();
 			String informacionPresupuesto = "";
 			String informacionDireccion = campoNombreSede.getText();
 			String informacionEmpleados = campoEmpleados.getText();
-			Boolean comprobarEmpleados = comprobarNumero(informacionEmpleados);
+			Boolean comprobarEmpleados = comprobarNumeroInt(informacionEmpleados);
 
 			if (informacionDireccion.isEmpty() || informacionEmpleados.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
@@ -846,7 +899,7 @@ String informacionNombreJuego = campoNombreJuego.getText();
 			String informacionPresupuesto = "";
 			String informacionDireccion = campoNombreSede.getText();
 			String informacionEmpleados = campoEmpleados.getText();
-			Boolean comprobarEmpleados = comprobarNumero(informacionEmpleados);
+			Boolean comprobarEmpleados = comprobarNumeroInt(informacionEmpleados);
 
 			if (informacionDireccion.isEmpty() || informacionEmpleados.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Debe llenar todos los campos estimado usuario");
