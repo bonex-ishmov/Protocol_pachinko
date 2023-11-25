@@ -484,6 +484,9 @@ public class Controller implements ActionListener {
 						"Los campos cedula y telefono solo acepta numeros estimado usuario");
 
 			} else {
+
+				ApostadorDao.create(informacionNombre, informacionTelefono, informacionCedula,
+			        informacionDireccionJuego);
 				JOptionPane.showMessageDialog(null, "¡Bienvenido a la casa de juegos! " + informacionNombre);
 				btnActualizarCliente.setVisible(true);
 				btnLeerCliente.setVisible(true);
@@ -510,6 +513,18 @@ public class Controller implements ActionListener {
 						"Los campos cedula y telefono solo acepta numeros estimado usuario");
 
 			} else {
+
+				boolean clienteEncontrado = false;
+				for (int i = 0; i < ApostadorDao.getListOfGamblers().size(); i++) {
+					if (ApostadorDao.getListOfGamblers().get(i).getCompleteName()
+							.equalsIgnoreCase(informacionNombre)) {
+						casaApuestaDao.update(i, informacionNombre, informacionTelefono, informacionCedula);
+						clienteEncontrado = true;
+						JOptionPane.showMessageDialog(null, "Cliente actualizado exitosamente");
+						break;
+					}
+				}
+
 				JOptionPane.showMessageDialog(null, "¡Bienvenido a la casa de juegos! " + informacionNombre);
 				btnActualizarCliente.setVisible(true);
 				btnLeerCliente.setVisible(true);
@@ -614,6 +629,9 @@ public class Controller implements ActionListener {
 				JOptionPane.showMessageDialog(null, "El campo empleados acepta numeros  estimado usuario");
 
 			} else {
+
+				sedeDAO.create(informacionDireccion, informacionEmpleados);
+				JOptionPane.showMessageDialog(null, "Casa de juegos creada exitosamente ");
 				JOptionPane.showMessageDialog(null, "Sede creada exitosamente ");
 				btnActualizarSede.setVisible(true);
 			}
@@ -633,6 +651,22 @@ public class Controller implements ActionListener {
 				JOptionPane.showMessageDialog(null, "El campo empleados acepta numeros  estimado usuario");
 
 			} else {
+
+				boolean sedeEncontrada = false;
+
+				for (int i = 0; i < casaApuestaDao.getListOfHouses().size(); i++) {
+					if (casaApuestaDao.getListOfHouses().get(i).getBookMarkerName()
+							.equalsIgnoreCase(informacionDireccion)) {
+						casaApuestaDao.update(i, informacionDireccion, informacionEmpleados);
+						sedeEncontrada = true;
+						JOptionPane.showMessageDialog(null, "sede actualizada exitosamente");
+						break;
+					}
+				}
+
+				if (!sedeEncontrada) {
+					JOptionPane.showMessageDialog(null, "No se ha encontrado la sede especificada");
+				}
 				JOptionPane.showMessageDialog(null, "Sede creada exitosamente ");
 				btnActualizarSede.setVisible(true);
 			}
