@@ -26,14 +26,14 @@ public class ApuestaDAO implements CRUDOperation {
 	 * Constructor de ApuestaDAO que inicializa la lista de apuestas.
 	 */
 	public ApuestaDAO() {
-		listOfBets = new ArrayList<ApuestaDTO>();
-		if (FileHandler.serializableOpenAndReadFile(SERIAL_FILENAME) != null) {
-			Object temp = FileHandler.serializableOpenAndReadFile(SERIAL_FILENAME);
-			ArrayList<ApuestaDTO> temp2 = (ArrayList<ApuestaDTO>) temp;
-			listOfBets = temp2;
-		} else {
-			listOfBets = new ArrayList<>();
-		}
+//		listOfBets = new ArrayList<ApuestaDTO>();
+//		if (FileHandler.serializableOpenAndReadFile(SERIAL_FILENAME) != null) {
+//			Object temp = FileHandler.serializableOpenAndReadFile(SERIAL_FILENAME);
+//			ArrayList<ApuestaDTO> temp2 = (ArrayList<ApuestaDTO>) temp;
+//			listOfBets = temp2;
+//		} else {
+//			listOfBets = new ArrayList<>();
+//		}
 	}
 
 	@Override

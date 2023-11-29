@@ -29,7 +29,7 @@ public class ApuestaChanceDAO implements CRUDOperation {
 			ArrayList<ApuestaChanceDTO> temp2 = (ArrayList<ApuestaChanceDTO>) temp;
 			listOfBets = temp2;
 		} else {
-			listOfBets = new ArrayList<>();
+			listOfBets = listOfBets = new ArrayList<>();
 		}
 	}
 

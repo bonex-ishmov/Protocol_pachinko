@@ -43,11 +43,12 @@ public class UserGuidedInterface {
 	 * @return Un JButton creado con las especificaciones dadas.
 	 */
 	public JButton crearBoton(int posicionX, int posicionY, int ancho, int largo, Color color, String titulo,
-			boolean visibilidad) {
+			boolean visibilidad, String tooltipText) {
 		JButton botonNuevo = new JButton(titulo);
 		botonNuevo.setBounds(posicionX, posicionY, ancho, largo);
 		botonNuevo.setBackground(color);
 		botonNuevo.setVisible(visibilidad);
+		botonNuevo.setToolTipText(tooltipText);
 		return botonNuevo;
 	}
 
