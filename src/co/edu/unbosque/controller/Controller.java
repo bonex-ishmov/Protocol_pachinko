@@ -619,6 +619,7 @@ public class Controller implements ActionListener {
 		for (int i = 0; i < juegoCasaApuestasDao.getListOfGames().size(); i++) {
 
 			modeloListaJuego.addElement(juegoCasaApuestasDao.getListOfGames().get(i).getTypeOfGame());
+			modeloListaJuego.addElement(juegoCasaApuestasDao.getListOfGames().get(i).getBudgetAllocated());
 
 		}
 		listadoJuego.setBounds(300, 40, 150, 200);
