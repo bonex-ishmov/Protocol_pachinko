@@ -24,23 +24,25 @@ import co.edu.unbosque.view.*;
 
 public class Controller implements ActionListener {
 
-	UserGuidedInterface gui;
 
-	JFrame ventanaPrincipal, ventanaCrearCasa, ventanaRegistrarCliente, ventanaGestionSedes, ventanaJuegos,
+	private UserGuidedInterface gui;
+
+	private JFrame ventanaPrincipal, ventanaCrearCasa, ventanaRegistrarCliente, ventanaGestionSedes, ventanaJuegos,
 			ventanaGestionJuego, ventanaGestionApuestas, ventanaApuestaSuperastro, ventanaApuestaLoteria,
 			ventanaApuestaBaloto, ventanaApuestaChance, ventanaApuestaBetplay;
-	JButton btnCancelarBetplay, btnApostarBetplay, btnActualizarBetplay, btnEliminarBetplay, btnActualizarBaloto,
-			btnEliminarBaloto, btnActualizarSuperastro, btnEliminarSuperastro, btnEliminarLoteria, btnActualizarLoteria,
-			btnActualizarChance, btnEliminarChance, btnCancelarChance, btnApostarChance, btnCrearCasaApuestas,
-			btnRegistrarUsuario, btnSedes, btnJuegos, btnCrearCasa, btnCancelarCasa, btnGestionApuestas,
-			btnCrearCliente, btnCancelarCliente, btnCrearSede, btnCancelarSede, btnActualizarCasa, btnEliminarCasa,
-			btnActualizarSede, btnActualizarCliente, btnLeerCliente, btnEliminarCliente, btnBetplay, btnLoteria,
-			btnSuperastro, btnChance, btnBaloto, btnCrearJuego, btnCancelarJuego, btnChanceApuesta, btnBalotoApuesta,
-			btnSuperastroApuesta, btnLoteriaApuesta, btnBetplayApuesta, btnApostarApuesta, btnApostarSuperastro,
-			btnCancelarSuperastro, btnCancelarLoteria, btnApostarLoteria, btnCancelarBaloto, btnApostarBaloto;
-	JLabel textoUsuarioChance, textoLoteriasChance, textoNumerosChance, textoApuestaChance, textoDiaSemanaChance,
-			textoCedulaChance, textoSedeChance, textoBienvenida, textoCrearCasa, textoNombreCasa, textoSedes,
-			textoDireccion, textoDinero, textoNombres, textoApostadorTitulo, textoTelefono, textoCedula,
+	private JButton btnCancelarBetplay, btnApostarBetplay, btnActualizarBetplay, btnEliminarBetplay,
+			btnActualizarBaloto, btnEliminarBaloto, btnActualizarSuperastro, btnEliminarSuperastro, btnEliminarLoteria,
+			btnActualizarLoteria, btnActualizarChance, btnEliminarChance, btnCancelarChance, btnApostarChance,
+			btnCrearCasaApuestas, btnRegistrarUsuario, btnSedes, btnJuegos, btnCrearCasa, btnCancelarCasa,
+			btnGestionApuestas, btnCrearCliente, btnCancelarCliente, btnCrearSede, btnCancelarSede, btnActualizarCasa,
+			btnEliminarCasa, btnActualizarSede, btnActualizarCliente, btnLeerCliente, btnEliminarCliente, btnBetplay,
+			btnLoteria, btnSuperastro, btnChance, btnBaloto, btnCrearJuego, btnCancelarJuego, btnChanceApuesta,
+			btnBalotoApuesta, btnSuperastroApuesta, btnLoteriaApuesta, btnBetplayApuesta, btnApostarApuesta,
+			btnApostarSuperastro, btnCancelarSuperastro, btnCancelarLoteria, btnApostarLoteria, btnCancelarBaloto,
+			btnApostarBaloto;
+	private JLabel textoUsuarioChance, textoLoteriasChance, textoNumerosChance, textoApuestaChance,
+			textoDiaSemanaChance, textoCedulaChance, textoSedeChance, textoBienvenida, textoCrearCasa, textoNombreCasa,
+			textoSedes, textoDireccion, textoDinero, textoNombres, textoApostadorTitulo, textoTelefono, textoCedula,
 			textoDireccionJuego, textoGestionSedes, textoNombreSede, textoEmpleadosSede, textoListaClientes,
 			textoListaCasa, textoNombreJuego, textoTipoJuego, textoUsuarioLoteria, textoPresupuestoJuego,
 			textoTituloJuego, textoInformacionJuego, textoSedeSuperastro, textoCedulaSuperastro,
@@ -50,7 +52,7 @@ public class Controller implements ActionListener {
 			textoDiaSemanaBaloto, textoApuestaBaloto, textoNumerosBaloto, textoUsuarioBaloto, textoSedeBetplay,
 			textoCedulaBetplay, textoDiaSemanaBetplay, textoApuestaBetplay, textoPartidosBetplay, textoUsuarioBetplay,
 			textoResultadoBetplay;
-	JTextField campoDiaBaloto, campoUsuarioBaloto, comboLoterias, campoDiaLoteria, campoUsuarioLoteria,
+	private JTextField campoDiaBaloto, campoUsuarioBaloto, comboLoterias, campoDiaLoteria, campoUsuarioLoteria,
 			comboSignosZodiacales, campoDiaSuperastro, campoUsuarioSuperastro, comboPartidosBetplay,
 			comboResultadoBetplay, campoDiaBetplay, campoUsuarioBetplay, campoUsuarioChance, campoDiaChance,
 			campoLoteriasChance, campoSedeBetplay, campoCedulaBetplay, campoValorBetplay, numero4Chance, numero3Chance,
@@ -61,12 +63,14 @@ public class Controller implements ActionListener {
 			numero3Loteria, numero4Loteria, campoSedeLoteria, campoCedulaLoteria, campoValorLoteria, campoSerial1,
 			campoSerial2, campoSerial3, campoSedeBaloto, campoCedulaBaloto, campoValorBaloto, numero1Baloto,
 			numero2Baloto, numero3Baloto, numero4Baloto, numero5Baloto, numero6Baloto;
-	JRadioButton consentimiento;
-	JList listadoSedes, listadoClientes, listaCasa, listaInformacion, listadoJuego;
-	DefaultListModel modeloLista, modeloListaClientes, modeloListaCasa, modeloListaInformacion, modeloListaJuego;
-	JComboBox comboLoteriasChance, tipoJuego, comboTipoJuego, comboSede, comboDireccionJuego, comboDireccionSede;
-	boolean baloto, betplay, loteria, chance, superastro;
-
+	private JRadioButton consentimiento;
+	private JList listadoSedes, listadoClientes, listaCasa, listaInformacion, listadoJuego;
+	private DefaultListModel modeloLista, modeloListaClientes, modeloListaCasa, modeloListaInformacion,
+			modeloListaJuego;
+	private JComboBox comboLoteriasChance, tipoJuego, comboTipoJuego, comboSede, comboDireccionJuego,
+			comboDireccionSede;
+	private boolean baloto, betplay, loteria, chance, superastro;
+	private JPanel colorFondoVentanaPrincipal, colorFondoFunciones;
 	CasaDeApuestasDAO casaApuestaDao;
 	SedeCasaDeApuestasDAO sedeApuestaDao;
 	ApostadorDAO apostadorDAO;
@@ -185,6 +189,9 @@ public class Controller implements ActionListener {
 
 	public void ventanaPrincipal() {
 		ventanaPrincipal = gui.crearVentana(500, 400, "Gestion casa de juegos", true);
+		colorFondoVentanaPrincipal = new JPanel();
+		colorFondoVentanaPrincipal.setBackground(new Color(18, 77, 130));
+		ventanaPrincipal.setLayout(new BorderLayout());
 		btnCrearCasaApuestas = gui.crearBoton(20, 100, 160, 25, Color.cyan, "Gestion Casa", true,
 				"ESTE BOTON ES PARA IR AL MENÚ DE CASA DE APUESTAS");
 		btnRegistrarUsuario = gui.crearBoton(20, 150, 160, 25, Color.yellow, "Gestion Cliente", true,
@@ -212,6 +219,7 @@ public class Controller implements ActionListener {
 		ventanaPrincipal.add(btnSedes);
 		ventanaPrincipal.add(btnGestionApuestas);
 		ventanaPrincipal.add(btnJuegos);
+		ventanaPrincipal.add(colorFondoVentanaPrincipal, BorderLayout.CENTER);
 		baloto = false;
 		betplay = false;
 		loteria = false;
@@ -486,6 +494,9 @@ public class Controller implements ActionListener {
 	public void ventanaGestionCasa() {
 		textoListaCasa = gui.crearTexto(60, 240, 160, 20, "Informacion de la casa", true);
 		ventanaCrearCasa = gui.crearVentana(300, 500, "Gestion casa", true);
+		colorFondoFunciones = new JPanel();
+		colorFondoFunciones.setBackground(new Color(205, 205, 205));
+		ventanaCrearCasa.setLayout(new BorderLayout());
 		btnActualizarCasa = gui.crearBoton(20, 350, 120, 25, Color.blue, "Actualizar", true,
 				"ESTE BOTON ES PARA ACTUALIZAR LOS DATOS DE UNA CASA DE APUESTAS");
 		btnEliminarCasa = gui.crearBoton(150, 350, 120, 25, Color.orange, "Eliminar", true,
@@ -512,7 +523,7 @@ public class Controller implements ActionListener {
 			modeloListaCasa.addElement(casaApuestaDao.getListOfHouses().get(i).getNumberOfLocations());
 			modeloListaCasa.addElement(casaApuestaDao.getListOfHouses().get(i).getTotalBudgetAvailable());
 		}
-		listaCasa.setBounds(40, 270, 200, 30);
+		listaCasa.setBounds(40, 270, 220, 40);
 		listaCasa.setModel(modeloListaCasa);
 		ventanaCrearCasa.add(btnCancelarCasa);
 		ventanaCrearCasa.add(btnCrearCasa);
@@ -527,12 +538,13 @@ public class Controller implements ActionListener {
 		ventanaCrearCasa.add(btnEliminarCasa);
 		ventanaCrearCasa.add(textoListaCasa);
 		ventanaCrearCasa.add(listaCasa);
+		ventanaCrearCasa.add(colorFondoFunciones, BorderLayout.CENTER);
 	}
 
 	public void ventanaGestionCliente() {
 		textoApostadorTitulo = gui.crearTexto(40, 20, 120, 20, "Gestion apostador", true);
 		textoListaClientes = gui.crearTexto(340, 20, 120, 30, "Lista clientes", true);
-		consentimiento = gui.crearCirculo(180, 210, 150, 20, true);
+		consentimiento = gui.crearCirculo(180, 220, 150, 20, true);
 		consentimiento.addActionListener(this);
 		consentimiento.setText("Soy mayor de edad");
 		btnEliminarCliente = gui.crearBoton(100, 330, 120, 20, Color.blue, "Eliminar", true,
@@ -549,6 +561,10 @@ public class Controller implements ActionListener {
 		btnCrearCliente.addActionListener(this);
 		btnCancelarCliente.addActionListener(this);
 		ventanaRegistrarCliente = gui.crearVentana(600, 420, "Registrar Cliente", true);
+
+		colorFondoFunciones = new JPanel();
+		colorFondoFunciones.setBackground(new Color(126, 128, 131));
+		ventanaRegistrarCliente.setLayout(new BorderLayout());
 		campoNombres = gui.crearFormulario(170, 70, 140, 20, true);
 		textoNombres = gui.crearTexto(20, 70, 140, 20, "Nombres completos", true);
 		textoTelefono = gui.crearTexto(20, 110, 140, 20, "Telefono personal", true);
@@ -589,6 +605,7 @@ public class Controller implements ActionListener {
 		ventanaRegistrarCliente.add(textoListaClientes);
 		ventanaRegistrarCliente.add(textoApostadorTitulo);
 		ventanaRegistrarCliente.add(listadoClientes);
+		ventanaRegistrarCliente.add(colorFondoFunciones, BorderLayout.CENTER);
 	}
 
 	public void ventanaRegistroJuego() {
@@ -634,6 +651,9 @@ public class Controller implements ActionListener {
 
 	public void ventanaGestionJuegos() {
 		ventanaJuegos = gui.crearVentana(600, 400, "Apuestas y juegos", true);
+		colorFondoFunciones = new JPanel();
+		colorFondoFunciones.setBackground(new Color(15, 117, 135));
+		ventanaJuegos.setLayout(new BorderLayout());
 		btnChance = gui.crearBoton(60, 60, 80, 80, Color.red, "Chance", true,
 				"ESTE BOTON ES PARA CREAR UNA APUESTA EN CHANCE");
 		btnBaloto = gui.crearBoton(180, 60, 80, 80, Color.green, "Baloto", true,
@@ -655,11 +675,14 @@ public class Controller implements ActionListener {
 		ventanaJuegos.add(btnSuperastro);
 		ventanaJuegos.add(btnLoteria);
 		ventanaJuegos.add(btnBetplay);
+		ventanaJuegos.add(colorFondoFunciones, BorderLayout.CENTER);
 	}
 
 	public void ventanaGestionApuestas() {
-		ventanaGestionApuestas = gui.crearVentana(600, 400, "Apuestas ", true);
-		ventanaGestionApuestas = gui.crearVentana(600, 400, "Apuestas ", true);
+			ventanaGestionApuestas = gui.crearVentana(600, 400, "Apuestas ", true);
+		colorFondoFunciones = new JPanel();
+		colorFondoFunciones.setBackground(new Color(15, 117, 135));
+		ventanaGestionApuestas.setLayout(new BorderLayout());
 		btnChanceApuesta = gui.crearBoton(60, 60, 80, 80, Color.red, "Chance", true,
 				"ESTE BOTON ES PARA CREAR EL JUEGO CHANCE EN ESTA SEDE");
 		btnBalotoApuesta = gui.crearBoton(180, 60, 80, 80, Color.green, "Baloto", true,
@@ -681,10 +704,14 @@ public class Controller implements ActionListener {
 		ventanaGestionApuestas.add(btnSuperastroApuesta);
 		ventanaGestionApuestas.add(btnLoteriaApuesta);
 		ventanaGestionApuestas.add(btnBetplayApuesta);
+		ventanaGestionApuestas.add(colorFondoFunciones, BorderLayout.CENTER);
 	}
 
 	public void gestionSedes() {
 		ventanaGestionSedes = gui.crearVentana(500, 400, "Gestionar sedes", true);
+		colorFondoFunciones = new JPanel();
+		colorFondoFunciones.setBackground(new Color(126, 128, 131));
+		ventanaGestionSedes.setLayout(new BorderLayout());
 		btnCrearSede = gui.crearBoton(40, 115, 90, 20, Color.GREEN, "crear", true, "ESTE BOTON ES PARA CREAR UNA SEDE");
 		btnCrearSede.addActionListener(this);
 		btnActualizarSede = gui.crearBoton(320, 115, 90, 20, Color.blue, "Actualizar", true,
@@ -722,6 +749,7 @@ public class Controller implements ActionListener {
 		ventanaGestionSedes.add(btnActualizarSede);
 		ventanaGestionSedes.add(listadoSedes);
 		ventanaGestionSedes.add(comboDireccionSede);
+		ventanaGestionSedes.add(colorFondoFunciones, BorderLayout.CENTER);
 
 	}
 
