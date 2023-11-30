@@ -183,6 +183,16 @@ public class Controller implements ActionListener {
 		return loterias;
 	}
 
+	public double sumarPresupuestos() {
+		double suma = 0;
+
+		for (int i = 0; i < juegoCasaApuestasDao.getListOfGames().size(); i++) {
+			suma += juegoCasaApuestasDao.getListOfGames().get(i).getBudgetAllocated();
+		}
+
+		return suma;
+	}
+
 	public void ventanaPrincipal() {
 		ventanaPrincipal = gui.crearVentana(500, 400, "Gestion casa de juegos", true);
 		btnCrearCasaApuestas = gui.crearBoton(20, 100, 160, 25, Color.cyan, "Gestion Casa", true,
@@ -563,10 +573,6 @@ public class Controller implements ActionListener {
 		for (int i = 0; i < apostadorDAO.getListOfGamblers().size(); i++) {
 
 			modeloListaClientes.addElement(apostadorDAO.getListOfGamblers().get(i).getCompleteName());
-			modeloListaClientes.addElement(apostadorDAO.getListOfGamblers().get(i).getIdentification());
-			modeloListaClientes.addElement(apostadorDAO.getListOfGamblers().get(i).getBookmakerHeadquarters());
-			modeloListaClientes.addElement(apostadorDAO.getListOfGamblers().get(i).getAddressOfThePerson());
-			modeloListaClientes.addElement(apostadorDAO.getListOfGamblers().get(i).getPhoneNumber());
 
 		}
 		listadoClientes.setBounds(340, 60, 200, 300);
@@ -612,9 +618,8 @@ public class Controller implements ActionListener {
 
 		for (int i = 0; i < juegoCasaApuestasDao.getListOfGames().size(); i++) {
 
-			modeloListaJuego.addElement(juegoCasaApuestasDao.getListOfGames().get(i).getGameName());
 			modeloListaJuego.addElement(juegoCasaApuestasDao.getListOfGames().get(i).getTypeOfGame());
-			modeloListaJuego.addElement(juegoCasaApuestasDao.getListOfGames().get(i).getBudgetAllocated());
+
 		}
 		listadoJuego.setBounds(300, 40, 150, 200);
 		listadoJuego.setModel(modeloListaJuego);
@@ -954,6 +959,12 @@ public class Controller implements ActionListener {
 				boolean betPlay = false;
 
 				for (int i = 0; i < sedeApuestaDao.getListOfLocations().size(); i++) {
+
+					if (sumarPresupuestos() > sedeApuestaDao.getListOfLocations().get(i).getTotalBudgetAvailable()) {
+						JOptionPane.showMessageDialog(null, "el presupuesto asignado se exede del presupuesto dado");
+						break;
+					}
+
 					if (sedeApuestaDao.getListOfLocations().get(i).getAddress()
 							.equalsIgnoreCase(informacionSedeJuego)) {
 
@@ -999,6 +1010,11 @@ public class Controller implements ActionListener {
 				boolean baloto = false;
 
 				for (int i = 0; i < sedeApuestaDao.getListOfLocations().size(); i++) {
+
+					if (sumarPresupuestos() > sedeApuestaDao.getListOfLocations().get(i).getTotalBudgetAvailable()) {
+						JOptionPane.showMessageDialog(null, "el presupuesto asignado se exede del presupuesto dado");
+						break;
+					}
 					if (sedeApuestaDao.getListOfLocations().get(i).getAddress()
 							.equalsIgnoreCase(informacionSedeJuego)) {
 
@@ -1045,6 +1061,11 @@ public class Controller implements ActionListener {
 				boolean loteria = false;
 
 				for (int i = 0; i < sedeApuestaDao.getListOfLocations().size(); i++) {
+
+					if (sumarPresupuestos() > sedeApuestaDao.getListOfLocations().get(i).getTotalBudgetAvailable()) {
+						JOptionPane.showMessageDialog(null, "el presupuesto asignado se exede del presupuesto dado");
+						break;
+					}
 					if (sedeApuestaDao.getListOfLocations().get(i).getAddress()
 							.equalsIgnoreCase(informacionSedeJuego)) {
 
@@ -1091,6 +1112,11 @@ public class Controller implements ActionListener {
 				boolean superAstro = false;
 
 				for (int i = 0; i < sedeApuestaDao.getListOfLocations().size(); i++) {
+
+					if (sumarPresupuestos() > sedeApuestaDao.getListOfLocations().get(i).getTotalBudgetAvailable()) {
+						JOptionPane.showMessageDialog(null, "el presupuesto asignado se exede del presupuesto dado");
+						break;
+					}
 					if (sedeApuestaDao.getListOfLocations().get(i).getAddress()
 							.equalsIgnoreCase(informacionSedeJuego)) {
 
@@ -1137,6 +1163,11 @@ public class Controller implements ActionListener {
 				boolean superAstro = false;
 
 				for (int i = 0; i < sedeApuestaDao.getListOfLocations().size(); i++) {
+
+					if (sumarPresupuestos() > sedeApuestaDao.getListOfLocations().get(i).getTotalBudgetAvailable()) {
+						JOptionPane.showMessageDialog(null, "el presupuesto asignado se exede del presupuesto dado");
+						break;
+					}
 					if (sedeApuestaDao.getListOfLocations().get(i).getAddress()
 							.equalsIgnoreCase(informacionSedeJuego)) {
 
@@ -1446,6 +1477,14 @@ public class Controller implements ActionListener {
 				boolean casaEncontrada = false;
 
 				for (int i = 0; i < casaApuestaDao.getListOfHouses().size(); i++) {
+
+					if (sedeApuestaDao.getListOfLocations().size() > casaApuestaDao.getListOfHouses().get(i)
+							.getNumberOfLocations()) {
+						JOptionPane.showMessageDialog(null,
+								"la cantidad de sedes, excede el numero sedes especificado en la casa");
+						break;
+					}
+
 					if (casaApuestaDao.getListOfHouses().get(i).getBookMarkerName().equalsIgnoreCase(informacionCasa)) {
 						informacionNumeroLocaciones = casaApuestaDao.getListOfHouses().get(i).getNumberOfLocations()
 								+ "";
